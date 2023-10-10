@@ -8,6 +8,7 @@ export const getToken = () => {
       if (!token) return;
   
       const decoded: Token = jwt_decode(token);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { sub, iat, exp, ...rest } = decoded;
   
       return {

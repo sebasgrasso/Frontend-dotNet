@@ -3,6 +3,7 @@ export enum TipoUsuario {
     Normie = 1,
     Invitado=2
   }
+
 export interface Usuario {
     id: number;
     usuario: string;
@@ -18,7 +19,7 @@ export interface Usuario {
     fechaNacimiento: string;
   }
 
-  export interface Token {
+export interface Token {
     rol: TipoUsuario;
     nombre: string;
     apellido: string;
@@ -30,4 +31,10 @@ export interface Usuario {
     iat: number;
     exp: number;
     sub: string;
+  }
+
+  export interface PostType {
+    userName: string;
+    userLongName: string;
+    content: string;
   }
