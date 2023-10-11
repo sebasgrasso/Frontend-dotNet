@@ -37,4 +37,5 @@ export interface Token {
     userName: string;
     userLongName: string;
     content: string;
+    citado: PostType | null | undefined;
   }
