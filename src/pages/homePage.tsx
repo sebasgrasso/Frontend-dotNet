@@ -9,7 +9,12 @@ export const HomePage = () =>{
         userName:"seba",
         userLongName:"@seba_13",
         content:"Este es el contenido del post",
-        citado:null
+        citado:{
+            userName:"axel",
+            userLongName:"@axel_24",
+            content:"Este es el contenido del post citado",
+            citado:null
+        }
     }
 
     return (
