@@ -4,10 +4,9 @@ import { TipoUsuario } from "../../interfaces/interfaces";
 
 interface AuthSliceState {
   status?: "not-authenticated" | "checking" | "authenticated";
-  tipoUsuario?: TipoUsuario;
-  usuario?: string | null | undefined;
-  nombre: string | null | undefined;
-  apellido: string | null | undefined;
+  rol?: TipoUsuario;
+  username?: string | null | undefined;
+  nickname: string | null | undefined;
   email: string | null | undefined;
   telefono: string | null | undefined;
   uid?: string | null | undefined;
@@ -30,7 +29,7 @@ const initialState = (): AuthSliceState => {
         uid: null,
         token: null,
         errorMessage: null,
-        tipoUsuario: TipoUsuario.Invitado,
+        rol: TipoUsuario.Invitado,
       }
     : {
         status: "authenticated",
@@ -42,7 +41,7 @@ const initialState = (): AuthSliceState => {
         uid: tokenInfo.uid,
         token: tokenInfo.token,
         errorMessage: null,
-        tipoUsuario: tokenInfo.rol,
+        rol: tokenInfo.rol,
       };
 
   return state;
@@ -54,10 +53,11 @@ export const authSlice = createSlice({
   reducers: {
     login: (state, { payload }: PayloadAction<AuthSliceState>) => {
       state.status = "authenticated";
+      state.rol=payload.rol;
       state.nombre = payload.nombre;
       state.apellido = payload.apellido;
       state.email = payload.email;
-      state.tipoUsuario = payload.tipoUsuario;
+      state.rol = payload.rol;
       state.uid = payload.uid;
       state.usuario = payload.usuario;
       state.token = payload.token;
@@ -70,7 +70,7 @@ export const authSlice = createSlice({
       state.email = null;
       state.uid = null;
       state.token = null;
-      state.tipoUsuario = TipoUsuario.Invitado;
+      state.rol = TipoUsuario.Invitado;
       state.errorMessage = action.payload.errorMessage;
     },
     checkingCredentials: (state) => {

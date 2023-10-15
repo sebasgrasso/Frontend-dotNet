@@ -5,19 +5,18 @@ export enum TipoUsuario {
   }
 
 export interface Usuario {
-    id: number;
-    usuario: string;
-    contrasenia: null;
-    nombre: string;
-    apellido: string;
-    eliminado: boolean;
-    bloqueado: boolean;
-    googleId: string;
-    correo: string;
-    telefono: string;
-    rol: number;
-    fechaNacimiento: string;
+  nombre: string;
+  email: string;
+  contrasenia: string;
+  perfil:{
+    nickname: string,
+    fechaNac: Date,
+    fotoUrl: string,
+    bio: string,
+    sitioWeb: string
   }
+  username:string;
+}
 
 export interface Token {
     rol: TipoUsuario;
@@ -38,4 +37,6 @@ export interface Token {
     userLongName: string;
     content: string;
     citado: PostType | null;
+    upvotes: number;
+    upvoted: boolean;
   }
