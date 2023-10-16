@@ -36,7 +36,7 @@ export const LoginPopup = () => {
     return (
       <>
         <Button onClick={() => setOpen(true)} sx={{backgroundColor:"blue",color:"white", ":hover":{backgroundColor:"white", color:"blue"}}}>
-          LOGIN
+          Login
         </Button>
         <Dialog onClose={() => setOpen(false)} open={open}>
         <FormLayout>
