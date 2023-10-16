@@ -1,18 +1,19 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getToken } from "../../utils/localstorage";
-import { TipoUsuario } from "../../interfaces/interfaces";
+import { UsuarioDTO, UsuarioPerfilDTO} from "../../interfaces/interfaces";
 
 interface AuthSliceState {
-  status?: "not-authenticated" | "checking" | "authenticated";
-  rol?: TipoUsuario;
-  username?: string | null | undefined;
-  nickname: string | null | undefined;
-  email: string | null | undefined;
-  telefono: string | null | undefined;
-  uid?: string | null | undefined;
-  token?: string | null | undefined;
-  errorMessage?: string | null | undefined;
-  googleUser?: boolean | null | undefined;
+    status?: "not-authenticated" | "checking" | "authenticated";
+    token:string | null | undefined;
+    id:string | null | undefined;
+    username: string | null | undefined;
+    email: string | null | undefined;
+    name: string | null | undefined;
+    birthdate: string | null | undefined; // Consider using a Date type instead
+    picture: string | null | undefined;
+    zoneinfo: string | null | undefined;
+    locale: string | null | undefined;
+    aud: string | null | undefined;
 }
 
 const initialState = (): AuthSliceState => {
@@ -21,27 +22,29 @@ const initialState = (): AuthSliceState => {
   const state: AuthSliceState = !tokenInfo
     ? {
         status: "not-authenticated",
-        usuario: null,
-        nombre: null,
-        apellido: null,
-        email: null,
-        telefono: null,
-        uid: null,
         token: null,
-        errorMessage: null,
-        rol: TipoUsuario.Invitado,
+        id:null,
+        username:null, 
+        email:null,
+        name: null,
+        birthdate:null,
+        picture: null,
+        zoneinfo: null,
+        locale:null,
+        aud: null
       }
     : {
         status: "authenticated",
-        usuario: tokenInfo.usuario,
-        nombre: tokenInfo.nombre,
-        apellido: tokenInfo.apellido,
-        email: tokenInfo.correo,
-        telefono: tokenInfo.telefono,
-        uid: tokenInfo.uid,
         token: tokenInfo.token,
-        errorMessage: null,
-        rol: tokenInfo.rol,
+        id:tokenInfo.sub,
+        username:tokenInfo.username, 
+        email:tokenInfo.email,
+        name: tokenInfo.name,
+        birthdate:tokenInfo.birthdate,
+        picture: tokenInfo.picture,
+        zoneinfo: tokenInfo.zoneinfo,
+        locale:tokenInfo.locale,
+        aud: tokenInfo.aud
       };
 
   return state;
@@ -52,26 +55,30 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, { payload }: PayloadAction<AuthSliceState>) => {
-      state.status = "authenticated";
-      state.rol=payload.rol;
-      state.nombre = payload.nombre;
-      state.apellido = payload.apellido;
-      state.email = payload.email;
-      state.rol = payload.rol;
-      state.uid = payload.uid;
-      state.usuario = payload.usuario;
-      state.token = payload.token;
+      state.status= "authenticated"
+      state.token= payload.token,
+      state.id= payload.id,
+      state.username= payload.username, 
+      state.email= payload.email,
+      state.name= payload.name,
+      state.birthdate= payload.birthdate,
+      state.picture= payload.picture,
+      state.zoneinfo= payload.zoneinfo,
+      state.locale= payload.locale,
+      state.aud= payload.aud
     },
     logout: (state, action) => {
       state.status = "not-authenticated";
-      state.usuario = null;
-      state.nombre = null;
-      state.apellido = null;
-      state.email = null;
-      state.uid = null;
-      state.token = null;
-      state.rol = TipoUsuario.Invitado;
-      state.errorMessage = action.payload.errorMessage;
+      state.token= null,
+      state.id= null,
+      state.username= null, 
+      state.email= null,
+      state.name= null,
+      state.birthdate= null,
+      state.picture= null,
+      state.zoneinfo= null,
+      state.locale= null,
+      state.aud= null
     },
     checkingCredentials: (state) => {
       state.status = "checking";

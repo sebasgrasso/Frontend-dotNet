@@ -1,18 +1,24 @@
 import { Grid } from "@mui/material"
-import { PostType } from "../interfaces/interfaces" 
+import { PostDTO } from "../interfaces/interfaces" 
 import { Post } from "../posts/components/post"
 import {LoginPopup} from "../auth/pages/loginPopup"
 import {NuevoPost} from "../posts/pages/nuevoPost"
 
 export const HomePage = () =>{
-    const elPost:PostType = 
+    const elPost:PostDTO = 
     {
-        userName:"seba",
-        userLongName:"@seba_13",
-        content:"Este es el contenido del post",
-        citado:null,
-        upvotes:0,
-        upvoted:false
+        id: "1",
+        instanciaId: 1,
+        instanciaNickname: "futebol",
+        usuarioId: 1,
+        usuarioUsername: "seba_g_a",
+        usuarioNickname: "Seba",
+        fechaHora: "2023-10-16T19:49:09.294Z", // Consider using a Date type instead
+        contenido: "este es el contenido del post",
+        hashtags: ["microbio","arrozConLeche"],
+        tieneCita: false,
+        postCitado: null,
+        postIdPadre: null,
     }
 
     return (

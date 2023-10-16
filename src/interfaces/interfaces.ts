@@ -1,42 +1,103 @@
-export enum TipoUsuario {
-    Instancia = 0,
-    Normie = 1,
-    Invitado=2
-  }
+export interface AuthLoginDTO {
+  username: string;
+  contrasenia: string;
+}
 
-export interface Usuario {
-  nombre: string;
+export interface AuthLoginResponseDTO {
+  accessToken: string;
+}
+
+export interface ErrorResponse {
+  statusCode: number;
+  message: string | null;
+}
+
+export interface PostCitadoDTO {
+  id: string;
+  instanciaId: number;
+  instanciaNickname: string;
+  usuarioId: number;
+  usuarioUsername: string;
+  usuarioNickname: string;
+  fechaHora: string; // Consider using a Date type instead
+  contenido: string;
+  postIdCita?: string | null;
+  postIdPadre?: string | null;
+}
+
+export interface PostCreateDTO {
+  instanciaId: number;
+  usuarioId: number;
+  contenido: string;
+  postIdCita?: string | null;
+  postIdPadre?: string | null;
+}
+
+export interface PostDTO {
+  id: string;
+  instanciaId: number;
+  instanciaNickname: string;
+  usuarioId: number;
+  usuarioUsername: string;
+  usuarioNickname: string;
+  fechaHora: string; // Consider using a Date type instead
+  contenido: string;
+  hashtags: string[];
+  tieneCita: boolean;
+  postCitado: PostCitadoDTO | null;
+  postIdPadre?: string | null;
+}
+
+export interface UsuarioCreateDTO {
+  username: string;
   email: string;
   contrasenia: string;
-  perfil:{
-    nickname: string,
-    fechaNac: Date,
-    fotoUrl: string,
-    bio: string,
-    sitioWeb: string
-  }
-  username:string;
+  perfil: UsuarioPerfilCreateDTO;
+}
+
+export interface UsuarioDTO {
+  id: number;
+  username: string;
+  email: string;
+  fechaIngreso: string; // Consider using a Date type instead
+  perfil: UsuarioPerfilDTO;
+}
+
+export interface UsuarioPerfilCreateDTO {
+  nickname: string;
+  fechaNac?: string | null; // Consider using a Date type instead
+  fotoUrl?: string | null;
+  bio?: string | null;
+  sitioWeb?: string | null;
+}
+
+export interface UsuarioPerfilDTO {
+  nickname: string;
+  fechaNac?: string | null; // Consider using a Date type instead
+  fotoUrl?: string | null;
+  bio?: string | null;
+  sitioWeb?: string | null;
+}
+
+export interface UsuarioPerfilUpdateDTO {
+  nickname: string;
+  fechaNac?: string | null; // Consider using a Date type instead
+  fotoUrl?: string | null;
+  bio?: string | null;
+  sitioWeb?: string | null;
 }
 
 export interface Token {
-    rol: TipoUsuario;
-    nombre: string;
-    apellido: string;
-    correo: string;
-    telefono: string;
-    imagenUrl: string;
-    usuario: string;
-    uid: string;
-    iat: number;
-    exp: number;
-    sub: string;
-  }
-
-  export interface PostType {
-    userName: string;
-    userLongName: string;
-    content: string;
-    citado: PostType | null;
-    upvotes: number;
-    upvoted: boolean;
-  }
+  sub: string;
+  //http://schemas.microsoft.com/ws/2008/06/identity/claims/role: string;
+  username: string;
+  email: string;
+  name: string;
+  birthdate: string;
+  picture: string;
+  zoneinfo: string;
+  locale: string;
+  exp: number;
+  iss: string;
+  aud: string;
+}

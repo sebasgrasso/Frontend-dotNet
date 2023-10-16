@@ -2,7 +2,7 @@ import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import { checkingCredentials, login, logout, addToken } from "../auth/authSlice";
 import { RootState } from "../store";
 import { getToken, limpiarToken, setToken } from "../../utils/localstorage";
-import { TipoUsuario } from "../../interfaces/interfaces";
+import { UsuarioDTO } from "../../interfaces/interfaces";
 
 export const startEmailAndPasswordLogin = (
   token: string
@@ -13,20 +13,22 @@ export const startEmailAndPasswordLogin = (
     const decoded = getToken();
     dispatch(
       login({
-        token: decoded?.token,
-        rol: decoded?.rol,
-        nombre: decoded?.nombre,
-        apellido: decoded?.apellido,
-        correo: decoded?.correo,
-        telefono: decoded?.telefono,
-        imagenUrl: decoded?.imagenUrl,
-        usuario: decoded?.usuario,
-        uid: decoded?.uid
+        token:decoded?.token,
+        id:decoded?.sub,
+        username:decoded?.username,
+        email:decoded?.email,
+        name:decoded?.name,
+        birthdate:decoded?.birthdate,
+        picture:decoded?.picture,
+        zoneinfo:decoded?.zoneinfo,
+        locale:decoded?.locale,
+        aud:decoded?.aud,
       })
     );
   };
 };
 
+/*
 export const startGoogleSignIn = (): ThunkAction<
   void,
   RootState,
@@ -42,10 +44,10 @@ export const startGoogleSignIn = (): ThunkAction<
       return;
     }
 
-    /*  
-    FALTA SI NO ESTA EL USUARIO REGISTRADO CON GOOGLE EN EL BACKEND
-    REGISTRARLO E INICIARLE SESION CON EL TOKEN RECIBIDO
-    */
+    
+   // FALTA SI NO ESTA EL USUARIO REGISTRADO CON GOOGLE EN EL BACKEND
+  //  REGISTRARLO E INICIARLE SESION CON EL TOKEN RECIBIDO
+  
 
     const nombreCompleto = result.displayName?.split(" ");
     const nombre = nombreCompleto ? nombreCompleto[0] : "";
@@ -67,6 +69,8 @@ export const startGoogleSignIn = (): ThunkAction<
     );
   };
 };
+*/
+
 
 export const startLogout = (): ThunkAction<
   void,
@@ -75,7 +79,7 @@ export const startLogout = (): ThunkAction<
   AnyAction
 > => {
   return async (dispatch) => {
-    logoutWithGoogle();
+    //logoutWithGoogle();
     dispatch(logout({ errorMessage: null }));
     limpiarToken();
 

@@ -1,6 +1,6 @@
 import { useAppDispatch } from "../../hooks/hooks";
 import { useLoginMutation, useSignupMutation } from "../../store/apis/microbApis";
-import { startEmailAndPasswordLogin, startGoogleSignIn, startLogout } from "../../store/apis/thunks";
+import { startEmailAndPasswordLogin, /*startGoogleSignIn,*/ startLogout } from "../../store/apis/thunks";
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -50,9 +50,9 @@ export const useAuth = () => {
       });
   };
 
-  const handleGoogleLogin = async () => {
+  /*const handleGoogleLogin = async () => {
     dispatch(startGoogleSignIn());
-  };
+  };*/
 
   const handleRegistrarUsuario = async (
     nombre: string,
@@ -89,7 +89,7 @@ export const useAuth = () => {
     handleRegistrarUsuario,
     handleLogin,
     handleLogout,
-    handleGoogleLogin,
+    //handleGoogleLogin,
     isAuthenticatingLogin,
     statusLogin,
     isAuthenticatingRegistro,
