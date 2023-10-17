@@ -28,8 +28,7 @@ export const microbApis = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: [
-      ],
+      invalidatesTags: [],
       transformResponse: (response: AuthLoginResponseDTO, meta, arg) => {
         return response.accessToken;
       },
@@ -53,8 +52,7 @@ export const microbApis = createApi({
         body,
       }),
       transformResponse: (resp: AuthLoginResponseDTO, meta) => resp.accessToken,
-      invalidatesTags: [
-      ],
+      invalidatesTags: [],
     }),
     createPost: builder.mutation<PostDTO, PostCreateDTO>({
       query: (body) => ({
@@ -63,11 +61,10 @@ export const microbApis = createApi({
         body,
       }),
       transformResponse: (resp: PostDTO, meta) => resp,
-      invalidatesTags: ["listaPosts"
-      ],
+      invalidatesTags: ["listaPosts"],
     }),
     getPosts: builder.query<PostDTO[], getPostsProps>({
-      query: () => "/posts",
+      query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
     }),
   }),
@@ -77,6 +74,6 @@ export const {
   useLoginMutation,
   useSignupMutation,
   useCreatePostMutation,
-  useGetPostsQuery
+  useLazyGetPostsQuery
   //useLoginGoogleMutation,
 } = microbApis;
