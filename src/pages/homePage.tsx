@@ -1,35 +1,25 @@
 import { Grid } from "@mui/material"
-import { PostDTO } from "../interfaces/interfaces" 
 import { Post } from "../posts/components/post"
 import {LoginPopup} from "../auth/pages/loginPopup"
-import {NuevoPost} from "../posts/pages/nuevoPost"
+import {NuevoPost} from "../posts/components/nuevoPost"
+import { useGetPostsQuery } from "../store/apis/microbApis"
 
 export const HomePage = () =>{
-    const elPost:PostDTO = 
-    {
-        id: "1",
-        instanciaId: 1,
-        instanciaNickname: "futebol",
-        usuarioId: 1,
-        usuarioUsername: "seba_g_a",
-        usuarioNickname: "Seba",
-        fechaHora: "2023-10-16T19:49:09.294Z", // Consider using a Date type instead
-        contenido: "este es el contenido del post",
-        hashtags: ["microbio","arrozConLeche"],
-        tieneCita: false,
-        postCitado: null,
-        postIdPadre: null,
-    }
+    const { data: posts } = useGetPostsQuery({skip:0,limit:100});
 
     return (
         <div style={{ backgroundColor: "#15202b", minHeight: "100vh" }}>
         <LoginPopup/>
         <NuevoPost/>
         <Grid container justifyContent={"center"} >
-            <Grid item >
-                <Post post={elPost}/>
-            </Grid>  
+            {posts?.map((post, index) => (
+                <Grid key={index} item >
+                    <Post post={post}/> 
+                </Grid> 
+            ))}
         </Grid>          
         </div>
     )
 }
+
+ 

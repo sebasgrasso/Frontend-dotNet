@@ -1,23 +1,26 @@
 import { Button, Box, Card, CardContent, Grid, TextField } from "@mui/material";
 import { SyntheticEvent, useState, useRef } from "react";
+import { useCreatePost } from "../hooks/useCreatePost";
 
 export const NuevoPost = () => {
-  const [tweetContent, setTweetContent] = useState("");
+  const [postContent, setPostContent] = useState("");
   const textFieldRef = useRef(null);
+  
+  const {handleCreatePost}= useCreatePost();
 
-  const handleTweetContentChange = (event: SyntheticEvent) => {
+  const handlepostContentChange = (event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;
-    setTweetContent(target.value);
+    setPostContent(target.value);
   };
 
-  const handleTweetSubmit = () => {
-    if (tweetContent === "") {
+  const handlepostSubmit = () => {
+    if (postContent === "") {
       if (textFieldRef.current) {
         (textFieldRef.current as HTMLTextAreaElement).focus();
       }
     } else {
-      alert(tweetContent);
-      setTweetContent("");
+      handleCreatePost(1,1,postContent);
+      setPostContent("");
     }
   };
 
@@ -31,14 +34,14 @@ export const NuevoPost = () => {
             multiline
             rows={4}
             fullWidth
-            value={tweetContent}
-            onChange={handleTweetContentChange}
+            value={postContent}
+            onChange={handlepostContentChange}
             variant="outlined"
             inputRef={textFieldRef}
           />
           <Grid container justifyContent="flex-end" sx={{ marginTop: '10px' }}>
             <Grid item>
-              <Button variant="contained" onClick={handleTweetSubmit}>
+              <Button variant="contained" onClick={handlepostSubmit}>
                 Publicar
               </Button>
             </Grid>

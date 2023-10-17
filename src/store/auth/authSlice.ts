@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getToken } from "../../utils/localstorage";
-import { UsuarioDTO, UsuarioPerfilDTO} from "../../interfaces/interfaces";
 
 interface AuthSliceState {
     status?: "not-authenticated" | "checking" | "authenticated";

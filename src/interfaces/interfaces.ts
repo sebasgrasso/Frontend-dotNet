@@ -101,3 +101,15 @@ export interface Token {
   iss: string;
   aud: string;
 }
+
+export interface Instancia {
+  id: number;
+  nombre: string;
+  url: string;
+  alias: string;
+  tipoRegistro: number;
+  tematicas: {
+    id: number;
+    nombre: string;
+  }[];
+}

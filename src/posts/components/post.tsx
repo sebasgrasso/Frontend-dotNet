@@ -1,8 +1,8 @@
-import { Card, CardActions, CardContent, CardHeader, IconButton, Link, Typography } from "@mui/material"
+import { Card, CardActions, CardContent, CardHeader, Link, Typography } from "@mui/material"
 import { PostDTO } from "../../interfaces/interfaces" 
 import Avatar from '@mui/material/Avatar';
-import { IconArrowBigUpLine, IconArrowBigUpLineFilled  } from "@tabler/icons-react";
-import { useState } from "react";
+//import { IconArrowBigUpLine, IconArrowBigUpLineFilled  } from "@tabler/icons-react";
+//import { useState } from "react";
 
 interface PostProp{
   post:PostDTO
