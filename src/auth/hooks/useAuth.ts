@@ -39,13 +39,13 @@ export const useAuth = () => {
       username: username,
     })
       .unwrap()
-      .then((resp:any) => {
+      .then((resp) => {
         setTimeout(() => {
           const token: string = resp;
           dispatch(startEmailAndPasswordLogin(token));
         }, 3000);
       })
-      .catch((error:any) => {
+      .catch((error) => {
         console.error(error);
       });
   };
@@ -55,36 +55,29 @@ export const useAuth = () => {
   };*/
 
   const handleRegistrarUsuario = async (
-    nombre: string,
+    username: string,
     email: string,
     contrasenia: string,
-    perfil:{
-        nickname: string,
-        fechaNac: Date,
-        fotoUrl: string,
-        bio: string,
-        sitioWeb: string
-    },
-    username:string
+    nickname:string
   ) => {
     startRegistrarUsuario({
-        nombre,
+        username,
         email,
         contrasenia,
-        perfil,
-        username,
+        perfil:{nickname}
     })
       .unwrap()
-      .then((resp:any) => {
+      .then((resp) => {
         setTimeout(() => {
           const token: string = resp;
           dispatch(startEmailAndPasswordLogin(token));
         }, 3000);
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error(error);
       });
   };
+
   return {
     handleRegistrarUsuario,
     handleLogin,

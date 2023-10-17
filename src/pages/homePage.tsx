@@ -4,6 +4,7 @@ import {LoginPopup} from "../auth/pages/loginPopup"
 import {NuevoPost} from "../posts/components/nuevoPost"
 import { useLazyGetPostsQuery } from "../store/apis/microbApis"
 import { useEffect } from "react"
+import { SignUpPopup } from "../auth/pages/signupPopup"
 
 export const HomePage = () =>{
     const [startGetPosts,{data:posts}]=useLazyGetPostsQuery()
@@ -14,6 +15,7 @@ export const HomePage = () =>{
     return (
         <div style={{ backgroundColor: "#15202b", minHeight: "100vh" }}>
         <LoginPopup/>
+        <SignUpPopup/>
         <NuevoPost/>
         <Grid container justifyContent={"center"} >
             {posts?.map((post, index) => (

@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const FormLayout = ({ children }: any) => {
   return (
     <Box

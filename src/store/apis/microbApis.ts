@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AuthLoginDTO, AuthLoginResponseDTO, PostCreateDTO, PostDTO } from "../../interfaces/interfaces";
+import { AuthLoginDTO, AuthLoginResponseDTO, PostCreateDTO, PostDTO, UsuarioCreateDTO, UsuarioPerfilCreateDTO } from "../../interfaces/interfaces";
 
 interface getPostsProps{
   skip:number;
@@ -13,10 +13,8 @@ export const microbApis = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://127.0.0.1:8080/api",
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token;
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
+      //aca iria obtencion de instancia.id para header
+        headers.set("authorization","1");
       return headers;
     },
   }),
@@ -45,7 +43,7 @@ export const microbApis = createApi({
         return response.token;
       },
     }),*/
-    signup: builder.mutation<string, AuthLoginDTO>({
+    signup: builder.mutation<string, UsuarioCreateDTO>({
       query: (body) => ({
         url: "/auth/register",
         method: "POST",

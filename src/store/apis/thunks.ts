@@ -2,7 +2,6 @@ import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import { checkingCredentials, login, logout, addToken } from "../auth/authSlice";
 import { RootState } from "../store";
 import { getToken, limpiarToken, setToken } from "../../utils/localstorage";
-import { UsuarioDTO } from "../../interfaces/interfaces";
 
 export const startEmailAndPasswordLogin = (
   token: string
