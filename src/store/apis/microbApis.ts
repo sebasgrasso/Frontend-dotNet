@@ -14,9 +14,9 @@ export const microbApis = createApi({
   reducerPath: "microbApis",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5245",
+    //agregar al header X-InstanciaId con el valor de la instancia
     prepareHeaders: (headers, { getState }) => {
-      //aca iria obtencion de instancia.id para header
-        headers.set("X-InstanciaId","1");
+      headers.set("X-InstanciaId", '1');
       return headers;
     },
   }),

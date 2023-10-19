@@ -1,31 +1,29 @@
-import { Grid } from "@mui/material"
-import { Post } from "../posts/components/post"
-import {LoginPopup} from "../auth/pages/loginPopup"
-import {NuevoPost} from "../posts/components/nuevoPost"
-import { useLazyGetPostsQuery } from "../store/apis/microbApis"
-import { useEffect } from "react"
-import { SignUpPopup } from "../auth/pages/signupPopup"
+import React from 'react';
+import LeftBar from '../homePage/components/leftBar';
+import Feed from '../homePage/components/feed';
+import RightBar from '../homePage/components/rightBar';
+import { Container, Grid } from '@mui/material';
+import '../homePage/css/homePage.ts';
+
 
 export const HomePage = () =>{
-    const [startGetPosts,{data:posts}]=useLazyGetPostsQuery()
-    useEffect(() => {
-        startGetPosts({skip:0,limit:100});
-      }, []);
-      
     return (
-        <div style={{ backgroundColor: "#15202b", minHeight: "100vh" }}>
-        <LoginPopup/>
-        <SignUpPopup/>
-        <NuevoPost/>
-        <Grid container justifyContent={"center"} >
-            {posts?.map((post, index) => (
-                <Grid key={index} item >
-                    <Post post={post}/> 
-                </Grid> 
-            ))}
-        </Grid>          
+        <div style={{ backgroundColor: "#191b22", minHeight: "100vh" }}>
+        <Container style={{ backgroundColor: "#191b22", minHeight: "100vh" }}>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <LeftBar  />
+            </Grid>
+            <Grid item xs={6}>
+              <Feed />
+            </Grid>
+            <Grid item xs={3}>
+              <RightBar />
+            </Grid>
+          </Grid>
+        </Container>
         </div>
-    )
+      );
 }
 
  
