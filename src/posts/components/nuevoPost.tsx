@@ -26,7 +26,7 @@ export const NuevoPost = () => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '20px'}}>
-      <Card sx={{ width: 600, maxWidth: '100%' }}> {}
+      <Card sx={{ width: 500, maxWidth: '100%' }}> {}
         <CardContent>
           <TextField
             id="outlined-multiline-static"
