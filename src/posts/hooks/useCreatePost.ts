@@ -1,4 +1,6 @@
 import { useCreatePostMutation } from "../../store/apis/microbApis";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const useCreatePost = () => {
     const [
@@ -17,10 +19,14 @@ export const useCreatePost = () => {
         }).unwrap()
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .then((resp) => {
-                alert("Post creado con éxito");
+                toast.success("Post creado exitosamente!", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
             })
             .catch((error) => {
-                alert(error.data);
+                toast.error("Error en la creacion del post!", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
             })
     };
 

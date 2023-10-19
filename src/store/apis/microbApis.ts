@@ -14,6 +14,11 @@ export const microbApis = createApi({
   reducerPath: "microbApis",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5245",
+    //agregar al header X-InstanciaId con el valor de la instancia
+    prepareHeaders: (headers, { getState }) => {
+      headers.set("X-InstanciaId", '1');
+      return headers;
+    },
   }),
   tagTypes: ["listaPosts"],
   endpoints: (builder) => ({
