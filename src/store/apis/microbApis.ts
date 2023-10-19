@@ -7,13 +7,16 @@ interface getPostsProps{
   skip:number;
   limit:number;
 }
-
 //http://backend.servehttp.com/
-
 export const microbApis = createApi({
   reducerPath: "microbApis",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5245",
+    prepareHeaders: (headers, { getState }) => {
+      //aca iria obtencion de instancia.id para header
+        headers.set("X-InstanciaId","1");
+      return headers;
+    },
   }),
   tagTypes: ["listaPosts"],
   endpoints: (builder) => ({
