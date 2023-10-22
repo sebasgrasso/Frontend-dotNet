@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Paper, Grid } from '@mui/material';
 import useStyles from '../css/styles';
 import { useLazyGetPostsQuery } from "../../store/apis/microbApis"
@@ -7,30 +7,41 @@ import { Post } from "../../posts/components/post"
 import { NuevoPost } from "../../posts/components/nuevoPost"
 import { ToastContainer } from 'react-toastify';
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { increaseSkip } from '../../store/posts/postsSlice';
 
 
 const Feed: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
+  const [startGetPosts,{data:posts}]=useLazyGetPostsQuery()
+  const {skip,limit} = useAppSelector((state) => state.getPostsSkip);
+  const [allPosts, setAllPosts] = useState(posts)
+
+  useEffect(() => {    
+    startGetPosts({skip,limit});
+    setAllPosts(posts);
+  }, []);
+
+  useEffect(()=>{
+    startGetPosts({skip,limit})
+  },[skip,limit])
+
+  useEffect(()=>{
+    setAllPosts((allPosts ?? []).concat(posts ?? []))
+  },[posts])
 
   const fetchMoreData = () => {
-    alert("pido mas posts");
+    dispatch(increaseSkip({skip:skip+10}))
+    console.log("aumentando skip ",skip);
   };
-
-  const [startGetPosts,{data:posts}]=useLazyGetPostsQuery()
-    useEffect(() => {
-        startGetPosts({skip:0,limit:10});
-      }, []);
-
-      
-  const maxPosts = posts?.length || 0;
-
 
   return (
     <Paper className={`${classes.rootDiff} ${classes.scrollableFeed}`}>
     <NuevoPost/>
     <ToastContainer/>
     <InfiniteScroll
-        dataLength={maxPosts}
+        dataLength={allPosts?.length ?? 0}
         next={fetchMoreData}
         hasMore={true} 
         loader={<h5>Cargando posts...</h5>}
@@ -41,8 +52,8 @@ const Feed: React.FC = () => {
         }
       >
         <Grid container direction="column" alignItems="center" spacing={2}> {}
-            {posts?.map((post, index) => (
-                <Grid key={index} item xs={12}> {}
+            {allPosts?.map((post) => (
+                <Grid key={post.id} item xs={12}> {}
                     <Post post={post}/> 
                 </Grid> 
             ))}

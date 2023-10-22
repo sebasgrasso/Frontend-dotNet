@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AuthLoginDTO, AuthLoginResponseDTO, PostCreateDTO, PostDTO, UsuarioCreateDTO } from "../../interfaces/interfaces";
+import { AuthLoginDTO, AuthLoginResponseDTO, PostCreateDTO, PostDTO, UsuarioCreateDTO, getPostsProps} from "../../interfaces/interfaces";
 
-interface getPostsProps{
-  skip:number;
-  limit:number;
-}
 
 //http://backend.servehttp.com/
 

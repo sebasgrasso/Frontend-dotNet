@@ -1,11 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from './auth/authSlice';
 import { microbApis } from './apis/microbApis';
+import { postSlice } from './posts/postsSlice';
 
 export const store = configureStore({
   reducer: {
     auth:authSlice.reducer,
+    getPostsSkip:postSlice.reducer,
     [microbApis.reducerPath]: microbApis.reducer,
+    
   },
   middleware: (getDefaultMiddleware) =>
   getDefaultMiddleware().concat(microbApis.middleware),

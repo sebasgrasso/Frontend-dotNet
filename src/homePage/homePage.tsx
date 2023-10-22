@@ -1,9 +1,9 @@
 import React from 'react';
-import LeftBar from '../homePage/components/leftBar';
-import Feed from '../homePage/components/feed';
-import RightBar from '../homePage/components/rightBar';
+import LeftBar from './components/leftBar.tsx';
+import Feed from './components/feed.tsx';
+import RightBar from './components/rightBar.tsx';
 import { Container, Grid } from '@mui/material';
-import '../homePage/css/homePage.ts';
+import './css/homePage.ts';
 
 
 export const HomePage = () =>{
