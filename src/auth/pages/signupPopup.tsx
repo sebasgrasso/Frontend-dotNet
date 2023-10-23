@@ -41,7 +41,10 @@ export const SignUpPopup = () => {
 
   return (
     <>
-        <Button onClick={() => setOpen(true)} sx={{backgroundColor:"blue",color:"white", ":hover":{backgroundColor:"white", color:"blue"}}}>
+        <Button onClick={() => setOpen(true)} 
+        sx={{backgroundColor:"blue",
+            color:"white", 
+            ":hover":{backgroundColor:"white", color:"blue",borderColor:"blue",border:"1px solid"}}}>
             Signup
         </Button>
         <Dialog onClose={() => setOpen(false)} open={open}>

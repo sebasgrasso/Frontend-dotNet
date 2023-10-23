@@ -36,8 +36,15 @@ export const LoginPopup = () => {
 
     return (
       <>
-        <Button onClick={() => setOpen(true)} sx={{backgroundColor:"blue",color:"white", ":hover":{backgroundColor:"white", color:"blue"}}}>
-          Login
+        <Button onClick={() => setOpen(true)} 
+          sx={{
+            backgroundColor:"blue",
+            color:"white", 
+            ":hover":{backgroundColor:"white", color:"blue",borderColor:"blue",border:"1px solid"}}
+          
+          
+        }>
+          Iniciar Sesión
         </Button>
         <Dialog onClose={() => setOpen(false)} open={open}>
         <FormLayout>
@@ -92,20 +99,6 @@ export const LoginPopup = () => {
 
               <Grid container justifyContent="center" alignItems="center">
                 <Typography color="#fff" sx={{ fontSize: 12 }}>
-                  ¿No tienes una cuenta?
-                </Typography>
-                <Button
-                  variant="text"
-                  color="primary"
-                  sx={{ textTransform: "capitalize", fontSize: 12 }}
-                  disabled={isAuthenticatingLogin}
-                
-                >
-                  Regístrate.
-                </Button>
-              </Grid>
-              <Grid container justifyContent="center" alignItems="center">
-                <Typography color="#fff" sx={{ fontSize: 12 }}>
                   ¿Olvidaste tu contraseña?
                 </Typography>
                 <Button
@@ -120,7 +113,7 @@ export const LoginPopup = () => {
                   disabled={isAuthenticatingLogin}
                   
                 >
-                  recuperar contraseña
+                  Recuperar contraseña
                 </Button>
               </Grid>
             </Grid>
