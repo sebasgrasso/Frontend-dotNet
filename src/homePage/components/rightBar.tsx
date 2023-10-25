@@ -14,10 +14,11 @@ const RightBar: React.FC = () => {
       <>
       <Typography fontSize={18}>¿No tienes una cuenta?</Typography>
       <Typography fontSize={14}>Regístrate ahora para obtener tu propia cronología personalizada.</Typography>
-      <SignUpPopup/>
+        <SignUpPopup/>
       <Typography fontSize={18}>¿Ya tienes una cuenta?</Typography>
-      <LoginPopup/>
-      </> : 
+        <LoginPopup/>
+      </> :
+      //ACA VA LA BARRA LATERAL DERECHA CON SESION INICIADA
       null
       }
       

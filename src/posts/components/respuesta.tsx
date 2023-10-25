@@ -5,10 +5,12 @@ import Avatar from '@mui/material/Avatar';
 //import { useState } from "react";
 
 interface PostProp{
-  post:PostDTO
+  post:PostDTO;
+  padre:string;
 }
 
-export const Post = ({post}:PostProp,padreNickname:string) =>{
+
+export const Respuesta = ({post,padre}:PostProp) =>{
   
   /*  UPVOTES A FUTURO
   const [upvotes,setUpvotes] = useState(post.upvotes)
@@ -25,23 +27,23 @@ export const Post = ({post}:PostProp,padreNickname:string) =>{
 
   return (
         <>
-          <Card sx={{ minWidth: 500 }}>
+          <Card sx={{ maxWidth: "100%" }}>
             <CardHeader 
 
               avatar={<Avatar src="https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg" />}
               title={
                 <>
-                    <Link href={`/${post.usuarioNickname}`} underline="hover" color="neutral">{post.usuarioNickname}</Link>
+                    <Link sx={{padding:"6px"}} href={`/${post.usuarioNickname}`} underline="hover" color="neutral">{`${post.usuarioNickname}`}</Link>
                     <Link href={`/${post.usuarioUsername}`} underline="none" >{post.usuarioUsername}</Link>
                 </>}
               subheader={
-                <Typography>
-                    En respuesta a ${padreNickname}
+                <Typography fontSize={12}>
+                     {`Respondiendo a ${padre}`}
                 </Typography>
                 }
             />
             <CardContent>
-              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
                 {post.contenido}
               </Typography>
               {/* aca va el tuit citado en caso de haberlo*/}
@@ -53,7 +55,7 @@ export const Post = ({post}:PostProp,padreNickname:string) =>{
                   subheader={<Link href={`/${post.postCitado?.usuarioUsername}`} underline="none" >{post.postCitado?.usuarioUsername}</Link>}
                 />
                 <CardContent>
-                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
                     {post.postCitado?.contenido}
                   </Typography>
                 </CardContent>

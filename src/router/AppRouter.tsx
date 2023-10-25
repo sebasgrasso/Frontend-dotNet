@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { login } from "../store/auth/authSlice";
 import { setToken } from "../utils/localstorage";
 import { HomePage } from "../homePage/homePage";
+import { PostPage } from "../posts/pages/postPage";
 
 export const AppRouter = () => {
 /*   const { status, token } = useAppSelector((state) => state.auth);
@@ -69,7 +70,7 @@ export const AppRouter = () => {
       <CssBaseline />
       <Routes>
         <Route path="/*" element={<HomePage/>} />
-
+        <Route path="/post" element={<PostPage/>} />
         <Route path="*" element={<Navigate to="/*" />} />
       </Routes>
     </>
