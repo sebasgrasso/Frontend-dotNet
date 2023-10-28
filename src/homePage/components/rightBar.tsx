@@ -4,6 +4,7 @@ import useStyles from '../css/styles';
 import { LoginPopup } from '../../auth/pages/loginPopup';
 import { SignUpPopup } from '../../auth/pages/signupPopup';
 import { useAppSelector } from '../../hooks/hooks';
+import ProfileCard from '../../profile/profileCard';
 
 const RightBar: React.FC = () => {
   const classes = useStyles();
@@ -18,8 +19,7 @@ const RightBar: React.FC = () => {
       <Typography fontSize={18}>¿Ya tienes una cuenta?</Typography>
         <LoginPopup/>
       </> :
-      //ACA VA LA BARRA LATERAL DERECHA CON SESION INICIADA
-      null
+      <ProfileCard username="pcristiani" imageUrl='https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
       }
       
     </Paper>
