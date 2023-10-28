@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import { CssBaseline } from '@mui/material'
 import { Provider } from 'react-redux'
 import { store } from './store/store.ts'
-import { HomePage } from './homePage/homePage.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AppRouter } from './router/AppRouter.tsx'
 

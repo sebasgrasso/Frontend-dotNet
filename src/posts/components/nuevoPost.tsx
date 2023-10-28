@@ -1,11 +1,14 @@
 import { Button, Box, Card, CardContent, Grid, TextField } from "@mui/material";
 import { SyntheticEvent, useState, useRef } from "react";
 import { useCreatePost } from "../hooks/useCreatePost";
+import { skipValue, changeNewPost } from '../../store/posts/postsSlice';
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 export const NuevoPost = () => {
   const [postContent, setPostContent] = useState("");
   const textFieldRef = useRef(null);
-  
+  const dispatch = useAppDispatch();
+  const {newPost} = useAppSelector((state) => state.getPostsSkip);
   const {handleCreatePost}= useCreatePost();
 
   const handlepostContentChange = (event: SyntheticEvent) => {
@@ -21,6 +24,8 @@ export const NuevoPost = () => {
     } else {
       handleCreatePost(1,1,postContent);
       setPostContent("");
+      dispatch(skipValue({skip:0}))
+      dispatch(changeNewPost(newPost))
     }
   };
 

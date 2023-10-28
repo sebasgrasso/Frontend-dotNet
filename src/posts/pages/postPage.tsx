@@ -1,6 +1,5 @@
 import { Container, Grid } from "@mui/material";
 import LeftBar from "../../homePage/components/leftBar";
-import Feed from "../../homePage/components/feed";
 import RightBar from "../../homePage/components/rightBar";
 import { Post } from "../components/post";
 import { PostDTO } from "../../interfaces/interfaces";
