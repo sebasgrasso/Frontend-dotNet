@@ -15,12 +15,11 @@ export const startEmailAndPasswordLogin = (
         token:decoded?.token,
         id:decoded?.sub,
         username:decoded?.username,
+        role:decoded?.role,
         email:decoded?.email,
         name:decoded?.name,
         birthdate:decoded?.birthdate,
         picture:decoded?.picture,
-        zoneinfo:decoded?.zoneinfo,
-        locale:decoded?.locale,
         aud:decoded?.aud,
       })
     );

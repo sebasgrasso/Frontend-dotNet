@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Avatar, Button, Menu, MenuItem, Typography } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
+import { useAuth } from '../auth/hooks/useAuth';
 
 interface ProfileCardProps {
   username: string;
@@ -10,6 +11,7 @@ interface ProfileCardProps {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ username, imageUrl }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { handleLogout } = useAuth();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -18,6 +20,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, imageUrl }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
   return (
     <div style={{
@@ -42,7 +45,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, imageUrl }) => {
         onClose={handleClose}
       >
         <MenuItem onClick={() => { handleClose(); alert('Editar perfil'); }}>Editar perfil</MenuItem>
-        <MenuItem onClick={() => { handleClose(); alert('Editar perfil'); }}>Cerrar sesion</MenuItem>
+        <MenuItem onClick={() => {handleClose(); handleLogout()}}>Cerrar sesion</MenuItem>
       </Menu>
     </div>
   );

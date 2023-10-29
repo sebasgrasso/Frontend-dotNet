@@ -136,3 +136,16 @@ export interface getPostsProps{
   skip:number;
   limit:number;
 }
+
+export interface Token {
+  sub: string
+  username: string
+  role: string
+  email: string
+  name: string
+  birthdate: string
+  picture: string
+  exp: number
+  iss: string
+  aud: string
+}

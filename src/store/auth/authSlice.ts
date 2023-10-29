@@ -7,12 +7,11 @@ interface AuthSliceState {
     token:string | null | undefined;
     id:string | null | undefined;
     username: string | null | undefined;
+    role: string | null | undefined;
     email: string | null | undefined;
     name: string | null | undefined;
     birthdate: string | null | undefined; // Consider using a Date type instead
     picture: string | null | undefined;
-    zoneinfo: string | null | undefined;
-    locale: string | null | undefined;
     aud: string | null | undefined;
 }
 
@@ -25,12 +24,11 @@ const initialState = (): AuthSliceState => {
         token: null,
         id:null,
         username:null, 
+        role:null,
         email:null,
         name: null,
         birthdate:null,
         picture: null,
-        zoneinfo: null,
-        locale:null,
         aud: null
       }
     : {
@@ -38,12 +36,11 @@ const initialState = (): AuthSliceState => {
         token: tokenInfo.token,
         id:tokenInfo.sub,
         username:tokenInfo.username, 
+        role:tokenInfo.role,
         email:tokenInfo.email,
         name: tokenInfo.name,
         birthdate:tokenInfo.birthdate,
         picture: tokenInfo.picture,
-        zoneinfo: tokenInfo.zoneinfo,
-        locale:tokenInfo.locale,
         aud: tokenInfo.aud
       };
 
@@ -58,13 +55,12 @@ export const authSlice = createSlice({
       state.status= "authenticated"
       state.token= payload.token,
       state.id= payload.id,
-      state.username= payload.username, 
+      state.username= payload.username,
+      state.role = payload.role,
       state.email= payload.email,
       state.name= payload.name,
       state.birthdate= payload.birthdate,
       state.picture= payload.picture,
-      state.zoneinfo= payload.zoneinfo,
-      state.locale= payload.locale,
       state.aud= payload.aud
     },
     logout: (state, action) => {
@@ -72,12 +68,11 @@ export const authSlice = createSlice({
       state.token= null,
       state.id= null,
       state.username= null, 
+      state.role= null,
       state.email= null,
       state.name= null,
       state.birthdate= null,
       state.picture= null,
-      state.zoneinfo= null,
-      state.locale= null,
       state.aud= null
     },
     checkingCredentials: (state) => {

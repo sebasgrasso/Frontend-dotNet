@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Dialog, Grid, IconButton, LinearProgress, TextField, Typography } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../hooks/useAuth";
@@ -18,11 +18,10 @@ export const LoginPopup = () => {
   useForm(initialStateForm);
 
   const {
-      //handleGoogleLogin,
       handleLogin,
       isAuthenticatingLogin,
-      //isErrorLogin,
-     // isSuccessLogin,
+      isErrorLogin,
+      isSuccessLogin,
     } = useAuth();
 
   
@@ -136,6 +135,38 @@ export const LoginPopup = () => {
             </Grid>
           </Grid>
             </form>
+            {isErrorLogin && (
+        <Alert
+          variant="filled"
+          severity="error"
+          className="animate__animated animate__fadeIn"
+        >
+          Email/Usuario o Contraseña invalidos
+        </Alert>
+      )}
+      {isSuccessLogin && (
+        <Alert
+          variant="filled"
+          severity="success"
+          className="animate__animated animate__fadeIn"
+          aria-label="successful-login-message"
+        >
+          Usuario logueado correctamente!
+        </Alert>
+      )}
+      {isAuthenticatingLogin && (
+        <Box
+          sx={{
+            width: "100%",
+            position: "absolute",
+            top: "100%",
+            left: "50%",
+            transform: "translate(-50%, -100%)",
+          }}
+        >
+          <LinearProgress />
+        </Box>
+      )}
           </FormLayout>
         </Dialog>
       </>
