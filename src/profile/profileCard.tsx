@@ -1,8 +1,15 @@
 // profileCard.tsx
 import React, { useState } from 'react';
-import { Avatar, Button, Menu, MenuItem, Typography } from '@mui/material';
+import { Avatar, Button, Menu, MenuItem, Typography,  Dialog, DialogActions, DialogContent, DialogTitle, ListItemIcon, ListItemText } from '@mui/material';
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 import { useAuth } from '../auth/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import Profile from './profile';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+
+
 
 interface ProfileCardProps {
   username: string;
@@ -21,6 +28,21 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, imageUrl }) => {
     setAnchorEl(null);
   };
 
+  const [openProfile, setOpenProfile] = useState(false);
+
+  const handleProfileOpen = () => {
+      setOpenProfile(true);
+  };
+
+  const handleProfileClose = () => {
+      setOpenProfile(false);
+  };
+
+
+  const navigate = useNavigate();
+  const handleMenuClick = () => {
+    handleProfileOpen();
+  };
 
   return (
     <div style={{
@@ -44,9 +66,30 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, imageUrl }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => { handleClose(); alert('Editar perfil'); }}>Editar perfil</MenuItem>
-        <MenuItem onClick={() => {handleClose(); handleLogout()}}>Cerrar sesion</MenuItem>
+        <MenuItem onClick={() => { handleClose(); handleMenuClick() }}>
+            <ListItemIcon>
+                <AccountBoxIcon />
+            </ListItemIcon>
+            <ListItemText primary="Mi perfil" />
+        </MenuItem>
+        <MenuItem onClick={() => {handleClose(); handleLogout()}}>
+          <ListItemIcon>
+              <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Cerrar sesion" />
+      </MenuItem>
       </Menu>
+      <Dialog open={openProfile} onClose={handleProfileClose}>
+          <DialogTitle>Mi Perfil</DialogTitle>
+          <DialogContent>
+              <Profile />
+          </DialogContent>
+          <DialogActions>
+              <Button onClick={handleProfileClose} color="primary">
+                  Cerrar
+              </Button>
+          </DialogActions>
+      </Dialog>
     </div>
   );
 }
