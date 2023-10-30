@@ -64,7 +64,7 @@ export const LoginPopup = () => {
                 size="small"
                 variant="filled"
                 fullWidth
-                label="Email/Usuario"
+                label="Usuario"
                 type="text"
                 sx={{ backgroundColor: "#fff", borderRadius: 2 }}
                 name="username"
@@ -141,7 +141,7 @@ export const LoginPopup = () => {
           severity="error"
           className="animate__animated animate__fadeIn"
         >
-          Email/Usuario o Contraseña invalidos
+          Usuario o Contraseña invalidos
         </Alert>
       )}
       {isSuccessLogin && (
