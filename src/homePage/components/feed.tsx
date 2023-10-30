@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { skipValue } from "../../store/posts/postsSlice";
+import { PostDTO } from "../../interfaces/interfaces";
 
 const Feed: React.FC = () => {
   const classes = useStyles();
@@ -18,6 +19,20 @@ const Feed: React.FC = () => {
     (state) => state.getPostsSkip
   );
   const [allPosts, setAllPosts] = useState(posts);
+
+  const postEjemplo:PostDTO = {
+    id:"2",
+    instanciaId: 1,
+    instanciaAlias: "Instancia1",
+    usuarioId: 1,
+    usuarioUsername: "@sebaga13",
+    usuarioNickname: "Seba",
+    fechaHora: "1998-03-13",
+    contenido: "a ver si manda bien esto",
+    hashtags: [],
+    tieneCita: false
+}
+
 
   useEffect(() => {
     startGetPosts({ skip, limit });
@@ -72,12 +87,13 @@ const Feed: React.FC = () => {
         }
       >
         <Grid container direction="column" spacing={2}>
-          {allPosts?.map((post) => (
+          {/* {allPosts?.map((post) => (
             <Grid key={post.id} item xs={12}>
               
               <Post post={post} />
             </Grid>
-          ))}
+          ))} */}
+          {<Post post={postEjemplo} />}
         </Grid>
       </InfiniteScroll>
     </Paper>
