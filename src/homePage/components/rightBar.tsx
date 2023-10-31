@@ -11,8 +11,6 @@ const RightBar: React.FC = () => {
   const { status,username,picture,name } = useAppSelector((state) => state.auth);
   
 
-
-
   return (
     <Paper className={`${classes.rootDiff}`}>
       {status == 'not-authenticated' ? 

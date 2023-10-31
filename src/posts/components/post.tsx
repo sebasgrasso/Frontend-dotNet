@@ -32,8 +32,12 @@ export const Post = ({post}:PostProp) =>{
   
   return (
         <>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '20px' }} onClick={handlePostClick}>
-            <Card sx={{ width: 500, maxWidth: "100%", cursor: "pointer" }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }} onClick={handlePostClick}>
+            <Card sx={{ width: 500, maxWidth: "100%", cursor: "pointer",'&:hover': {
+      boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+      backgroundColor: '#f9f9f9',
+      transition: 'box-shadow 0.3s, background-color 0.3s',
+    }, }}>
                 <CardHeader 
                 //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
                   avatar={<Avatar src="https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg" />}
