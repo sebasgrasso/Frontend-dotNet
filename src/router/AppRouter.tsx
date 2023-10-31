@@ -1,9 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { useEffect } from "react";
-import { login } from "../store/auth/authSlice";
-import { setToken } from "../utils/localstorage";
 import { HomePage } from "../homePage/homePage";
 import { PostPage } from "../posts/pages/postPage";
 

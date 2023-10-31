@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AuthLoginDTO, AuthLoginResponseDTO, PostCreateDTO, PostDTO, UsuarioCreateDTO, getPostsProps} from "../../interfaces/interfaces";
+import { AuthLoginDTO, AuthLoginResponseDTO, PostCreateDTO, PostDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
 
 
 //http://backend.servehttp.com/
@@ -13,10 +13,14 @@ export const microbApis = createApi({
     //agregar al header X-InstanciaId con el valor de la instancia
     prepareHeaders: (headers, { getState }) => {
       headers.set("X-InstanciaId", '1');
+      const token = (getState() as RootState).auth.token;
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
       return headers;
     },
   }),
-  tagTypes: ["listaPosts"],
+  tagTypes: ["listaPosts","obtenerPerfil"],
   endpoints: (builder) => ({
     login: builder.mutation<string, AuthLoginDTO>({
       query: (body) => ({
@@ -63,6 +67,19 @@ export const microbApis = createApi({
       query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
     }),
+    getProfile: builder.query<UsuarioDTO,void>({
+      query: (body) => ("/users/me"),
+      providesTags: ["obtenerPerfil"],
+    }),
+    editProfile: builder.mutation<UsuarioDTO, UsuarioPerfilUpdateDTO>({
+      query: (body) => ({
+        url: "/users/me/perfil",
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (resp: UsuarioDTO, meta) => resp,
+      invalidatesTags: ["obtenerPerfil"],
+    }),
   }),
 });
 
@@ -70,6 +87,8 @@ export const {
   useLoginMutation,
   useSignupMutation,
   useCreatePostMutation,
-  useLazyGetPostsQuery
+  useLazyGetPostsQuery,
+  useGetProfileQuery,
+  useEditProfileMutation
   //useLoginGoogleMutation,
 } = microbApis;

@@ -4,11 +4,11 @@ import useStyles from '../css/styles';
 import { LoginPopup } from '../../auth/pages/loginPopup';
 import { SignUpPopup } from '../../auth/pages/signupPopup';
 import { useAppSelector } from '../../hooks/hooks';
-import ProfileCard from '../../profile/profileCard';
+import ProfileCard from '../../profile/components/profileCard';
 
 const RightBar: React.FC = () => {
   const classes = useStyles();
-  const { status,username,picture } = useAppSelector((state) => state.auth);
+  const { status,username,picture,name } = useAppSelector((state) => state.auth);
   
 
 
@@ -23,7 +23,7 @@ const RightBar: React.FC = () => {
       <Typography fontSize={18}>¿Ya tienes una cuenta?</Typography>
         <LoginPopup/>
       </> :
-      <ProfileCard username={username || ""} imageUrl={picture || ""} />
+      <ProfileCard username={username || ""} nickname={name || ""} imageUrl={picture || ""} />
       }
       
     </Paper>

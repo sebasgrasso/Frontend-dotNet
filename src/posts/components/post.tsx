@@ -11,6 +11,8 @@ interface PostProp{
 
 export const Post = ({post}:PostProp) =>{
   const navigate = useNavigate();
+
+
   /*  UPVOTES A FUTURO
   const [upvotes,setUpvotes] = useState(post.upvotes)
   const [upvoted,setUpvoted] = useState(post.upvoted)
@@ -27,16 +29,16 @@ export const Post = ({post}:PostProp) =>{
   const handlePostClick = () => {
     navigate(`/post/${post.id}`, { state: post })
   }
-
+  
   return (
         <>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '20px' }}>
-            <Link href={`/post/${post.id}`} underline="none">
-              <Card sx={{width:500, maxWidth: "100%" }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '20px' }} onClick={handlePostClick}>
+            <Card sx={{ width: 500, maxWidth: "100%", cursor: "pointer" }}>
                 <CardHeader 
+                //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
                   avatar={<Avatar src="https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg" />}
                   title={<Link href={`/${post.usuarioNickname}`} underline="hover" color="neutral">{post.usuarioNickname}</Link>}
-                  subheader={<Link href={`/${post.usuarioUsername}`} underline="none" >{post.usuarioUsername}</Link>}
+                  subheader={<Link href={`/${post.usuarioUsername}`} underline="none" >@{post.usuarioUsername}@{post.instanciaAlias}</Link>}
                 />
                 <CardContent>
                   <Typography sx={{ fontSize: 14,width:"100%" }} color="black" gutterBottom>
@@ -78,7 +80,6 @@ export const Post = ({post}:PostProp) =>{
                 }
                 
               </Card>
-            </Link>
           </Box>
           
         </>
