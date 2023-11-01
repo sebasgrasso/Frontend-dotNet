@@ -2,9 +2,32 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import { HomePage } from "../homePage/homePage";
 import { PostPage } from "../posts/pages/postPage";
-import { AdminInstancia } from "../backoffice/adminInstancia";
+import { useAppSelector } from "../hooks/hooks";
+import { UserRoutes } from "./UserRoutes";
 
 export const AppRouter = () => {
+  const {status} = useAppSelector((state)=>state.auth);
+
+  return (
+    <>
+      <CssBaseline />
+      <Routes>
+        <Route path="/*" element={<HomePage/>} />
+        { status !=="authenticated" ? 
+          (<Route path="*" element={<HomePage/>}/>)
+          : 
+          (<Route path="*" element={<UserRoutes/>} />)
+
+        }
+        <Route path="post/:id" element={<PostPage/>} />
+        <Route path="*" element={<Navigate to="/*" />} />
+      </Routes>
+    </>
+    
+  );
+};
+
+
 /*   const { status, token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [startGoogleLogin, { isLoading }] = useLoginGoogleMutation();
@@ -62,14 +85,3 @@ export const AppRouter = () => {
         .catch(console.log);
     });
   }, []); */
-  return (
-    <>
-      <CssBaseline />
-      <Routes>
-        <Route path="/*" element={<HomePage/>} />
-        <Route path="post/:id" element={<PostPage/>} />
-        <Route path="*" element={<Navigate to="/*" />} />
-      </Routes>
-    </>
-  );
-};
