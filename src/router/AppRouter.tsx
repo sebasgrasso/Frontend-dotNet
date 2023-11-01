@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import { HomePage } from "../homePage/homePage";
 import { PostPage } from "../posts/pages/postPage";
+import { AdminInstancia } from "../backoffice/adminInstancia";
 
 export const AppRouter = () => {
 /*   const { status, token } = useAppSelector((state) => state.auth);
