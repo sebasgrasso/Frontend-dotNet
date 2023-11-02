@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import { Box, Typography, LinearProgress, Button, List, ListItem, ListItemText, Card, Avatar, CardContent} from '@mui/material';
 import { MisUsuariosList } from './listaDeUsuarios';
+import { useGetProfileQuery } from '../store/apis/microbApis';
+import { useNavigate } from 'react-router-dom';
+
 
 const AdminInstancia: React.FC = () => {
-  // Estado para rastrear la opción seleccionada en la navbar
+  const navigate = useNavigate(); 
+  const handleNavigation = (option: string) => {
+    setSelectedOption(option); 
+    if (option === 'Volver a inicio') {
+      navigate('/'); 
+    }
+  };
   const [selectedOption, setSelectedOption] = useState('Inicio');
 
-  const usuarioLogueado = {
-    nombre: "Juan Pérez",
-    avatarUrl: "url_del_avatar.jpg" // reemplaza esto con la URL de tu avatar
-  };
+  const {data:miPerfil} = useGetProfileQuery();
+
+  const [profile, setProfile] = useState({
+    nickname: miPerfil?.perfil.nickname || '',
+    name: miPerfil?.username || '',
+    fotoUrl: miPerfil?.perfil.fotoUrl || '',
+});
 
   const renderContent = () => {
     switch (selectedOption) {
@@ -52,19 +64,22 @@ const AdminInstancia: React.FC = () => {
       <Box sx={{ width: '250px', borderRight: '1px solid #333333' }}>
         <Card sx={{ backgroundColor: '#333', color: 'white' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', padding: '8px' }}>
-            <Avatar src={usuarioLogueado.avatarUrl} alt={usuarioLogueado.nombre} />
+            <Avatar src={profile.fotoUrl} alt="Avatar del usuario" />
             <CardContent>
-              <Typography variant="h6">{usuarioLogueado.nombre}</Typography>
-              <Typography variant="subtitle1">Usuario Logueado</Typography>
+            <Typography variant="h6">{profile.nickname}</Typography>
+            <Typography variant="body1">@{profile.name}</Typography>
             </CardContent>
           </Box>
         </Card>
         <List >
-          {['Inicio', 'Usuarios'].map(option => (
+          {['Inicio', 'Usuarios', 'Volver a inicio'].map(option => (
             <ListItem 
               button 
               key={option} 
-              onClick={() => setSelectedOption(option)}
+              onClick={() => {
+                setSelectedOption(option); 
+                handleNavigation(option);  
+              }}
               sx={{
                 backgroundColor: option === selectedOption ? '#3a3f4b' : 'transparent', // Cambia los colores según tus preferencias
                 color: option === selectedOption ? 'white' : '#b0b0b0',
