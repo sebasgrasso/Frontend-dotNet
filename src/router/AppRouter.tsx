@@ -12,7 +12,6 @@ export const AppRouter = () => {
     <>
       <CssBaseline />
       <Routes>
-        <Route path="/*" element={<HomePage/>} />
         { status !=="authenticated" ? 
           (<Route path="*" element={<HomePage/>}/>)
           : 

@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { HomePage } from "../homePage/homePage";
 import { PostPage } from "../posts/pages/postPage";
 import { useAppSelector } from "../hooks/hooks";
+import AdminInstancia from "../backoffice/adminInstancia";
 
 
 export const UserRoutes = () => {
@@ -10,14 +11,19 @@ export const UserRoutes = () => {
   return (
     <>
     <Routes>
-        {role==="User" || role==="Admin" && 
+        {role==="User" && 
             <>
                 <Route path="/" element={<HomePage />} />
                 <Route path="post/:id" element={<PostPage/>} />
             </>
         }
-      
-        
+        {role==="Admin" && 
+            <>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/admin" element={<AdminInstancia />} />
+                <Route path="post/:id" element={<PostPage/>} />
+            </>
+        }
       </Routes>
     </>
   );

@@ -71,6 +71,10 @@ export const microbApis = createApi({
       query: (body) => ("/users/me"),
       providesTags: ["obtenerPerfil"],
     }),
+    getUsuarios: builder.query<UsuarioDTO[],void>({
+      query: (body) => ("/private/usuarios"),
+      providesTags: [],
+    }),
     editProfile: builder.mutation<UsuarioDTO, UsuarioPerfilUpdateDTO>({
       query: (body) => ({
         url: "/users/me/perfil",
@@ -89,6 +93,7 @@ export const {
   useCreatePostMutation,
   useLazyGetPostsQuery,
   useGetProfileQuery,
-  useEditProfileMutation
+  useEditProfileMutation,
+  useGetUsuariosQuery,
   //useLoginGoogleMutation,
 } = microbApis;
