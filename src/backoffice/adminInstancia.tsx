@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, LinearProgress, Button, List, ListItem, ListItemText, Card, Avatar, CardContent} from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, Card, Avatar, CardContent} from '@mui/material';
 import { MisUsuariosList } from './listaDeUsuarios';
 import { useGetProfileQuery } from '../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ const AdminInstancia: React.FC = () => {
 
   const {data:miPerfil} = useGetProfileQuery();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [profile, setProfile] = useState({
     nickname: miPerfil?.perfil.nickname || '',
     name: miPerfil?.username || '',

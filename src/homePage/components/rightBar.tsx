@@ -1,18 +1,16 @@
 import React from 'react';
 import { Paper, Typography } from '@mui/material';
-import useStyles from '../css/styles';
 import { LoginPopup } from '../../auth/pages/loginPopup';
 import { SignUpPopup } from '../../auth/pages/signupPopup';
 import { useAppSelector } from '../../hooks/hooks';
 import ProfileCard from '../../profile/components/profileCard';
 
 const RightBar: React.FC = () => {
-  const classes = useStyles();
   const { status,username,picture,name } = useAppSelector((state) => state.auth);
   
 
   return (
-    <Paper className={`${classes.rootDiff}`}>
+    <Paper sx={{ padding: '20px',marginTop: '20px',}}>
       {status == 'not-authenticated' ? 
       <>
       <Typography fontSize={18}>¿No tienes una cuenta?</Typography>

@@ -68,7 +68,7 @@ export const microbApis = createApi({
       providesTags: ["listaPosts"],
     }),
     getProfile: builder.query<UsuarioDTO,void>({
-      query: (body) => ("/users/me"),
+      query: (body) => ("/usuarios/me"),
       providesTags: ["obtenerPerfil"],
     }),
     getUsuarios: builder.query<UsuarioDTO[],void>({
@@ -77,7 +77,7 @@ export const microbApis = createApi({
     }),
     editProfile: builder.mutation<UsuarioDTO, UsuarioPerfilUpdateDTO>({
       query: (body) => ({
-        url: "/users/me/perfil",
+        url: "/usuarios/me/perfil",
         method: "PUT",
         body,
       }),

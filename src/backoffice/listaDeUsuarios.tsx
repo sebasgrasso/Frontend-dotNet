@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Box, Typography, LinearProgress, Button, List, ListItem, ListItemText, Card, Avatar, CardContent, IconButton, Tooltip} from '@mui/material';
+import { Box, IconButton, Tooltip} from '@mui/material';
 import {DataGrid,GridColDef,GridRenderCellParams,GridValueGetterParams,} from "@mui/x-data-grid"
 import { useGetUsuariosQuery } from "../store/apis/microbApis";
 import { IconThumbUpFilled } from '@tabler/icons-react';
