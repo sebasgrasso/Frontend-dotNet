@@ -21,7 +21,11 @@ const RightBar: React.FC = () => {
       <Typography fontSize={18}>¿Ya tienes una cuenta?</Typography>
         <LoginPopup/>
       </> :
-      <ProfileCard username={username || ""} nickname={name || ""} imageUrl={picture || ""} />
+      <>
+        <ProfileCard username={username || ""} nickname={name || ""} imageUrl={picture || ""} />
+        
+      </>
+      
       }
       
     </Paper>
