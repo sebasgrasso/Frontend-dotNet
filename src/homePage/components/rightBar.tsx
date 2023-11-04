@@ -1,13 +1,18 @@
 import React from 'react';
-import { Paper, Typography } from '@mui/material';
+import { Paper, Typography, Button  } from '@mui/material';
 import { LoginPopup } from '../../auth/pages/loginPopup';
 import { SignUpPopup } from '../../auth/pages/signupPopup';
 import { useAppSelector } from '../../hooks/hooks';
 import ProfileCard from '../../profile/components/profileCard';
+import { useNavigate } from 'react-router-dom';
 
 const RightBar: React.FC = () => {
-  const { status,username,picture,name } = useAppSelector((state) => state.auth);
+  const { status,username,picture,name, role } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
   
+  const handleDashboardRedirect = () => {
+    navigate('/admin');
+  };
 
   return (
     <Paper sx={{ padding: '20px',marginTop: '20px',}}>
@@ -21,9 +26,17 @@ const RightBar: React.FC = () => {
       </> :
       <>
         <ProfileCard username={username || ""} nickname={name || ""} imageUrl={picture || ""} />
-        
+        {role === 'Admin' && 
+        <Button
+            variant="contained"
+            color="primary"
+            onClick={handleDashboardRedirect}
+            sx={{ marginTop: '20px' }} 
+          >
+            Ir al Dashboard
+          </Button>
+        }  
       </>
-      
       }
       
     </Paper>

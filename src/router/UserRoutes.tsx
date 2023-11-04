@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { HomePage } from "../homePage/homePage";
 import { PostPage } from "../posts/pages/postPage";
 import { useAppSelector } from "../hooks/hooks";
-import AdminInstancia from "../backoffice/adminInstancia";
+import AdminInstancia from "../backoffice/pages/adminInstancia";
 
 
 export const UserRoutes = () => {

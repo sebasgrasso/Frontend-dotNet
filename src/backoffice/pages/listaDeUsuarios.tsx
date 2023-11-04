@@ -1,9 +1,12 @@
-import { Box, IconButton, Tooltip} from '@mui/material';
+import { Box, IconButton, Tooltip, Card, CardContent, TextField, Button, Grid, Typography} from '@mui/material';
 import {DataGrid,GridColDef,GridRenderCellParams,GridValueGetterParams,} from "@mui/x-data-grid"
-import { useGetUsuariosQuery } from "../store/apis/microbApis";
+import { useGetUsuariosQuery } from "../../store/apis/microbApis";
 import { IconThumbUpFilled } from '@tabler/icons-react';
 import { IconBan } from '@tabler/icons-react';
 import { IconArrowsExchange } from '@tabler/icons-react';
+import { IconThumbDownFilled } from '@tabler/icons-react';
+import { useState, useRef   } from 'react';
+import { useInviteUser} from '../hooks/useInviteUser';
 
 const columns: GridColDef[] = [
     {
@@ -41,7 +44,7 @@ const columns: GridColDef[] = [
     {
         field: "ocupacion",
         headerName: "Ocupacion",
-        width: 200,
+        width: 180,
         type: "string",
         valueGetter: (params: GridValueGetterParams) => {
             return `${params.row.perfil.ocupacion}`;
@@ -57,6 +60,7 @@ const columns: GridColDef[] = [
             return (
               <>
                 <BotonAprobar  params={params} />
+                <BotonSuspender  params={params} />
                 <BotonBanear params={params} />
                 <BotonCambiarRol params={params} />
               </>
@@ -66,20 +70,66 @@ const columns: GridColDef[] = [
 ];
 
 export const MisUsuariosList = () => {
+  const {handleInviteUser} = useInviteUser();
   const { data: usuarios } = useGetUsuariosQuery();
+  const [email, setEmail] = useState('');
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const emailInputRef = useRef(null);
+
+
+
+  const handleInvite = () => {
+    if (email.trim() === '') {
+      if (emailInputRef.current) {
+        emailInputRef.current.focus();
+      }
+      return;
+    } else {
+      handleInviteUser(email, 1);
+      setEmail('');
+    }
+  };
+
   return (
-      <>
-          <Box
-              sx={{ height: "60vh", width: "80%" }}
-              className="animate__animated animate__fadeIn"
-          >
-              <DataGrid
-                  columns={columns}
-                  rows={usuarios || []}
-                  autoPageSize
-              />
-          </Box>
-      </>
+    <Grid container spacing={2} className="animate__animated animate__fadeIn">
+    <Grid item xs={12} lg={9}>
+      <Box sx={{ height: '60vh', width: '100%' }}>
+        <DataGrid
+          columns={columns}
+          rows={usuarios || []}
+          autoPageSize
+        />
+      </Box>
+    </Grid>
+    <Grid item xs={12} lg={3}>
+      <Card>
+        <CardContent>
+        <Typography variant="h6">Invitar usuarios</Typography>
+          <TextField
+            label="Email para invitar"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={email}
+            onChange={handleEmailChange}
+            inputRef={emailInputRef} 
+          />
+        </CardContent>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={handleInvite}
+          sx={{ margin: '8px' }}
+        >
+          Invitar
+        </Button>
+      </Card>
+    </Grid>
+  </Grid>
   );
 };
 
@@ -91,6 +141,19 @@ const BotonAprobar = ({ params }: { params: GridRenderCellParams }) => {
         <Tooltip title="Aprobar" placement="top" >
           <IconButton onClick={handleAprobar}>
             <IconThumbUpFilled />
+          </IconButton>
+        </Tooltip>
+  )
+}
+
+const BotonSuspender = ({ params }: { params: GridRenderCellParams }) => {
+  const handleSuspender = () => {
+    alert(params.id);
+  }
+  return (
+        <Tooltip title="Suspender" placement="top" >
+          <IconButton onClick={handleSuspender}>
+            <IconThumbDownFilled />
           </IconButton>
         </Tooltip>
   )
