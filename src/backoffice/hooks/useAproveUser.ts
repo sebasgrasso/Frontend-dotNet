@@ -1,34 +1,32 @@
-import { useInviteUserMutation } from "../../store/apis/microbApis";
+import { useAproveUserMutation } from "../../store/apis/microbApis";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const useInviteUser = () => {
+export const useAproveUser = () => {
     const [
-        startInviteUserMutation,
-    ] = useInviteUserMutation();
+        startAproveUserMutation,
+    ] = useAproveUserMutation();
 
-    const handleInviteUser = async (
-        email: string,
-        instanciaId: number,
+    const handleAproveUser = async (
+        id: number,
     ) => {
-        startInviteUserMutation({
-            instanciaId,
-            email,
+        startAproveUserMutation({
+            id,
             }).unwrap()
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .then(() => {
-                console.log("Invitacion enviada exitosamente!");
-                toast.success("Invitacion enviada exitosamente!", {
+                toast.success("Usuario aprobado exitosamente!", {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .catch((error) => {
-                toast.error("Error en la invitacion!", {
+                console.log(error);
+                toast.error("Error en la aprobacion del usuario!", {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
     };
 
-    return { handleInviteUser }
+    return { handleAproveUser }
 }

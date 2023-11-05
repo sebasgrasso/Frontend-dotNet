@@ -24,6 +24,7 @@ export const useInviteUser = () => {
             })
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .catch((error) => {
+                console.log(error);
                 toast.error("Error en la invitacion!", {
                     position: toast.POSITION.TOP_RIGHT
                 });

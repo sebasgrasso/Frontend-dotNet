@@ -1,35 +1,34 @@
-import { useChangeRolMutation } from "../../store/apis/microbApis";
+import { useSuspendUserMutation } from "../../store/apis/microbApis";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const useChangeRolUser = () => {
+export const useSuspendUser = () => {
     const [
-        startChangeRolUserMutation,
-    ] = useChangeRolMutation();
+        startSuspendUserMutation,
+    ] = useSuspendUserMutation();
 
-    const handleChangeRolUser = async (
+    const handleSuspendUser = async (
         id: number,
-        rol: string
+        fecha: Date
     ) => {
-        startChangeRolUserMutation({
+        startSuspendUserMutation({
             id,
-            rol
+            fecha
             }).unwrap()
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .then(() => {
-                toast.success("Rol del usuario cambiado exitosamente!", {
+                toast.success("Usuario suspendido exitosamente!", {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .catch((error) => {
                 console.log(error);
-
-                toast.error("Error al cambiar el rol del usuario!", {
+                toast.error("Error en la suspension del usuario!", {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
     };
 
-    return { handleChangeRolUser }
+    return { handleSuspendUser }
 }

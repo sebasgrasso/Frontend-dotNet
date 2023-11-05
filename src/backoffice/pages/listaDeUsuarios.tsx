@@ -7,6 +7,13 @@ import { IconArrowsExchange } from '@tabler/icons-react';
 import { IconThumbDownFilled } from '@tabler/icons-react';
 import { useState, useRef   } from 'react';
 import { useInviteUser} from '../hooks/useInviteUser';
+import { useAproveUser } from '../hooks/useAproveUser';
+import { useSuspendUser } from '../hooks/useSuspendUser';
+import { useBanUser } from '../hooks/useBanUser';
+import { useChangeRolUser } from '../hooks/useChangeRolUser';
+import SuspenderUsuarioModal from '../components/modalSuspendUser';
+import CambiarRolModal from '../components/modalChangeRolUser';
+
 
 const columns: GridColDef[] = [
     {
@@ -71,6 +78,10 @@ const columns: GridColDef[] = [
 
 export const MisUsuariosList = () => {
   const {handleInviteUser} = useInviteUser();
+  const {handleAproveUser} = useAproveUser();
+  const {handleSuspendUser} = useSuspendUser();
+  const {handleBanUser} = useBanUser();
+  const {handleChangeRol} = useChangeRolUser();
   const { data: usuarios } = useGetUsuariosQuery();
   const [email, setEmail] = useState('');
 
@@ -79,8 +90,6 @@ export const MisUsuariosList = () => {
   };
 
   const emailInputRef = useRef(null);
-
-
 
   const handleInvite = () => {
     if (email.trim() === '') {
@@ -134,8 +143,9 @@ export const MisUsuariosList = () => {
 };
 
 const BotonAprobar = ({ params }: { params: GridRenderCellParams }) => {
+  const { handleAproveUser } = useAproveUser();
   const handleAprobar = () => {
-    alert(params.id);
+    handleAproveUser(params.id);
   }
   return (
         <Tooltip title="Aprobar" placement="top" >
@@ -146,22 +156,33 @@ const BotonAprobar = ({ params }: { params: GridRenderCellParams }) => {
   )
 }
 
-const BotonSuspender = ({ params }: { params: GridRenderCellParams }) => {
-  const handleSuspender = () => {
-    alert(params.id);
-  }
+const BotonSuspender = ({ params }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
   return (
-        <Tooltip title="Suspender" placement="top" >
-          <IconButton onClick={handleSuspender}>
-            <IconThumbDownFilled />
-          </IconButton>
-        </Tooltip>
-  )
-}
+    <>
+      <Tooltip title="Suspender" placement="top">
+        <IconButton onClick={toggleModal}>
+          <IconThumbDownFilled />
+        </IconButton>
+      </Tooltip>
+      <SuspenderUsuarioModal
+        open={modalOpen}
+        onClose={toggleModal}
+        userId={params.id}
+      />
+    </>
+  );
+};
 
 const BotonBanear = ({ params }: { params: GridRenderCellParams }) => {
+  const { handleBanUser } = useBanUser();
   const handleBanear = () => {
-    alert(params.id);
+    handleBanUser(params.id);
   }
   return (
         <Tooltip title="Banear" placement="top" >
@@ -172,16 +193,26 @@ const BotonBanear = ({ params }: { params: GridRenderCellParams }) => {
   )
 }
 
-const BotonCambiarRol = ({ params }: { params: GridRenderCellParams }) => {
-  const handleCambiarRol = () => {
-    alert(params.id);
-  }
+const BotonCambiarRol = ({ params }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
   return (
-        <Tooltip title="Cambiar rol" placement="top" >
-          <IconButton onClick={handleCambiarRol}>
-            <IconArrowsExchange  />
-          </IconButton>
-        </Tooltip>
-  )
-}
+    <>
+      <Tooltip title="Cambiar rol" placement="top">
+        <IconButton onClick={toggleModal}>
+          <IconArrowsExchange />
+        </IconButton>
+      </Tooltip>
+      <CambiarRolModal
+        open={modalOpen}
+        onClose={toggleModal}
+        userId={params.id}
+      />
+    </>
+  );
+};
 
