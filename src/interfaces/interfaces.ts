@@ -149,3 +149,18 @@ export interface Token {
   iss: string
   aud: string
 }
+
+export interface AprobarUsuarioDTO{
+  id: number;
+}
+export interface BanearUsuarioDTO{
+  id: number;
+}
+export interface SuspenderUsuarioDTO{
+  id: number;
+  fecha: Date;
+}
+export interface CambiarRolUsuarioDTO {
+  id: number; 
+  rol: string;    
+}

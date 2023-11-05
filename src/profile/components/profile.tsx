@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Avatar, Button, Card, CardContent, Typography, Box, TextField } from '@mui/material';
 import { useGetProfileQuery } from '../../store/apis/microbApis';
 import { useEditProfile } from '../hooks/editProfile';
+import { useEffect } from "react";
 
 
 const Profile = () => {
@@ -18,6 +19,17 @@ const Profile = () => {
         sitioWeb: miPerfil?.perfil.sitioWeb || '',
     });
 
+    useEffect(() => {
+        setProfile({
+            nickname: miPerfil?.perfil.nickname || '',
+            name: miPerfil?.username || '',
+            fechaNac: miPerfil?.perfil.fechaNac || '',
+            fotoUrl: miPerfil?.perfil.fotoUrl || '',
+            bio: miPerfil?.perfil.bio || '',
+            ocupacion: miPerfil?.perfil.ocupacion || '',
+            sitioWeb: miPerfil?.perfil.sitioWeb || '',
+        });
+    }, [miPerfil]);
     
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

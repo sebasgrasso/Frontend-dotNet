@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AuthLoginDTO, AuthLoginResponseDTO, PostCreateDTO, PostDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarRolUsuarioDTO, InvitacionDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
 
 
 //http://backend.servehttp.com/
@@ -63,6 +63,51 @@ export const microbApis = createApi({
       transformResponse: (resp: PostDTO, meta) => resp,
       invalidatesTags: ["listaPosts"],
     }),
+
+    inviteUser: builder.mutation<void, InvitacionDTO>({
+      query: (body) => ({
+        url: "/private/usuarios/invitacion",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    aproveUser: builder.mutation<void, AprobarUsuarioDTO>({
+      query: ({ id }) => ({
+        url: `/private/usuarios/${id}/aprobar`, 
+        method: "PUT"
+      }),
+    }),
+
+    banUser: builder.mutation<void, BanearUsuarioDTO>({
+      query: ({ id }) => ({
+        url: `/private/usuarios/${id}/banear`, 
+        method: "PUT"
+      }),
+    }),
+
+    suspendUser: builder.mutation<void, SuspenderUsuarioDTO>({
+      query: ({ id, fecha }) => {
+        const fechaUTC = fecha.toISOString();
+        const encodedFechaUTC = encodeURIComponent(fechaUTC);
+        return {
+          url: `/private/usuarios/${id}/suspender`,
+          method: "PUT",
+          params: { fecha: fechaUTC }
+        };
+      },
+    }),
+
+    changeRol: builder.mutation<void, CambiarRolUsuarioDTO>({
+      query: ({ id, rol }) => ({
+        url: `/private/usuarios/${id}/rol`, 
+        method: "PUT",
+        params: {
+          rol,
+        },
+      }),
+    }),
+
     getPosts: builder.query<PostDTO[], getPostsProps>({
       query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
@@ -95,5 +140,10 @@ export const {
   useGetProfileQuery,
   useEditProfileMutation,
   useGetUsuariosQuery,
+  useInviteUserMutation,
+  useAproveUserMutation,
+  useBanUserMutation,
+  useSuspendUserMutation,
+  useChangeRolMutation,
   //useLoginGoogleMutation,
 } = microbApis;

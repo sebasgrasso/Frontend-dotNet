@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Card, Avatar, CardContent} from '@mui/material';
 import { MisUsuariosList } from './listaDeUsuarios';
-import { useGetProfileQuery } from '../store/apis/microbApis';
+import { useGetProfileQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import { ToastContainer } from 'react-toastify';
 
 
 const AdminInstancia: React.FC = () => {
@@ -22,7 +24,15 @@ const AdminInstancia: React.FC = () => {
     nickname: miPerfil?.perfil.nickname || '',
     name: miPerfil?.username || '',
     fotoUrl: miPerfil?.perfil.fotoUrl || '',
-});
+  });
+
+  useEffect(() => {
+    setProfile({
+      nickname: miPerfil?.perfil.nickname || '',
+      name: miPerfil?.username || '',
+      fotoUrl: miPerfil?.perfil.fotoUrl || '',
+    });
+  }, [miPerfil]);
 
   const renderContent = () => {
     switch (selectedOption) {
@@ -62,13 +72,14 @@ const AdminInstancia: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex', backgroundColor: '#191b22', height: '100vh', color: 'white' }}>
+      <ToastContainer />
       <Box sx={{ width: '250px', borderRight: '1px solid #333333' }}>
         <Card sx={{ backgroundColor: '#333', color: 'white' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', padding: '8px' }}>
             <Avatar src={profile.fotoUrl} alt="Avatar del usuario" />
             <CardContent>
-            <Typography variant="h6">{profile.nickname}</Typography>
-            <Typography variant="body1">@{profile.name}</Typography>
+              <Typography variant="h6">{profile.nickname}</Typography>
+              <Typography variant="body1">@{profile.name}</Typography>
             </CardContent>
           </Box>
         </Card>
