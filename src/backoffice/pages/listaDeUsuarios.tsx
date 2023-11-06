@@ -8,9 +8,7 @@ import { IconThumbDownFilled } from '@tabler/icons-react';
 import { useState, useRef   } from 'react';
 import { useInviteUser} from '../hooks/useInviteUser';
 import { useAproveUser } from '../hooks/useAproveUser';
-import { useSuspendUser } from '../hooks/useSuspendUser';
 import { useBanUser } from '../hooks/useBanUser';
-import { useChangeRolUser } from '../hooks/useChangeRolUser';
 import SuspenderUsuarioModal from '../components/modalSuspendUser';
 import CambiarRolModal from '../components/modalChangeRolUser';
 
@@ -24,7 +22,7 @@ const columns: GridColDef[] = [
     {
         field: "username",
         headerName: "Username",
-        width: 200,
+        width: 120,
         type: "string",
         valueGetter: (params: GridValueGetterParams) => {
             return `${params.row.username}`;
@@ -42,25 +40,44 @@ const columns: GridColDef[] = [
     {
         field: "fechaNac",
         headerName: "Fecha de Nacimiento",
-        width: 222,
+        width: 150,
         type: "string",
         valueGetter: (params: GridValueGetterParams) => {
             return `${params.row.perfil.fechaNac}`;
         },
     },
     {
-        field: "ocupacion",
-        headerName: "Ocupacion",
-        width: 180,
+        field: "rol",
+        headerName: "Rol",
+        width: 120,
         type: "string",
         valueGetter: (params: GridValueGetterParams) => {
-            return `${params.row.perfil.ocupacion}`;
+            return `${params.row.rol.descripcion}`;
+        },
+    },
+    {
+        field: "estado",
+        headerName: "Estado",
+        width: 120,
+        type: "string",
+        valueGetter: (params: GridValueGetterParams) => {
+          console.log(params.row);
+            if (params.row.isBanned) {
+              return 'Baneado';
+            }
+            if (params.row.isSuspendido) {
+              return 'Suspendido';
+            }
+            if (params.row.isActivo) {
+              return 'Activo';
+            }
+            return 'Desconocido';
         },
     },
     {
         field: "acciones",
         headerName: "Acciones",
-        width: 400,
+        width: 250,
         headerAlign : "center",
         align : "center",
         renderCell: (params: GridRenderCellParams) => {
@@ -78,10 +95,6 @@ const columns: GridColDef[] = [
 
 export const MisUsuariosList = () => {
   const {handleInviteUser} = useInviteUser();
-  const {handleAproveUser} = useAproveUser();
-  const {handleSuspendUser} = useSuspendUser();
-  const {handleBanUser} = useBanUser();
-  const {handleChangeRol} = useChangeRolUser();
   const { data: usuarios } = useGetUsuariosQuery();
   const [email, setEmail] = useState('');
 

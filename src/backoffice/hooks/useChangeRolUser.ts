@@ -25,7 +25,7 @@ export const useChangeRolUser = () => {
             .catch((error) => {
                 console.log(error);
 
-                toast.error("Error al cambiar el rol del usuario!", {
+                toast.error(error.data.message + '!', {
                     position: toast.POSITION.TOP_RIGHT
                 });
             })
