@@ -5,14 +5,17 @@ import { useGetProfileQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 import { ToastContainer } from 'react-toastify';
+import { useAppSelector } from '../../hooks/hooks';
 
 
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
+  const {alias} = useAppSelector((state)=>state.instance)
+
   const handleNavigation = (option: string) => {
     setSelectedOption(option); 
     if (option === 'Volver a inicio') {
-      navigate('/'); 
+      navigate(`/${alias}`); 
     }
   };
   const [selectedOption, setSelectedOption] = useState('Inicio');

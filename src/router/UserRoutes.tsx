@@ -13,14 +13,14 @@ export const UserRoutes = () => {
     <Routes>
         {role==="User" && 
             <>
-                <Route path="/" element={<HomePage />} />
-                <Route path="post/:id" element={<PostPage/>} />
+                <Route path="*" element={<HomePage />} />
+                <Route path="/post/:id" element={<PostPage/>} />
             </>
         }
         {role==="Admin" && 
             <>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/admin" element={<AdminInstancia />} />
+                <Route path="*" element={<HomePage />} />
+                <Route path="admin" element={<AdminInstancia />} />
                 <Route path="post/:id" element={<PostPage/>} />
             </>
         }

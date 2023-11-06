@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from './auth/authSlice';
 import { microbApis } from './apis/microbApis';
 import { postSlice } from './posts/postsSlice';
+import { instanceSlice } from './instance/instanceSlice';
 
 export const store = configureStore({
   reducer: {
-    auth:authSlice.reducer,
-    getPostsSkip:postSlice.reducer,
+    auth: authSlice.reducer,
+    postsSkip: postSlice.reducer,
+    instance: instanceSlice.reducer,
     [microbApis.reducerPath]: microbApis.reducer,
     
   },

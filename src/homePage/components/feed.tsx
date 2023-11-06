@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Paper, Grid } from "@mui/material";
-import useStyles from "../css/styles";
 import { useLazyGetPostsQuery } from "../../store/apis/microbApis";
 import { useEffect } from "react";
 import { Post } from "../../posts/components/post";
@@ -11,10 +10,9 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { skipValue } from "../../store/posts/postsSlice";
 
 const Feed: React.FC = () => {
-  const classes = useStyles();
   const dispatch = useAppDispatch();
   const [startGetPosts, { data: posts }] = useLazyGetPostsQuery();
-  const { skip, limit, newPost } = useAppSelector((state) => state.getPostsSkip);
+  const { skip, limit, newPost } = useAppSelector((state) => state.postsSkip);
   const {status} = useAppSelector((state)=> state.auth)
   const [allPosts, setAllPosts] = useState(posts);
 
@@ -55,7 +53,7 @@ const Feed: React.FC = () => {
 
 
   return (
-    <Paper className={`${classes.rootDiff} ${classes.scrollableFeed}`}>
+    <Paper sx={{padding: '20px',marginTop: '20px'}}>
       {status == 'authenticated' ? <NuevoPost /> : null}
       <ToastContainer />
       <InfiniteScroll

@@ -9,9 +9,12 @@ import { useNavigate } from 'react-router-dom';
 const RightBar: React.FC = () => {
   const { status,username,picture,name, role } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
+  const {alias} = useAppSelector((state)=>state.instance) 
   
   const handleDashboardRedirect = () => {
-    navigate('/admin');
+    console.log(alias);
+    
+    navigate(`admin`);
   };
 
   return (

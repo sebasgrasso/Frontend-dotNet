@@ -64,7 +64,14 @@ export const useAuth = () => {
         username,
         email,
         contrasenia,
-        perfil:{nickname}
+        perfil:{
+          nickname,
+          fechaNac: "",
+          bio: null,
+          ocupacion: null,
+          sitioWeb: null,
+          fotoUrl: null
+        }
     })
       .unwrap()
       .then((resp) => {
