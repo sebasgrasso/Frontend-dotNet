@@ -13,7 +13,7 @@ export const UserRoutes = () => {
     <Routes>
         {role==="User" && 
             <>
-                <Route path="" element={<HomePage />} />
+                <Route path="*" element={<HomePage />} />
                 <Route path="/post/:id" element={<PostPage/>} />
             </>
         }

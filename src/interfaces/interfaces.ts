@@ -1,135 +1,232 @@
-// AuthLoginDTO
-export interface AuthLoginDTO {
-  username: string; // minLength: 1, pattern: /^[a-zA-Z0-9]+$/
-  contrasenia: string; // minLength: 1
+export interface InstanciaUpdateDTO {
+  nombre: string | null;
+  tipoRegistro: TipoRegistrostring;
 }
 
-// AuthLoginResponseDTO
-export interface AuthLoginResponseDTO {
-  accessToken: string; // minLength: 1
-}
-
-// ErrorResponse
-export interface ErrorResponse {
-  statusCode: number; // integer($int32)
-  message: string;
-}
-
-// InstanciaDTO
-export interface InstanciaDTO {
-  id: number; // integer($int64)
-  nombre: string; // minLength: 1
-  url: string; // minLength: 1
-  alias: string; // minLength: 1
-  tipoRegistro: TipoRegistro; // TipoRegistro enum
-  tematicas: TematicaDTO[];
-}
-
-// InvitacionDTO
 export interface InvitacionDTO {
-  instanciaId: number; // integer($int64)
-  email: string; // minLength: 1
+  instanciaId: number;
+  email: string;
 }
 
-// PostCitadoDTO
+export interface NotificacionDTO {
+  id: string;
+  usuarioId: number;
+  refUsuarioId: number;
+  refPostId: string;
+  mensaje: string;
+  fechaHora: string; // Consider using Date type for date-time values
+  visto: boolean;
+}
+
 export interface PostCitadoDTO {
-  id: string; // minLength: 1
-  instanciaId: number; // integer($int64)
-  instanciaAlias: string; // minLength: 1
-  usuarioId: number; // integer($int64)
-  usuarioUsername: string; // minLength: 1
-  usuarioNickname: string; // minLength: 1
-  fechaHora: string; // string($date-time)
-  contenido: string; // minLength: 1
+  id: string;
+  instanciaId: number;
+  instanciaAlias: string;
+  usuarioId: number;
+  usuarioUsername: string;
+  usuarioNickname: string;
+  fechaHora: string; // Consider using Date type for date-time values
+  contenido: string;
 }
 
-// PostCreateDTO
 export interface PostCreateDTO {
-  instanciaId: number; // integer($int64)
-  usuarioId: number; // integer($int64)
-  contenido: string; // minLength: 1
-  postIdCita?: string | null;
-  postIdPadre?: string | null;
+  contenido: string | null;
+  postIdCita: string | null;
+  postIdPadre: string | null;
 }
 
-// PostDTO
 export interface PostDTO {
-  id: string; // minLength: 1
-  instanciaId: number; // integer($int64)
-  instanciaAlias: string; // minLength: 1
-  usuarioId: number; // integer($int64)
-  usuarioUsername: string; // minLength: 1
-  usuarioNickname: string; // minLength: 1
-  fechaHora: string; // string($date-time)
-  contenido: string; // minLength: 1
+  id: string;
+  instanciaId: number;
+  instanciaAlias: string;
+  usuarioId: number;
+  usuarioUsername: string;
+  usuarioNickname: string;
+  fechaHora: string; // Consider using Date type for date-time values
+  contenido: string;
   hashtags: string[];
   tieneCita: boolean;
-  postCitado?: PostCitadoDTO;
-  postIdPadre?: string | null;
+  postCitado: PostCitadoDTO | null;
+  postIdPadre: string | null;
 }
 
-// Rol enum
-export enum Rol {
-  ADMIN = 0,
-  MODERATOR = 1,
-  USER = 2
+export type Rolstring = 'User' | 'Mod' | 'Admin';
+
+export interface RolFullDTO {
+  id: number;
+  descripcion: string | null;
 }
 
-// TematicaDTO
 export interface TematicaDTO {
-  id: number; // integer($int64)
-  nombre: string; // minLength: 1
+  id: number;
+  nombre: string;
 }
 
-// TipoRegistro enum
-export enum TipoRegistro {
-  TIPO_REGISTRO_VALUE = 4
+export type TipoRegistrostring = 'Abierto' | 'AbiertoConAprobacion' | 'CerradoConInvitacion' | 'Cerrado';
+
+export interface TrendDTO {
+  instanciaId: number;
+  keyword: string;
+  cantidad: number;
 }
 
-// UsuarioCreateDTO
 export interface UsuarioCreateDTO {
-  username: string; // maxLength: 32, minLength: 5, pattern: /^[a-zA-Z0-9]+$/
-  email: string; // minLength: 1
-  contrasenia: string; // minLength: 8
+  username: string;
+  email: string;
+  contrasenia: string;
   perfil: UsuarioPerfilCreateDTO;
 }
 
-// UsuarioDTO
 export interface UsuarioDTO {
-  id: number; // integer($int64)
-  username: string; // minLength: 1
+  id: number;
+  username: string;
   perfil: UsuarioPerfilDTO;
-  instanciaAlias: string; // minLength: 1
+  instanciaAlias: string;
 }
 
-// UsuarioPerfilCreateDTO
+export interface UsuarioDTOMod {
+  id: number;
+  username: string;
+  email: string;
+  fechaIngreso: string; // Consider using Date type for date-time values
+  isActivo: boolean;
+  isSuspendido: boolean;
+  fechaSuspendidoHasta: string; // Consider using Date type for date-time values
+  isBanned: boolean;
+  rol: RolFullDTO;
+  perfil: UsuarioPerfilDTOMod;
+}
+
+export interface UsuarioOpcionesDTO {
+  nuevoPostNotifi: boolean | null;
+  seguirNotifi: boolean | null;
+  favoritoNotifi: boolean | null;
+}
+
 export interface UsuarioPerfilCreateDTO {
-  nickname: string; // minLength: 1
-  fechaNac?: string | null; // string($date-time), nullable
-  bio?: string | null; // nullable
-  ocupacion?: string | null; // nullable
-  sitioWeb?: string | null; // nullable
-  fotoUrl?: string | null; // nullable
+  nickname: string;
+  fechaNac: string; // Consider using Date type for date values
+  bio: string | null;
+  ocupacion: string | null;
+  sitioWeb: string | null;
+  fotoUrl: string | null;
 }
 
-// UsuarioPerfilDTO
 export interface UsuarioPerfilDTO {
-  nickname: string; // minLength: 1
-  fechaNac?: string | null; // string($date-time), nullable
-  bio?: string | null; // nullable
-  ocupacion?: string | null; // nullable
-  sitioWeb?: string | null; // nullable
-  fotoUrl?: string | null; // nullable
+  nickname: string;
+  fechaNac: string; // Consider using Date type for date values
+  bio: string | null;
+  ocupacion: string | null;
+  sitioWeb: string | null;
+  fotoUrl: string | null;
 }
 
-// UsuarioPerfilUpdateDTO
+export interface UsuarioPerfilDTOMod {
+  nickname: string;
+  fechaNac: string; // Consider using Date type for date values
+  bio: string | null;
+  ocupacion: string | null;
+  sitioWeb: string | null;
+  fotoUrl: string | null;
+}
+
 export interface UsuarioPerfilUpdateDTO {
-  nickname: string; // minLength: 1
-  fechaNac?: string | null; // string($date-time), nullable
-  bio?: string | null; // nullable
-  ocupacion?: string | null; // nullable
-  sitioWeb?: string | null; // nullable
-  fotoUrl?: string | null; // nullable
+  nickname: string;
+  fechaNac: string; // Consider using Date type for date values
+  bio: string | null;
+  ocupacion: string | null;
+  sitioWeb: string | null;
+  fotoUrl: string | null;
+}
+
+export interface AuthLoginDTO {
+  username: string;
+  contrasenia: string;
+}
+
+export interface AuthLoginResponseDTO {
+  accessToken: string;
+}
+
+export interface AuthResetPasswordDTO {
+  token: string;
+  contraseniaNueva: string;
+}
+
+export interface DenunciaCreateDTO {
+  reportadoId: number;
+  post: string;
+  texto: string;
+  denunciaRazonId: number;
+}
+
+export interface DenunciaDTO {
+  id: number;
+  reporta: UsuarioDTO;
+  reportado: UsuarioDTO;
+  post: string;
+  texto: string;
+  resuelto: boolean;
+  denunciaRazon: DenunciaRazonDTO;
+}
+
+export interface DenunciaRazonDTO {
+  id: number;
+  nombre: string;
+}
+
+export interface DenunciaSalidaDTO {
+  usuarioPost: string;
+  post: string;
+  username: string;
+  countPost: number;
+}
+
+export interface ErrorResponse {
+  status: number;
+  message: string;
+  errors: string[] | null;
+}
+
+export interface InstanciaConectadaDTO {
+  instanciaA: InstanciaDTO;
+  instanciaB: InstanciaDTO;
+  isAceptadaA: boolean;
+  isAceptadaB: boolean;
+  isHabilitada: boolean;
+}
+
+export interface InstanciaDTO {
+  id: number;
+  nombre: string;
+  url: string;
+  alias: string;
+  tipoRegistro: TipoRegistrostring;
+  isBanned: boolean;
+  isActiva: boolean;
+  tematicas: TematicaDTO[];
+}
+
+export interface AprobarUsuarioDTO{
+  id: number;
+}
+
+export interface BanearUsuarioDTO{
+  id: number;
+}
+
+export interface GetInstanciaProps {
+  alias:string;
+}
+
+export interface SuspenderUsuarioDTO{
+  id: number;
+  fecha: Date;
+}
+
+export interface CambiarRolUsuarioDTO {
+  id: number; 
+  rol: string;    
 }
 
 export interface getPostsProps{
@@ -148,19 +245,4 @@ export interface Token {
   exp: number
   iss: string
   aud: string
-}
-
-export interface AprobarUsuarioDTO{
-  id: number;
-}
-export interface BanearUsuarioDTO{
-  id: number;
-}
-export interface SuspenderUsuarioDTO{
-  id: number;
-  fecha: Date;
-}
-export interface CambiarRolUsuarioDTO {
-  id: number; 
-  rol: string;    
 }

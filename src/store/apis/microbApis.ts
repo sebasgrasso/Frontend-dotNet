@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarRolUsuarioDTO, InvitacionDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
-
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
 
 //http://backend.servehttp.com/
+
+
 
 export const microbApis = createApi({
   reducerPath: "microbApis",
@@ -12,7 +13,8 @@ export const microbApis = createApi({
     baseUrl: "http://localhost:5245",
     //agregar al header X-InstanciaId con el valor de la instancia
     prepareHeaders: (headers, { getState }) => {
-      headers.set("X-InstanciaId", '1');
+      const instanciaID = (getState() as RootState).instance.id.toString();
+      headers.set("X-InstanciaId", instanciaID);
       const token = (getState() as RootState).auth.token;
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
@@ -112,6 +114,10 @@ export const microbApis = createApi({
       query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
     }),
+    getInstancia: builder.query<InstanciaDTO,GetInstanciaProps>({
+      query: ({alias}) => (`/instancias/alias/${alias}`),
+      providesTags: [],
+    }),
     getProfile: builder.query<UsuarioDTO,void>({
       query: (body) => ("/usuarios/me"),
       providesTags: ["obtenerPerfil"],
@@ -145,5 +151,6 @@ export const {
   useBanUserMutation,
   useSuspendUserMutation,
   useChangeRolMutation,
+  useGetInstanciaQuery
   //useLoginGoogleMutation,
 } = microbApis;

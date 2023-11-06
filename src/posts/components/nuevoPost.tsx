@@ -8,7 +8,7 @@ export const NuevoPost = () => {
   const [postContent, setPostContent] = useState("");
   const textFieldRef = useRef(null);
   const dispatch = useAppDispatch();
-  const {newPost} = useAppSelector((state) => state.getPostsSkip);
+  const {newPost} = useAppSelector((state) => state.postsSkip);
   const {handleCreatePost}= useCreatePost();
   const {id} = useAppSelector((state)=>state.auth)
   const handlepostContentChange = (event: SyntheticEvent) => {
@@ -22,7 +22,7 @@ export const NuevoPost = () => {
         (textFieldRef.current as HTMLTextAreaElement).focus();
       }
     } else if(id) {
-      handleCreatePost(1,Number(id),postContent);
+      handleCreatePost({contenido:postContent,postIdCita:null,postIdPadre:null});
       setPostContent("");
       dispatch(skipValue({skip:0}))
       dispatch(changeNewPost(newPost))

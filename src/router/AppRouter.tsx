@@ -7,7 +7,7 @@ import { UserRoutes } from "./UserRoutes";
 
 export const AppRouter = () => {
   const {status} = useAppSelector((state)=>state.auth);
-
+  
   return (
     <>
       <CssBaseline />
