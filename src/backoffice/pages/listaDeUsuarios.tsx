@@ -68,8 +68,8 @@ const columns: GridColDef[] = [
             if (params.row.isSuspendido) {
               return 'Suspendido';
             }
-            if (params.row.isActivo) {
-              return 'Activo';
+            if (params.row.isAprobado) {
+              return 'Aprobado';
             }
             return 'Desconocido';
         },

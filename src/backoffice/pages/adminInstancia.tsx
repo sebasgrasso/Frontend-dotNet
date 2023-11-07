@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Card, Avatar, CardContent} from '@mui/material';
 import { MisUsuariosList } from './listaDeUsuarios';
+import { EstadisticasInstancia } from './estadisticasInstancia';
 import { useGetProfileQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
@@ -42,9 +43,22 @@ const AdminInstancia: React.FC = () => {
       case 'Inicio':
         return (
           <>
-            <Box p={3}>
-              <Typography variant="h5">Panel Principal</Typography>
+          <Box p={3}>
+            <Typography variant="h5">Menu de Inicio</Typography>
+            <Box
+              component="div"
+              sx={{
+                backgroundColor: '#ffffff',
+                borderRadius: '10px',
+                backdropFilter: 'blur(10px)',
+                padding: '16px',
+                overflow: 'auto',
+                marginTop: '50px'
+              }}
+            >
+            <EstadisticasInstancia/>
             </Box>
+          </Box>
           </>
         );
 
@@ -60,7 +74,7 @@ const AdminInstancia: React.FC = () => {
                 backdropFilter: 'blur(10px)',
                 padding: '16px',
                 overflow: 'auto',
-                marginTop: '20px'
+                marginTop: '50px'
               }}
             >
             <MisUsuariosList/>

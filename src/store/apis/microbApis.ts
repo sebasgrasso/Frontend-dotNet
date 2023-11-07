@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
 
 //http://backend.servehttp.com/
 
@@ -88,10 +88,19 @@ export const microbApis = createApi({
       }),
     }),
 
+    newTrend: builder.mutation<void, NewTrendDTO>({
+      query: ({ MinutosDesde  }) => ({
+        url: `/private/trends`, 
+        method: "PUT",
+        params: {
+          MinutosDesde,
+        },
+      }),
+    }),
+
     suspendUser: builder.mutation<void, SuspenderUsuarioDTO>({
       query: ({ id, fecha }) => {
         const fechaUTC = fecha.toISOString();
-        const encodedFechaUTC = encodeURIComponent(fechaUTC);
         return {
           url: `/private/usuarios/${id}/suspender`,
           method: "PUT",
@@ -151,6 +160,7 @@ export const {
   useBanUserMutation,
   useSuspendUserMutation,
   useChangeRolMutation,
-  useGetInstanciaQuery
+  useGetInstanciaQuery,
+  useNewTrendMutation,
   //useLoginGoogleMutation,
 } = microbApis;

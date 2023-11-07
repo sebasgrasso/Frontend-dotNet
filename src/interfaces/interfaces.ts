@@ -215,6 +215,10 @@ export interface BanearUsuarioDTO{
   id: number;
 }
 
+export interface NewTrendDTO{
+  MinutosDesde: number;
+}
+
 export interface GetInstanciaProps {
   alias:string;
 }
