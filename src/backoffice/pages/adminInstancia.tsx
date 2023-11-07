@@ -6,12 +6,12 @@ import { useGetProfileQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 import { ToastContainer } from 'react-toastify';
-import { useAppSelector } from '../../hooks/hooks';
+import { getInstanciaStorage } from '../../utils/localstorage';
 
 
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
-  const {alias} = useAppSelector((state)=>state.instance)
+  const {alias} = getInstanciaStorage()
 
   const handleNavigation = (option: string) => {
     setSelectedOption(option); 

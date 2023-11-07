@@ -9,6 +9,7 @@ import { useAuth } from '../auth/hooks/useAuth.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import { setInstance } from '../store/instance/instanceSlice.ts';
 import { useGetInstanciaQuery } from '../store/apis/microbApis.ts';
+import { getInstanciaStorage, limpiarInstancia, setInstanciaStorage } from '../utils/localstorage.ts';
 
 
 export const HomePage = () =>{
@@ -17,21 +18,25 @@ export const HomePage = () =>{
 
   //obtengo alias de la instancia desde la url
   const { instanciaX } = useParams<{ instanciaX: string }>();
-  console.log(instanciaX)
   //obtengo la instancia desde el back
-  const {data} = useGetInstanciaQuery({alias: instanciaX || "" })
+  const {data} = useGetInstanciaQuery({alias: instanciaX || "" });
   //agarro la instancia actual desde redux
-  const instanciaActual = useAppSelector((state)=>state.instance)
-
+  const instanciaActual = useAppSelector((state)=>state.instance);
+  const instanciaStore = getInstanciaStorage();
+  
   useEffect(() => {
-    if (instanciaX !== instanciaActual.alias) {
+    if (instanciaX !== instanciaStore?.alias) {
+      limpiarInstancia();
+      handleLogout();
       if (data) {
         dispatch(setInstance(data));
+        setInstanciaStorage(data);
       }
-      handleLogout();
-      console.log("Closed session because the instance changed");
     }
-  }, [instanciaX, instanciaActual.alias, dispatch, handleLogout, data]);
+    if(data){
+      dispatch(setInstance(data))
+    }
+  }, [instanciaX, instanciaActual, data]);
   
     return (
         <div style={{ backgroundColor: "#191b22", minHeight: "100vh" }}>

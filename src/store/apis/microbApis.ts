@@ -2,6 +2,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
+import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
 
@@ -13,8 +14,10 @@ export const microbApis = createApi({
     baseUrl: "http://localhost:5245",
     //agregar al header X-InstanciaId con el valor de la instancia
     prepareHeaders: (headers, { getState }) => {
-      const instanciaID = (getState() as RootState).instance.id.toString();
-      headers.set("X-InstanciaId", instanciaID);
+      const instanciaStored = getInstanciaStorage();
+      if(instanciaStored){
+        headers.set("X-InstanciaId", instanciaStored.id.toString());
+      }
       const token = (getState() as RootState).auth.token;
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
@@ -123,6 +126,10 @@ export const microbApis = createApi({
       query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
     }),
+    getRespuestas: builder.query<PostDTO[], string>({
+      query: ( id ) => (`/posts/${id}/respuestas`),
+      providesTags: [],
+    }),
     getInstancia: builder.query<InstanciaDTO,GetInstanciaProps>({
       query: ({alias}) => (`/instancias/alias/${alias}`),
       providesTags: [],
@@ -162,5 +169,6 @@ export const {
   useChangeRolMutation,
   useGetInstanciaQuery,
   useNewTrendMutation,
+  useGetRespuestasQuery
   //useLoginGoogleMutation,
 } = microbApis;

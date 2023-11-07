@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { Token } from "../interfaces/interfaces";
+import { InstanciaDTO, Token } from "../interfaces/interfaces";
 
 export const getToken = () => {
     try {
@@ -30,4 +30,25 @@ export const getToken = () => {
   
   export const limpiarStorage = () => {
     localStorage.clear();
+  };
+
+  export const setInstanciaStorage = ({id,alias}: InstanciaDTO) =>{
+    window.localStorage.setItem("instancia", JSON.stringify({id,alias}));
+  }
+
+  export const getInstanciaStorage = () => {
+    try {
+      const instancia: {alias:string,id:number} = JSON.parse(localStorage.getItem("instancia") || "");
+  
+      if (!instancia) return;
+  
+    
+      return instancia;
+    } catch (error) {
+      return;
+    }
+  };
+
+  export const limpiarInstancia = () => {
+    localStorage.removeItem("instancia");
   };

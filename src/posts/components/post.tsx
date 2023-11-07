@@ -5,11 +5,7 @@ import { useNavigate } from "react-router-dom";
 //import { IconArrowBigUpLine, IconArrowBigUpLineFilled  } from "@tabler/icons-react";
 //import { useState } from "react";
 
-interface PostProp{
-  post:PostDTO
-}
-
-export const Post = ({post}:PostProp) =>{
+export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
   const navigate = useNavigate();
 
 
@@ -27,7 +23,8 @@ export const Post = ({post}:PostProp) =>{
   }*/
 
   const handlePostClick = () => {
-    navigate(`/post/${post.id}`, { state: post })
+    if(!clickeable) return;
+    navigate(`post/${post.id}`, { state: post })
   }
   
   return (
