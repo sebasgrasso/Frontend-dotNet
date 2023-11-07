@@ -38,7 +38,7 @@ export const getToken = () => {
 
   export const getInstanciaStorage = () => {
     try {
-      const instancia: {alias:string,id:number} = JSON.parse(localStorage.getItem("instancia") || "");
+      const instancia: {id:number,alias:string} = JSON.parse(localStorage.getItem("instancia") || "");
   
       if (!instancia) return;
   

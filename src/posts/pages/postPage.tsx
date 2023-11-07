@@ -15,7 +15,7 @@ export const PostPage = () =>{
 const location = useLocation();
 const post: PostDTO = location.state;
 const navigate = useNavigate();
-const {alias} = getInstanciaStorage()
+const instanciaDelStore = getInstanciaStorage()
 const {data} = useGetRespuestasQuery(post.id);
 
 
@@ -31,7 +31,7 @@ const {data} = useGetRespuestasQuery(post.id);
             
               <Button 
                 sx={{backgroundColor:"white"}} 
-                onClick={()=>{alias ? navigate(`/${alias}`) : navigate("/") }}
+                onClick={()=>{instanciaDelStore?.alias ? navigate(`/${instanciaDelStore.alias}`) : navigate("/") }}
               >
                 VOLVER
               </Button>
