@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, Grid } from "@mui/material";
+import { Paper, Grid, Typography } from "@mui/material";
 import { useLazyGetPostsQuery } from "../../store/apis/microbApis";
 import { useEffect } from "react";
 import { Post } from "../../posts/components/post";
@@ -15,7 +15,7 @@ const Feed: React.FC = () => {
   const { skip, limit, newPost } = useAppSelector((state) => state.postsSkip);
   const {status} = useAppSelector((state)=> state.auth)
   const [allPosts, setAllPosts] = useState(posts);
-
+  
   useEffect(() => {
     startGetPosts({ skip, limit });
     setAllPosts(posts);
@@ -51,16 +51,15 @@ const Feed: React.FC = () => {
     dispatch(skipValue({ skip: skip + 10 }));
   };
 
-
   return (
-    <Paper sx={{padding: '20px',marginTop: '20px'}}>
+    <Paper sx={{padding: '20px',marginTop: '20px',backgroundColor:"rgb(25, 27, 34)"}}>
       {status == 'authenticated' ? <NuevoPost /> : null}
       <ToastContainer />
       <InfiniteScroll
         dataLength={allPosts?.length ?? 0}
         next={fetchMoreData}
         hasMore={true}
-        loader={<h5>Cargando posts...</h5>}
+        loader={<Typography sx={{mt:"20px", color:"white"}}>Cagrando posts...</Typography>}
         endMessage={
           <p style={{ textAlign: "center" }}>
             <b>No hay más posts para mostrar</b>
@@ -71,7 +70,7 @@ const Feed: React.FC = () => {
           {allPosts?.map((post) => (
             <Grid key={post.id} item xs={12}>
               
-              <Post post={post} />
+              <Post post={post} clickeable={true} />
             </Grid>
           ))}
         </Grid>

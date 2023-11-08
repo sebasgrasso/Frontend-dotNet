@@ -31,3 +31,26 @@ export const getToken = () => {
   export const limpiarStorage = () => {
     localStorage.clear();
   };
+
+  export const setInstanciaStorage = ({id,alias}: {id:string,alias:string}) =>{
+    console.log("setInstance",{id,alias});
+    
+    window.localStorage.setItem("instancia", JSON.stringify({id,alias}));
+  }
+
+  export const getInstanciaStorage = () => {
+    try {
+      const instancia: {id:number,alias:string} = JSON.parse(localStorage.getItem("instancia") || "");
+  
+      if (!instancia) return;
+  
+    
+      return instancia;
+    } catch (error) {
+      return;
+    }
+  };
+
+  export const limpiarInstancia = () => {
+    localStorage.removeItem("instancia");
+  };

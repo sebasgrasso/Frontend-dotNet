@@ -7,16 +7,20 @@ interface GetInstanceSliceState {
     nombre: string; 
     url: string; 
     alias: string; 
+    isBanned: boolean;
+    isActiva: boolean;
     tipoRegistro: TipoRegistrostring; 
     tematicas: TematicaDTO[];
 }
 
 const initialState = (): GetInstanceSliceState => {
   const state: GetInstanceSliceState = {
-    id:0,
+    id:1, //solucion parcial mientras no obtengamos instancia.id antes de getPosts
     nombre:"",
     url:"",
     alias:"",
+    isBanned: false,
+    isActiva: false,
     tipoRegistro:"Cerrado",
     tematicas:[]
 }
@@ -34,6 +38,8 @@ export const instanceSlice = createSlice({
       state.alias = action.payload.alias;
       state.tipoRegistro = action.payload.tipoRegistro;
       state.tematicas = action.payload.tematicas;
+      state.isActiva = action.payload.isActiva;
+      state.isBanned = action.payload.isBanned;
     },
   },
 }); 
