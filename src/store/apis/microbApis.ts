@@ -130,6 +130,10 @@ export const microbApis = createApi({
       query: ({ skip, limit }) => (`/posts/instancia/?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
     }),
+    getPost: builder.query<PostDTO, string>({
+      query: (id) => (`/posts/${id}`),
+      providesTags: ["listaPosts"],
+    }),
     getRespuestas: builder.query<PostDTO[], string>({
       query: ( id ) => (`/posts/${id}/respuestas`),
       providesTags: [],
@@ -174,6 +178,7 @@ export const {
   useChangeRolMutation,
   useGetInstanciaQuery,
   useNewTrendMutation,
-  useGetRespuestasQuery
+  useGetRespuestasQuery,
+  useGetPostQuery
   //useLoginGoogleMutation,
 } = microbApis;

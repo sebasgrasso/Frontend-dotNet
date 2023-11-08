@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { HomePage } from "../homePage/homePage";
+import { HomePage } from "../homePage/pages/homePage";
 import { PostPage } from "../posts/pages/postPage";
 import { useAppSelector } from "../hooks/hooks";
 import AdminInstancia from "../backoffice/pages/adminInstancia";

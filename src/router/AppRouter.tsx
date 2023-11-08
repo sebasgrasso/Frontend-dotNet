@@ -1,10 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
-import { HomePage } from "../homePage/homePage";
+import { HomePage } from "../homePage/pages/homePage";
 import { PostPage } from "../posts/pages/postPage";
 import { useAppSelector } from "../hooks/hooks";
 import { UserRoutes } from "./UserRoutes";
 import useRouteChangeMiddleware from "../hooks/useRouteChangeMiddleware";
+import { DefaultPage } from "../homePage/pages/defaultPage";
 
 export const AppRouter = () => {
   const {status} = useAppSelector((state)=>state.auth);
@@ -22,6 +23,7 @@ export const AppRouter = () => {
 
         }
         <Route path="/:instanciaX/post/:id" element={<PostPage/>} />
+        <Route path="/" element={<DefaultPage/>} />
       </Routes>
     </>
     

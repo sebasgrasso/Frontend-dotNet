@@ -1,6 +1,6 @@
-import LeftBar from './components/leftBar.tsx';
-import Feed from './components/feed.tsx';
-import RightBar from './components/rightBar.tsx';
+import LeftBar from '../components/leftBar.tsx';
+import Feed from '../components/feed.tsx';
+import RightBar from '../components/rightBar.tsx';
 import { Container, Grid } from '@mui/material';
 
 
