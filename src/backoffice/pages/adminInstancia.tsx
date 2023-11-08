@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 import { ToastContainer } from 'react-toastify';
 import { getInstanciaStorage } from '../../utils/localstorage';
+import { useChangeStatusInstance} from '../hooks/useChangeStatusInstance';
+import { useChangeDataInstance} from '../hooks/useChangeDataInstance';
 
 
 const AdminInstancia: React.FC = () => {
@@ -14,7 +16,11 @@ const AdminInstancia: React.FC = () => {
   const {alias} = getInstanciaStorage()
 
   const [tipoRegistro, setTipoRegistro] = useState('Abierto');
+  const [nombre, setNombre] = useState('');
 
+
+  const {handleChangeStatusInstance} = useChangeStatusInstance();
+  const {handleChangeDataInstance} = useChangeDataInstance();
 
   const handleNavigation = (option: string) => {
     setSelectedOption(option); 
@@ -87,7 +93,8 @@ const AdminInstancia: React.FC = () => {
                       variant="outlined"
                       fullWidth
                       margin="normal"
-
+                      value={nombre}
+                      onChange={(e) => setNombre(e.target.value)}
                     />
                     <FormControl fullWidth margin="normal">
                       <InputLabel id="tipo-registro-label">Tipo de registro</InputLabel>
@@ -109,6 +116,7 @@ const AdminInstancia: React.FC = () => {
                     variant="contained" 
                     color="primary" 
                     sx={{ margin: '8px' }}
+                    onClick={() => handleChangeDataInstance({nombre, tipoRegistro})}
                   >
                     Guardar
                   </Button>
@@ -124,6 +132,7 @@ const AdminInstancia: React.FC = () => {
                     variant="contained" 
                     color="primary" 
                     sx={{ width: '100%' }} 
+                    onClick={() => handleChangeStatusInstance()}
                   >
                     Cambiar Estado
                   </Button>
