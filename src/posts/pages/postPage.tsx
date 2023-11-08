@@ -16,7 +16,11 @@ const location = useLocation();
 const post: PostDTO = location.state;
 const navigate = useNavigate();
 const instanciaDelStore = getInstanciaStorage()
+console.log(post.id);
+
 const {data} = useGetRespuestasQuery(post.id);
+
+console.log(data);
 
 
   return (

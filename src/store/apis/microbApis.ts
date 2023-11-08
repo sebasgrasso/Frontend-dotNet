@@ -126,6 +126,10 @@ export const microbApis = createApi({
       query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
     }),
+    getPostsInstancia: builder.query<PostDTO[], getPostsProps>({
+      query: ({ skip, limit }) => (`/posts/instancia/?skip=${skip}&limit=${limit}`),
+      providesTags: ["listaPosts"],
+    }),
     getRespuestas: builder.query<PostDTO[], string>({
       query: ( id ) => (`/posts/${id}/respuestas`),
       providesTags: [],
@@ -159,6 +163,7 @@ export const {
   useSignupMutation,
   useCreatePostMutation,
   useLazyGetPostsQuery,
+  useLazyGetPostsInstanciaQuery,
   useGetProfileQuery,
   useEditProfileMutation,
   useGetUsuariosQuery,

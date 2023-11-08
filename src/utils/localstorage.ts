@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { InstanciaDTO, Token } from "../interfaces/interfaces";
+import { Token } from "../interfaces/interfaces";
 
 export const getToken = () => {
     try {
@@ -32,7 +32,9 @@ export const getToken = () => {
     localStorage.clear();
   };
 
-  export const setInstanciaStorage = ({id,alias}: InstanciaDTO) =>{
+  export const setInstanciaStorage = ({id,alias}: {id:string,alias:string}) =>{
+    console.log("setInstance",{id,alias});
+    
     window.localStorage.setItem("instancia", JSON.stringify({id,alias}));
   }
 
