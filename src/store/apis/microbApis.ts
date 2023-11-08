@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -122,6 +122,21 @@ export const microbApis = createApi({
       }),
     }),
 
+    changeStatusInstance: builder.mutation<void, void>({
+      query: () => ({
+        url: `/private/instancias/estado`, 
+        method: "PUT",
+      }),
+    }),
+
+    changeDataInstance: builder.mutation<void, CambiarDataInstanciaDTO>({
+      query: (body) => ({
+        url: `/private/instancias`, 
+        method: "PUT",
+        body,
+      }),
+    }),
+
     getPosts: builder.query<PostDTO[], getPostsProps>({
       query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
@@ -179,6 +194,8 @@ export const {
   useGetInstanciaQuery,
   useNewTrendMutation,
   useGetRespuestasQuery,
-  useGetPostQuery
+  useGetPostQuery,
+  useChangeStatusInstanceMutation,
+  useChangeDataInstanceMutation,
   //useLoginGoogleMutation,
 } = microbApis;

@@ -43,7 +43,7 @@ export const EstadisticasInstancia = () => {
 
 
   return (
-    <Grid container spacing={2} className="animate__animated animate__fadeIn">
+    <Grid container spacing={2} className="animate__animated animate__fadeIn" marginTop={4}>
       <Grid item xs={12} lg={6}>
         <Card>
           <CardContent>

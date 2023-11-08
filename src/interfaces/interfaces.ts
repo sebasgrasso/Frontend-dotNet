@@ -228,6 +228,11 @@ export interface SuspenderUsuarioDTO{
   fecha: Date;
 }
 
+export interface CambiarDataInstanciaDTO{
+  nombre: string;
+  tipoRegistro: string;
+}
+
 export interface CambiarRolUsuarioDTO {
   id: number; 
   rol: string;    
