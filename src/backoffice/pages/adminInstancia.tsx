@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, Card, Avatar, CardContent} from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, Card, Avatar, CardContent, TextField, Button, Grid, Select, MenuItem, FormControl, InputLabel} from '@mui/material';
 import { MisUsuariosList } from './listaDeUsuarios';
 import { EstadisticasInstancia } from './estadisticasInstancia';
 import { useGetProfileQuery } from '../../store/apis/microbApis';
@@ -12,6 +12,9 @@ import { useAppSelector } from '../../hooks/hooks';
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
   const {alias} = useAppSelector((state)=>state.instance)
+
+  const [tipoRegistro, setTipoRegistro] = useState('Abierto');
+
 
   const handleNavigation = (option: string) => {
     setSelectedOption(option); 
@@ -45,19 +48,7 @@ const AdminInstancia: React.FC = () => {
           <>
           <Box p={3}>
             <Typography variant="h5">Menu de Inicio</Typography>
-            <Box
-              component="div"
-              sx={{
-                backgroundColor: '#ffffff',
-                borderRadius: '10px',
-                backdropFilter: 'blur(10px)',
-                padding: '16px',
-                overflow: 'auto',
-                marginTop: '50px'
-              }}
-            >
             <EstadisticasInstancia/>
-            </Box>
           </Box>
           </>
         );
@@ -82,6 +73,67 @@ const AdminInstancia: React.FC = () => {
           </Box>
         );
 
+        case 'Configuracion':
+          return (
+            <Box p={3}>
+            <Typography variant="h5">Panel de Configuracion</Typography>
+            <Grid container spacing={2} className="animate__animated animate__fadeIn">
+              <Grid item xs={12} lg={3} marginTop={5}>
+                <Card>
+                  <CardContent>
+                  <Typography variant="h6">Configuracion general de la instancia</Typography>
+                    <TextField
+                      label="Nombre"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+
+                    />
+                    <FormControl fullWidth margin="normal">
+                      <InputLabel id="tipo-registro-label">Tipo de registro</InputLabel>
+                      <Select
+                        labelId="tipo-registro-label"
+                        id="tipo-registro"
+                        value={tipoRegistro}
+                        label="Tipo de registro"
+                        onChange={(event) => setTipoRegistro(event.target.value)}
+                      >
+                        <MenuItem value="Abierto">Abierto</MenuItem>
+                        <MenuItem value="AbiertoConAprobacion">Abierto con aprobación</MenuItem>
+                        <MenuItem value="CerradoConInvitacion">Cerrado con invitación</MenuItem>
+                        <MenuItem value="Cerrado">Cerrado</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </CardContent>
+                  <Button 
+                    variant="contained" 
+                    color="primary" 
+                    sx={{ margin: '8px' }}
+                  >
+                    Guardar
+                  </Button>
+                </Card>
+              </Grid>
+              <Grid item xs={12} lg={3} marginTop={5}>
+                <Card>
+                  <CardContent>
+                  <Typography variant="h6">Estado actual: 'Estado'</Typography>
+                  </CardContent>
+                  <Box sx={{ width: '100%', padding: '0 8px 8px 8px' }}> 
+                  <Button 
+                    variant="contained" 
+                    color="primary" 
+                    sx={{ width: '100%' }} 
+                  >
+                    Cambiar Estado
+                  </Button>
+                </Box>
+                </Card>
+              </Grid>
+            </Grid>
+            </Box>
+          );
+
       default:
         return null;
     }
@@ -101,7 +153,7 @@ const AdminInstancia: React.FC = () => {
           </Box>
         </Card>
         <List >
-          {['Inicio', 'Usuarios', 'Volver a inicio'].map(option => (
+          {['Inicio', 'Configuracion', 'Usuarios', 'Volver a inicio'].map(option => (
             <ListItem 
               button 
               key={option} 
