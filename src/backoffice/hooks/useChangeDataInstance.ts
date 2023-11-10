@@ -9,6 +9,7 @@ export const useChangeDataInstance = () => {
     const handleChangeDataInstance = async (data: CambiarDataInstanciaDTO) => {
       startChangeDataInstanceMutation(data)
         .unwrap()
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then((resp) => {
           toast.success("Datos actualizados correctamente!", {
             position: toast.POSITION.TOP_RIGHT

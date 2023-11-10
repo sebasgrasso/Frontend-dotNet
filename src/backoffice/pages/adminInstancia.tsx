@@ -2,20 +2,21 @@ import React, { useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Card, Avatar, CardContent, TextField, Button, Grid, Select, MenuItem, FormControl, InputLabel} from '@mui/material';
 import { MisUsuariosList } from './listaDeUsuarios';
 import { EstadisticasInstancia } from './estadisticasInstancia';
-import { useGetInstanciaQuery, useGetProfileQuery } from '../../store/apis/microbApis';
+import { useGetProfileQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 import { ToastContainer } from 'react-toastify';
 import { getInstanciaStorage } from '../../utils/localstorage';
 import { useChangeStatusInstance} from '../hooks/useChangeStatusInstance';
 import { useChangeDataInstance} from '../hooks/useChangeDataInstance';
+import { useAppSelector } from '../../hooks/hooks';
 
 
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
-  const {alias} = getInstanciaStorage(); //SEBA ACA SE OBTIENE BIEN EL ALIAS DE LA INSTANCIA
+  const {alias} = getInstanciaStorage();
 
-  const {data:instancia} = useGetInstanciaQuery(alias); // ACA CUANDO QUIERO OBTENER LOS DATOS DE LA INSANCIA ME TRAE NULL
+  const instancia = useAppSelector((state)=>state.instance)
 
   const [tipoRegistro, setTipoRegistro] = useState('Abierto');
   const [nombre, setNombre] = useState(instancia?.nombre);
