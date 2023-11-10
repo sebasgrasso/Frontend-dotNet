@@ -197,14 +197,14 @@ export interface InstanciaConectadaDTO {
 }
 
 export interface InstanciaDTO {
-  id: number;
-  nombre: string;
-  url: string;
   alias: string;
-  tipoRegistro: TipoRegistrostring;
-  isBanned: boolean;
+  id: number;
   isActiva: boolean;
+  isBanned: boolean;
+  nombre: string;
   tematicas: TematicaDTO[];
+  tipoRegistro: TipoRegistrostring;
+  url: string;
 }
 
 export interface AprobarUsuarioDTO{

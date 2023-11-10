@@ -25,7 +25,7 @@ export const microbApis = createApi({
       return headers;
     },
   }),
-  tagTypes: ["listaPosts","obtenerPerfil"],
+  tagTypes: ["listaPosts","obtenerPerfil","usuarios"],
   endpoints: (builder) => ({
     login: builder.mutation<string, AuthLoginDTO>({
       query: (body) => ({
@@ -82,6 +82,7 @@ export const microbApis = createApi({
         url: `/private/usuarios/${id}/aprobar`, 
         method: "PUT"
       }),
+      invalidatesTags: ['usuarios'],
     }),
 
     banUser: builder.mutation<void, BanearUsuarioDTO>({
@@ -89,6 +90,7 @@ export const microbApis = createApi({
         url: `/private/usuarios/${id}/banear`, 
         method: "PUT"
       }),
+      invalidatesTags: ['usuarios'],
     }),
 
     newTrend: builder.mutation<void, NewTrendDTO>({
@@ -110,6 +112,7 @@ export const microbApis = createApi({
           params: { fecha: fechaUTC }
         };
       },
+      invalidatesTags: ['usuarios'],
     }),
 
     changeRol: builder.mutation<void, CambiarRolUsuarioDTO>({
@@ -120,6 +123,7 @@ export const microbApis = createApi({
           rol,
         },
       }),
+      invalidatesTags: ['usuarios'],
     }),
 
     changeStatusInstance: builder.mutation<void, void>({
@@ -163,7 +167,7 @@ export const microbApis = createApi({
     }),
     getUsuarios: builder.query<UsuarioDTO[],void>({
       query: (body) => ("/private/usuarios"),
-      providesTags: [],
+      providesTags: ['usuarios'],
     }),
     editProfile: builder.mutation<UsuarioDTO, UsuarioPerfilUpdateDTO>({
       query: (body) => ({

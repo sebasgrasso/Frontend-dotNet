@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Card, Avatar, CardContent, TextField, Button, Grid, Select, MenuItem, FormControl, InputLabel} from '@mui/material';
 import { MisUsuariosList } from './listaDeUsuarios';
 import { EstadisticasInstancia } from './estadisticasInstancia';
-import { useGetProfileQuery } from '../../store/apis/microbApis';
+import { useGetInstanciaQuery, useGetProfileQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 import { ToastContainer } from 'react-toastify';
@@ -13,10 +13,12 @@ import { useChangeDataInstance} from '../hooks/useChangeDataInstance';
 
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
-  const {alias} = getInstanciaStorage()
+  const {alias} = getInstanciaStorage(); //SEBA ACA SE OBTIENE BIEN EL ALIAS DE LA INSTANCIA
+
+  const {data:instancia} = useGetInstanciaQuery(alias); // ACA CUANDO QUIERO OBTENER LOS DATOS DE LA INSANCIA ME TRAE NULL
 
   const [tipoRegistro, setTipoRegistro] = useState('Abierto');
-  const [nombre, setNombre] = useState('');
+  const [nombre, setNombre] = useState(instancia?.nombre);
 
 
   const {handleChangeStatusInstance} = useChangeStatusInstance();
@@ -125,7 +127,7 @@ const AdminInstancia: React.FC = () => {
               <Grid item xs={12} lg={3} marginTop={5}>
                 <Card>
                   <CardContent>
-                  <Typography variant="h6">Estado actual: 'Estado'</Typography>
+                  <Typography variant="h6">Estado actual: {instancia?.isActiva } </Typography>
                   </CardContent>
                   <Box sx={{ width: '100%', padding: '0 8px 8px 8px' }}> 
                   <Button 
