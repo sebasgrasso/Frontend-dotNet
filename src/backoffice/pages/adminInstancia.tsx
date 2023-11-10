@@ -2,24 +2,25 @@ import React, { useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Card, Avatar, CardContent, TextField, Button, Grid, Select, MenuItem, FormControl, InputLabel} from '@mui/material';
 import { MisUsuariosList } from './listaDeUsuarios';
 import { EstadisticasInstancia } from './estadisticasInstancia';
-import { useGetProfileQuery } from '../../store/apis/microbApis';
+import { useGetInstanciaQuery, useGetProfileQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 import { ToastContainer } from 'react-toastify';
 import { getInstanciaStorage } from '../../utils/localstorage';
 import { useChangeStatusInstance} from '../hooks/useChangeStatusInstance';
 import { useChangeDataInstance} from '../hooks/useChangeDataInstance';
-import { useAppSelector } from '../../hooks/hooks';
-
 
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
   const {alias} = getInstanciaStorage();
 
-  const instancia = useAppSelector((state)=>state.instance)
+  const {data:instancia} = useGetInstanciaQuery({alias: alias});
+  const reg = instancia?.tipoRegistro;
 
-  const [tipoRegistro, setTipoRegistro] = useState('Abierto');
+  const [tipoRegistro, setTipoRegistro] = useState(reg);
   const [nombre, setNombre] = useState(instancia?.nombre);
+
+  const estado = instancia?.isActiva ? 'Activa' : 'Inactiva';
 
 
   const {handleChangeStatusInstance} = useChangeStatusInstance();
@@ -128,7 +129,7 @@ const AdminInstancia: React.FC = () => {
               <Grid item xs={12} lg={3} marginTop={5}>
                 <Card>
                   <CardContent>
-                  <Typography variant="h6">Estado actual: {instancia?.isActiva } </Typography>
+                  <Typography variant="h6">Estado actual: {estado } </Typography>
                   </CardContent>
                   <Box sx={{ width: '100%', padding: '0 8px 8px 8px' }}> 
                   <Button 

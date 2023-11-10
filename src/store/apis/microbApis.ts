@@ -25,7 +25,7 @@ export const microbApis = createApi({
       return headers;
     },
   }),
-  tagTypes: ["listaPosts","obtenerPerfil","usuarios"],
+  tagTypes: ["listaPosts","obtenerPerfil","usuarios","datosInstancia"],
   endpoints: (builder) => ({
     login: builder.mutation<string, AuthLoginDTO>({
       query: (body) => ({
@@ -131,6 +131,7 @@ export const microbApis = createApi({
         url: `/private/instancias/estado`, 
         method: "PUT",
       }),
+      invalidatesTags: ['datosInstancia'],
     }),
 
     changeDataInstance: builder.mutation<void, CambiarDataInstanciaDTO>({
@@ -139,6 +140,7 @@ export const microbApis = createApi({
         method: "PUT",
         body,
       }),
+      invalidatesTags: ['datosInstancia'],
     }),
 
     getPosts: builder.query<PostDTO[], getPostsProps>({
@@ -159,7 +161,7 @@ export const microbApis = createApi({
     }),
     getInstancia: builder.query<InstanciaDTO,GetInstanciaProps>({
       query: ({alias}) => (`/instancias/alias/${alias}`),
-      providesTags: [],
+      providesTags: ["datosInstancia"],
     }),
     getProfile: builder.query<UsuarioDTO,void>({
       query: (body) => ("/usuarios/me"),
