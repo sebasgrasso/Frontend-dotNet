@@ -1,14 +1,16 @@
-import { Box, Button, Card, CardActions, CardContent, CardHeader, Link, Typography } from "@mui/material"
+import { Box, Card, CardActions, CardContent, CardHeader, Link, Typography } from "@mui/material"
 import { PostDTO } from "../../interfaces/interfaces" 
 import Avatar from '@mui/material/Avatar';
 import { useNavigate } from "react-router-dom";
+import RepostButton from "./repostButton";
+import ReplyButton from "./replyButton";
 //import { IconArrowBigUpLine, IconArrowBigUpLineFilled  } from "@tabler/icons-react";
 //import { useState } from "react";
 
 export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
   const navigate = useNavigate();
 
-
+  
   /*  UPVOTES A FUTURO
   const [upvotes,setUpvotes] = useState(post.upvotes)
   const [upvoted,setUpvoted] = useState(post.upvoted)
@@ -26,10 +28,17 @@ export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
     if(!clickeable) return;
     navigate(`post/${post.id}`, { state: post })
   }
+
+  const handleCitedPostClick = () => {
+    if(!clickeable) return;
+    navigate(`post/${post.postCitado?.id}`, { state: post })
+  }
+  
+ 
   
   return (
         <>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }} onClick={handlePostClick}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
             <Card sx={{ width: 500, 
                         maxWidth: "100%", 
                         cursor: "pointer",
@@ -39,14 +48,14 @@ export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
                           transition: 'box-shadow 0.3s, background-color 0.3s',},
                       }}
            >
-                <CardHeader 
+                <CardHeader onClick={handlePostClick}
                 //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
                   avatar={<Avatar src="https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg" />}
-                  title={<Link href={`/${post.usuarioNickname}`} underline="hover" color="neutral">{post.usuarioNickname}</Link>}
+                  title={<Link href={`/${post.usuarioNickname}`} underline="none" >{post.usuarioNickname}</Link>}
                   subheader={<Link href={`/${post.usuarioUsername}`} underline="none" >@{post.usuarioUsername}@{post.instanciaAlias}</Link>}
                 />
-                <CardContent>
-                  <Typography sx={{ fontSize: 14,width:"100%" }} color="black" gutterBottom>
+                <CardContent >
+                  <Typography onClick={handlePostClick} sx={{ fontSize: 14,width:"100%"}} color="black" gutterBottom>
                     {post.contenido}
                   </Typography>
                   {/* lo siguiente es el tuit citado en caso de haberlo*/}
@@ -54,16 +63,15 @@ export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
                     <Card sx={{ width:500,maxWidth:"100%" }}>
                     <CardHeader 
                       avatar={<Avatar src="https://www.thesprucepets.com/thmb/17UY4UpiMekV7WpeXDziXsnt7q4=/1646x0/filters:no_upscale():strip_icc()/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg" />}
-                      title={<Link href={`/${post.postCitado?.usuarioNickname}`} underline="hover" color="neutral">{post.postCitado?.usuarioNickname}</Link>}
-                      subheader={<Link href={`/${post.postCitado?.usuarioUsername}`} underline="none" >{post.postCitado?.usuarioUsername}</Link>}
+                      title={<Link href={`/${post.postCitado?.usuarioNickname}`} underline="none" >{post.postCitado?.usuarioNickname}</Link>}
+                      subheader={<Link href={`/${post.postCitado?.usuarioUsername}`} underline="none" >@{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}</Link>}
                     />
-                    <CardContent>
+                    <CardContent onClick={handleCitedPostClick} >
                       <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
                         {post.postCitado?.contenido}
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Button onClick={handlePostClick} >VER POST</Button>
                     </CardActions>
                   </Card> : null           
                   }
@@ -83,7 +91,10 @@ export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
                   <Typography> {upvotes} </Typography>
                 </CardActions>*/
                 }
-                
+                <CardActions>
+                  <RepostButton post={post} />
+                  <ReplyButton post={post} />
+                </CardActions>
               </Card>
           </Box>
           
