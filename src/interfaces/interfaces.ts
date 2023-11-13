@@ -220,6 +220,10 @@ export interface BanearUsuarioDTO{
   id: number;
 }
 
+export interface SeguirUsuarioDTO{
+  id: number;
+}
+
 export interface NewTrendDTO{
   MinutosDesde: number;
 }
