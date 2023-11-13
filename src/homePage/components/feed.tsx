@@ -51,6 +51,9 @@ const Feed: React.FC = () => {
     dispatch(skipValue({ skip: skip + 10 }));
   };
 
+  console.log("posts:", posts);
+  
+
   return (
     <Paper sx={{padding: '20px',backgroundColor:"rgb(25, 27, 34)"}}>
       {status == 'authenticated' ? <NuevoPost /> : null}
@@ -69,7 +72,6 @@ const Feed: React.FC = () => {
         <Grid container direction="column" spacing={2}>
           {allPosts?.map((post) => (
             <Grid key={post.id} item xs={12}>
-              
               <Post post={post} clickeable={true} />
             </Grid>
           ))}

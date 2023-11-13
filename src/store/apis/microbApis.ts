@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -25,7 +25,7 @@ export const microbApis = createApi({
       return headers;
     },
   }),
-  tagTypes: ["listaPosts","obtenerPerfil","usuarios","datosInstancia", "actualizarPerfil"],
+  tagTypes: ["listaPosts","obtenerPerfil","usuarios","datosInstancia", "actualizarPerfil","obtenerTrends"],
   endpoints: (builder) => ({
     login: builder.mutation<string, AuthLoginDTO>({
       query: (body) => ({
@@ -101,6 +101,7 @@ export const microbApis = createApi({
           MinutosDesde,
         },
       }),
+      invalidatesTags: ['obtenerTrends']
     }),
 
     suspendUser: builder.mutation<void, SuspenderUsuarioDTO>({
@@ -175,6 +176,10 @@ export const microbApis = createApi({
       query: (body) => ("/private/usuarios"),
       providesTags: ['usuarios'],
     }),
+    getTrends: builder.query<TrendDTO[],void>({
+      query: (body) => ("/posts/trends"),
+      providesTags: ['obtenerTrends'],
+    }),
     editProfile: builder.mutation<UsuarioDTO, UsuarioPerfilUpdateDTO>({
       query: (body) => ({
         url: "/usuarios/me/perfil",
@@ -208,5 +213,6 @@ export const {
   useChangeStatusInstanceMutation,
   useChangeDataInstanceMutation,
   useGetUserQuery,
+  useGetTrendsQuery
   //useLoginGoogleMutation,
 } = microbApis;
