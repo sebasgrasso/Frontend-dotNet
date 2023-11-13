@@ -31,7 +31,7 @@ const columns: GridColDef[] = [
     {
         field: "nickname",
         headerName: "Nickname",
-        width: 120,
+        width: 200,
         type: "string",
         valueGetter: (params: GridValueGetterParams) => {
             return `${params.row.perfil.nickname}`;

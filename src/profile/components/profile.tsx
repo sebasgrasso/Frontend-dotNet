@@ -1,9 +1,10 @@
 import {useState} from 'react';
-import { Avatar, Button, Card, CardContent, Typography, Box, Grid, IconButton, Paper, Link, Divider, List, ListItem, ListItemText } from '@mui/material';
+import { Avatar, Button, Card, CardContent, Typography, Box, Grid, IconButton, Paper, Link, Divider, List, ListItem, ListItemText, ListItemIcon, Checkbox } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '../../store/apis/microbApis';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
 import PersonIcon from '@mui/icons-material/Person';
 import CakeIcon from '@mui/icons-material/Cake';
 import WorkIcon from '@mui/icons-material/Work';
@@ -150,20 +151,47 @@ const Profile = () => {
             </Grid>
 
             {idUserLogueado === idUsuario ?             
-                <Grid item xs={12} marginLeft={4} lg={2}>
+                <Grid item xs={12} marginLeft={4} lg={3}>
                     <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px', overflow: 'auto' }}>
                         <CardContent>
                             <Typography variant="h6" gutterBottom>Mis Configuraciones</Typography>
                             <Divider />
-                            <List component="nav" aria-label="mailbox folders">
-                                <ListItem button>
-                                    <ListItemText primary="Seguridad / visibilidad" />
-                                </ListItem>
-                                <Divider />
-                                <ListItem button divider>
-                                    <ListItemText primary="Notificaciones" />
-                                </ListItem>
-                            </List>
+                            <ListItem>
+                                <ListItemText primary="Notificacion de un nuevo post" />
+                                <ListItemIcon>
+                                    <Checkbox
+                                    edge="start"
+                                    tabIndex={-1}
+                                    disableRipple
+                                    />
+                                </ListItemIcon>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Notificacion de seguidor" />
+                                <ListItemIcon>
+                                    <Checkbox
+                                    edge="start"
+                                    tabIndex={-1}
+                                    disableRipple
+                                    />
+                                </ListItemIcon>
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Notificacion de favoritos" />
+                                <ListItemIcon>
+                                    <Checkbox
+                                    edge="start"
+                                    tabIndex={-1}
+                                    disableRipple
+                                    />
+                                </ListItemIcon>
+                            </ListItem>
+                            <ListItem >
+                                <Button variant="contained" startIcon={<SaveIcon />} sx={{ bgcolor: 'white', color: '#191B22' }}>
+                                    Guardar
+                                </Button>
+                            </ListItem>
+
                         </CardContent>
                     </Card>
                 </Grid> 
