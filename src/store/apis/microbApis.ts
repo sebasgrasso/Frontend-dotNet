@@ -182,7 +182,7 @@ export const microbApis = createApi({
         body,
       }),
       transformResponse: (resp: UsuarioDTO, meta) => resp,
-      invalidatesTags: ["actualizarPerfil"],
+      invalidatesTags: ["actualizarPerfil", "obtenerPerfil"],
     }),
   }),
 });
