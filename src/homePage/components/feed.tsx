@@ -52,7 +52,7 @@ const Feed: React.FC = () => {
   };
 
   return (
-    <Paper sx={{padding: '20px',marginTop: '20px',backgroundColor:"rgb(25, 27, 34)"}}>
+    <Paper sx={{padding: '20px',backgroundColor:"rgb(25, 27, 34)"}}>
       {status == 'authenticated' ? <NuevoPost /> : null}
       <ToastContainer />
       {(allPosts?.length && allPosts.length > 1) ? <InfiniteScroll

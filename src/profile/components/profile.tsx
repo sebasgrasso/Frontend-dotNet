@@ -1,130 +1,82 @@
-import React, { useState } from 'react';
-import { Avatar, Button, Card, CardContent, Typography, Box, TextField } from '@mui/material';
-import { useGetProfileQuery } from '../../store/apis/microbApis';
-import { useEditProfile } from '../hooks/editProfile';
-import { useEffect } from "react";
-
+import React from 'react';
+import { Avatar, Button, Card, CardContent, Typography, Box, Grid, IconButton, Paper } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useGetUserQuery } from '../../store/apis/microbApis';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import EditIcon from '@mui/icons-material/Edit';
+import PersonIcon from '@mui/icons-material/Person';
+import CakeIcon from '@mui/icons-material/Cake';
+import WorkIcon from '@mui/icons-material/Work';
+import LinkIcon from '@mui/icons-material/Link';
+import BioIcon from '@mui/icons-material/Description';
 
 const Profile = () => {
-    const {data:miPerfil} = useGetProfileQuery();
-    const {handleEditProfile}=useEditProfile();
 
-    const [profile, setProfile] = useState({
-        nickname: miPerfil?.perfil.nickname || '',
-        name: miPerfil?.username || '',
-        fechaNac: miPerfil?.perfil.fechaNac || '',
-        fotoUrl: miPerfil?.perfil.fotoUrl || '',
-        bio: miPerfil?.perfil.bio || '',
-        ocupacion: miPerfil?.perfil.ocupacion || '',
-        sitioWeb: miPerfil?.perfil.sitioWeb || '',
-    });
+    const pathParts = window.location.pathname.split('/');
+    const idUsuario64 = pathParts[3];
+    const idUsuario = atob(idUsuario64);
+    const {data: usuario} = useGetUserQuery(idUsuario);
 
-    useEffect(() => {
-        setProfile({
-            nickname: miPerfil?.perfil.nickname || '',
-            name: miPerfil?.username || '',
-            fechaNac: miPerfil?.perfil.fechaNac || '',
-            fotoUrl: miPerfil?.perfil.fotoUrl || '',
-            bio: miPerfil?.perfil.bio || '',
-            ocupacion: miPerfil?.perfil.ocupacion || '',
-            sitioWeb: miPerfil?.perfil.sitioWeb || '',
-        });
-    }, [miPerfil]);
-    
+    const navigate = useNavigate();
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setProfile(prev => ({ ...prev, [name]: value }));
+    const handleBack = () => {
+        navigate(-1); // Esto llevará al usuario al menú principal o la página anterior
     };
 
-    const handleGuardarPerfil = ()=>{
-        handleEditProfile(profile)
-    } 
+    const handleEditProfile = () => {
+        navigate('/edit-profile'); // Ruta de edición de perfil, ajustar según sea necesario
+    };
 
     return (
-            <Card sx={{ maxWidth: '450px', width: '100%', bgcolor: '#ffffff', color: 'black' }}>
-                <CardContent>
-                    <Box display="flex" alignItems="center" gap={2} mb={3}>
-                        <Avatar src={profile.fotoUrl} alt="Avatar del usuario" />
-                        <div>
-                            <Typography variant="h6">{profile.nickname}</Typography>
-                            <Typography variant="body1">@{profile.name}</Typography>
-                        </div>
-                    </Box>
+        <Grid container justifyContent="center" style={{ backgroundColor: '#191B22', minHeight: '100vh' }}>
+            <Grid item xs={12} md={6} lg={4}>
 
-                    <Box>
-                        <TextField
-                            fullWidth
-                            label="Nickname"
-                            name="nickname"
-                            value={profile.nickname}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            margin="normal"
-                            InputProps={{
-                                style: { color: 'black' }
-                            }}
-                            InputLabelProps={{ style: { color: 'black' } }}
-                        />
-                        <TextField
-                            fullWidth
-                            label="Fecha de Nacimiento"
-                            name="fechaNac"
-                            type="date"
-                            value={profile.fechaNac}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            margin="normal"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                        <TextField
-                            fullWidth
-                            label="Biografía"
-                            name="bio"
-                            value={profile.bio}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            margin="normal"
-                            multiline
-                            rows={4}
-                        />
-                        <TextField
-                            fullWidth
-                            label="Ocupación"
-                            name="ocupacion"
-                            value={profile.ocupacion}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            margin="normal"
-                        />
-                        <TextField
-                            fullWidth
-                            label="Sitio Web"
-                            name="sitioWeb"
-                            value={profile.sitioWeb}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            margin="normal"
-                        />
-                        <TextField
-                            fullWidth
-                            label="URL de la Foto"
-                            name="fotoUrl"
-                            value={profile.fotoUrl}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            margin="normal"
-                        />
-                    </Box>
+                {/* Botón para volver al menú principal */}
+                <IconButton onClick={handleBack} style={{ color: 'white', position: 'absolute', top: '20px', left: '20px' }}>
+                    <ArrowBackIcon fontSize="large" />
+                </IconButton>
 
-                    <Box mt={4}>
-                        <Button variant="contained" color="primary" onClick={handleGuardarPerfil} >Guardar Cambios</Button>
-                    </Box>
-                </CardContent>
-            </Card>
+                <Card sx={{ my: 5, bgcolor: 'white', color: 'black' }}>
+                    <CardContent>
+                        <Box display="flex" flexDirection="column" alignItems="center" gap={2} mb={3}>
+                            <Avatar src={usuario?.perfil.fotoUrl} alt="Avatar del usuario" sx={{ width: 100, height: 100 }} />
+                            <Typography variant="h5">{usuario?.perfil.nickname}</Typography>
+                            <Typography variant="body1">@{usuario?.username}</Typography>
+                            <Typography variant="body2">{usuario?.cantSeguidores} Seguidores</Typography>
+                            <Typography variant="body2">{usuario?.cantSeguidos} Seguidos</Typography>
+                        </Box>
+
+                        <Paper variant="outlined" sx={{ p: 2}}>
+                            <Grid container spacing={2}>
+                                <InfoItem icon={<PersonIcon />} label="Nickname" value={usuario?.perfil.nickname} />
+                                <InfoItem icon={<CakeIcon />} label="Fecha de Nacimiento" value={usuario?.perfil.fechaNac} />
+                                <InfoItem icon={<BioIcon />} label="Biografía" value={usuario?.perfil.bio} />
+                                <InfoItem icon={<WorkIcon />} label="Ocupación" value={usuario?.perfil.ocupacion} />
+                                <InfoItem icon={<LinkIcon />} label="Sitio Web" value={usuario?.perfil.sitioWeb} />
+                            </Grid>
+                        </Paper>
+
+                        {/* Botón de editar perfil */}
+                        <Box display="flex" justifyContent="flex-end" mt={2}>
+                            <Button variant="contained" startIcon={<EditIcon />} onClick={handleEditProfile} sx={{ bgcolor: 'white', color: '#191B22' }}>
+                                Editar Perfil
+                            </Button>
+                        </Box>
+                    </CardContent>
+                </Card>
+            </Grid>
+        </Grid>
     );
 }
+
+const InfoItem = ({ icon, label, value }) => (
+    <Grid item xs={12} display="flex" alignItems="center">
+        {icon}
+        <Box ml={2}>
+            <Typography variant="subtitle2" color="textSecondary">{label}</Typography>
+            <Typography variant="body1">{value}</Typography>
+        </Box>
+    </Grid>
+);
 
 export default Profile;

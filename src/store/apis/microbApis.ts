@@ -25,7 +25,7 @@ export const microbApis = createApi({
       return headers;
     },
   }),
-  tagTypes: ["listaPosts","obtenerPerfil","usuarios","datosInstancia"],
+  tagTypes: ["listaPosts","obtenerPerfil","usuarios","datosInstancia", "actualizarPerfil"],
   endpoints: (builder) => ({
     login: builder.mutation<string, AuthLoginDTO>({
       query: (body) => ({
@@ -155,6 +155,10 @@ export const microbApis = createApi({
       query: (id) => (`/posts/${id}`),
       providesTags: ["listaPosts"],
     }),
+    getUser: builder.query<UsuarioDTO, string>({
+      query: (id) => (`/usuarios/${id}`),
+      providesTags: ["actualizarPerfil"],
+    }),
     getRespuestas: builder.query<PostDTO[], string>({
       query: ( id ) => (`/posts/${id}/respuestas`),
       providesTags: [],
@@ -178,7 +182,7 @@ export const microbApis = createApi({
         body,
       }),
       transformResponse: (resp: UsuarioDTO, meta) => resp,
-      invalidatesTags: ["obtenerPerfil"],
+      invalidatesTags: ["actualizarPerfil"],
     }),
   }),
 });
@@ -203,5 +207,6 @@ export const {
   useGetPostQuery,
   useChangeStatusInstanceMutation,
   useChangeDataInstanceMutation,
+  useGetUserQuery,
   //useLoginGoogleMutation,
 } = microbApis;

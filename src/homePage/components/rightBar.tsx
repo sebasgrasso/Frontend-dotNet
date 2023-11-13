@@ -14,7 +14,7 @@ const RightBar: React.FC = () => {
   const handleDashboardRedirect = () => {
     console.log(alias);
     
-    navigate(`admin`);
+    navigate(`administracion`);
   };
 
   return (
@@ -29,7 +29,7 @@ const RightBar: React.FC = () => {
       </> :
       <>
         <ProfileCard username={username || ""} nickname={name || ""} imageUrl={picture || ""} />
-        {role === 'Admin' && 
+        { (role === 'Admin' || role === 'Mod') && 
         <Button
             variant="contained"
             color="primary"
@@ -41,7 +41,6 @@ const RightBar: React.FC = () => {
         }  
       </>
       }
-      
     </Paper>
   );
 }

@@ -3,6 +3,7 @@ import { HomePage } from "../homePage/pages/homePage";
 import { PostPage } from "../posts/pages/postPage";
 import { useAppSelector } from "../hooks/hooks";
 import AdminInstancia from "../backoffice/pages/adminInstancia";
+import Profile from "../profile/components/profile";
 
 
 export const UserRoutes = () => {
@@ -11,16 +12,17 @@ export const UserRoutes = () => {
   return (
     <>
     <Routes>
+      <Route path="perfil/:id" element={<Profile/>} />
         {role==="User" && 
             <>
                 <Route path="*" element={<HomePage />} />
-                <Route path="/post/:id" element={<PostPage/>} />
+                <Route path="post/:id" element={<PostPage/>} />
             </>
         }
-        {role==="Admin" && 
+        {(role ==="Admin" || role ==="Mod" ) && 
             <>
                 <Route path="*" element={<HomePage />} />
-                <Route path="admin" element={<AdminInstancia />} />
+                <Route path="administracion" element={<AdminInstancia />} />
                 <Route path="post/:id" element={<PostPage/>} />
             </>
         }

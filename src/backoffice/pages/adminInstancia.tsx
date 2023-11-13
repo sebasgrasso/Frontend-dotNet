@@ -9,10 +9,18 @@ import { ToastContainer } from 'react-toastify';
 import { getInstanciaStorage } from '../../utils/localstorage';
 import { useChangeStatusInstance} from '../hooks/useChangeStatusInstance';
 import { useChangeDataInstance} from '../hooks/useChangeDataInstance';
+import { useAppSelector } from '../../hooks/hooks';
 
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
   const {alias} = getInstanciaStorage();
+
+  const { role } = useAppSelector((state) => state.auth);
+
+  let menuOptions = ['Inicio', 'Usuarios', 'Volver a inicio'];
+  if (role === 'Admin') {
+    menuOptions = ['Inicio', 'Configuracion', 'Usuarios', 'Volver a inicio'];
+  }
 
   const {data:instancia} = useGetInstanciaQuery({alias: alias});
   const reg = instancia?.tipoRegistro;
@@ -166,7 +174,7 @@ const AdminInstancia: React.FC = () => {
           </Box>
         </Card>
         <List >
-          {['Inicio', 'Configuracion', 'Usuarios', 'Volver a inicio'].map(option => (
+          {menuOptions.map(option => (
             <ListItem 
               button 
               key={option} 
@@ -186,6 +194,7 @@ const AdminInstancia: React.FC = () => {
               <ListItemText primary={option} />
             </ListItem>
           ))}
+          
         </List>
       </Box>
 

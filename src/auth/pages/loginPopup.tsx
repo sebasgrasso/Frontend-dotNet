@@ -4,6 +4,7 @@ import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../hooks/useAuth";
 import { FormLayout } from "../layout/formLayout";
 import { FcGoogle } from "react-icons/fc";
+import { getInstanciaStorage } from "../../utils/localstorage";
 
 const initialStateForm = {
   username: "",
@@ -13,6 +14,8 @@ const initialStateForm = {
 
 export const LoginPopup = () => {
   const [open, setOpen] = useState(false);
+  const {id} = getInstanciaStorage();
+
 
   const { username, password, handleInputChange, reset } =
   useForm(initialStateForm);
@@ -31,6 +34,13 @@ export const LoginPopup = () => {
     handleLogin(username, password);
     reset();
   };
+
+  const handleGoogleLogin = async () => {
+    const idBase64 = btoa(id);
+    const url = "http://localhost:5245/auth/login-google?cacheid=" + idBase64;
+    console.log(url);
+    window.open(url, "_blank");
+  }
 
 
     return (
@@ -121,7 +131,7 @@ export const LoginPopup = () => {
               <Grid container justifyContent="center">
                 <IconButton
                   onClick={() => {
-                    //handleGoogleLogin();
+                    handleGoogleLogin();
                   }}
                   sx={{
                     backgroundColor: "#fff",

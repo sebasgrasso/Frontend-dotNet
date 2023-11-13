@@ -6,8 +6,8 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import Profile from './profile';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/hooks';
 
 
 interface ProfileCardProps {
@@ -17,6 +17,10 @@ interface ProfileCardProps {
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl }) => {
+  const navigate = useNavigate();
+
+  const idUser = useAppSelector((state)=>state.auth.id); 
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { handleLogout } = useAuth();
 
@@ -30,16 +34,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl 
 
   const [openProfile, setOpenProfile] = useState(false);
 
-  const handleProfileOpen = () => {
-      setOpenProfile(true);
-  };
-
   const handleProfileClose = () => {
       setOpenProfile(false);
   };
 
   const handleMenuClick = () => {
-    handleProfileOpen();
+    if(!idUser) return;
+    const idEncodeado = btoa(idUser);
+    navigate(`perfil/${idEncodeado}`);
   };
 
   return (

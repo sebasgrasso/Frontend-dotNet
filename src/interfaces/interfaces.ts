@@ -81,6 +81,8 @@ export interface UsuarioDTO {
   id: number;
   username: string;
   perfil: UsuarioPerfilDTO;
+  cantSeguidores: number;
+  cantSeguidos: number;
   instanciaAlias: string;
 }
 
