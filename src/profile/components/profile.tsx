@@ -1,7 +1,7 @@
-import {useState} from 'react';
-import { Avatar, Button, Card, CardContent, Typography, Box, Grid, IconButton, Paper, Link, Divider, List, ListItem, ListItemText, ListItemIcon, Checkbox } from '@mui/material';
+import {useState, useEffect} from 'react';
+import { Avatar, Button, Card, CardContent, Typography, Box, Grid, IconButton, Paper, Link, Divider, ListItem, ListItemText, ListItemIcon, Checkbox } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useGetUserQuery } from '../../store/apis/microbApis';
+import { useGetOptionsUserQuery, useGetSeguidoresQuery, useGetUserQuery } from '../../store/apis/microbApis';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
@@ -22,10 +22,8 @@ import { IconUserPlus } from '@tabler/icons-react';
 import SoundIcon from '@mui/icons-material/VolumeUp'; 
 import { IconFlagOff } from '@tabler/icons-react';
 import { IconFlag } from '@tabler/icons-react';
-
-
-
-
+import { useFollowUser } from '../../backoffice/hooks/useFollowUser';
+import { useUserNotifications } from '../hooks/useSetNotifications';
 
 const Profile = () => {
     const pathParts = window.location.pathname.split('/');
@@ -35,14 +33,44 @@ const Profile = () => {
     const idUserLogueado = useAppSelector((state)=>state.auth.id);
     const [year, month, day] = usuario?.perfil.fechaNac?.split('-') ?? [0, 0, 0];
     const fechaNac = `${day}/${month}/${year}`;
+    const idNumber = parseInt(idUsuario);
 
+    const seguidores = useGetSeguidoresQuery(idNumber);
     const [isFollowing, setIsFollowing] = useState(false);
+    useEffect(() => {
+        if (seguidores.data) {
+            const seguidoresIds = seguidores.data?.map((seguidor) => seguidor.id);
+            if(idUserLogueado){
+                const idUserLogueadoNumber = parseInt(idUserLogueado);
+                setIsFollowing(seguidoresIds.includes(idUserLogueadoNumber));
+            }
+        }
+    }, [seguidores, idUserLogueado]);
+
+    const {handleUserNotifications} = useUserNotifications();
+
+    const {data : notificacionesUsuario} = useGetOptionsUserQuery();
+
+    const [nuevoPostNotif, setNuevoPostNotif] = useState(false);
+    const [seguirNotif, setSeguirNotif] = useState(false);
+    const [favoritoNotif, setFavoritoNotif] = useState(false);
+
+    useEffect(() => {
+        if (notificacionesUsuario) {
+            const {nuevoPostNotifi, seguirNotifi, favoritoNotifi} = notificacionesUsuario;
+            setNuevoPostNotif(nuevoPostNotifi || false);
+            setSeguirNotif(seguirNotifi || false);
+            setFavoritoNotif(favoritoNotifi || false);
+        }
+    }, [notificacionesUsuario]);
+
     const [isBlocked, setIsBlocked] = useState(false);
     const [isMuted, setIsMuted] = useState(false); 
 
+    const { handleFollowUser } = useFollowUser();
+
     const handleFollowToggle = () => {
-        //logica
-        setIsFollowing(!isFollowing);
+        handleFollowUser(idNumber);
     };
     const handleBlockToggle = () => {
         //logica
@@ -52,6 +80,11 @@ const Profile = () => {
         //logica
         setIsMuted(!isMuted);
     };
+
+    const handleSaveNotifications = () => {
+        console.log(nuevoPostNotif, seguirNotif, favoritoNotif);
+        handleUserNotifications({nuevoPostNotifi : nuevoPostNotif , seguirNotifi : seguirNotif, favoritoNotifi : favoritoNotif});
+    }
 
     const navigate = useNavigate();
 
@@ -70,7 +103,7 @@ const Profile = () => {
     };
 
     return (
-        <Grid container justifyContent="center" style={{ backgroundColor: '#191B22', minHeight: '100vh' }}>\
+        <Grid container spacing={2} justifyContent="center" style={{ backgroundColor: '#191B22', minHeight: '100vh' }}>
             <ToastContainer />
             <Grid item xs={12} md={6} lg={4}>
                 {/* Botón para volver al menú principal */}
@@ -151,18 +184,20 @@ const Profile = () => {
             </Grid>
 
             {idUserLogueado === idUsuario ?             
-                <Grid item xs={12} marginLeft={4} lg={3}>
+                <Grid item xs={12} md={6} lg={3}>
                     <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px', overflow: 'auto' }}>
                         <CardContent>
-                            <Typography variant="h6" gutterBottom>Mis Configuraciones</Typography>
+                            <Typography variant="h6" gutterBottom>Notificaciones</Typography>
                             <Divider />
                             <ListItem>
                                 <ListItemText primary="Notificacion de un nuevo post" />
                                 <ListItemIcon>
                                     <Checkbox
-                                    edge="start"
-                                    tabIndex={-1}
-                                    disableRipple
+                                        checked={nuevoPostNotif}
+                                        edge="start"
+                                        tabIndex={-1}
+                                        disableRipple
+                                        onChange={(e) => setNuevoPostNotif(e.target.checked)}
                                     />
                                 </ListItemIcon>
                             </ListItem>
@@ -170,9 +205,11 @@ const Profile = () => {
                                 <ListItemText primary="Notificacion de seguidor" />
                                 <ListItemIcon>
                                     <Checkbox
-                                    edge="start"
-                                    tabIndex={-1}
-                                    disableRipple
+                                        checked={seguirNotif}
+                                        edge="start"
+                                        tabIndex={-1}
+                                        disableRipple
+                                        onChange={(e) => setSeguirNotif(e.target.checked)}
                                     />
                                 </ListItemIcon>
                             </ListItem>
@@ -180,20 +217,33 @@ const Profile = () => {
                                 <ListItemText primary="Notificacion de favoritos" />
                                 <ListItemIcon>
                                     <Checkbox
-                                    edge="start"
-                                    tabIndex={-1}
-                                    disableRipple
+                                        checked={favoritoNotif}
+                                        edge="start"
+                                        tabIndex={-1}
+                                        disableRipple
+                                        onChange={(e) => setFavoritoNotif(e.target.checked)}
                                     />
                                 </ListItemIcon>
                             </ListItem>
                             <ListItem >
-                                <Button variant="contained" startIcon={<SaveIcon />} sx={{ bgcolor: 'white', color: '#191B22' }}>
+                                <Button variant="contained" onClick={handleSaveNotifications} startIcon={<SaveIcon />} sx={{ bgcolor: 'white', color: '#191B22' }}>
                                     Guardar
                                 </Button>
                             </ListItem>
-
                         </CardContent>
                     </Card>
+
+                    {idUserLogueado === idUsuario ?             
+                        <Grid item xs={12} md={12} lg={12}>
+                            <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px', overflow: 'auto' }}>
+                                <CardContent>
+                                    <Typography variant="h6" gutterBottom>Seguridad / visibilidad</Typography>
+                                    <Divider />
+                                </CardContent>
+                            </Card>
+                        </Grid> 
+                    : null}
+
                 </Grid> 
             : null}
 

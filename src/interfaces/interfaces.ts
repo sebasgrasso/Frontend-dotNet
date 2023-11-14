@@ -99,7 +99,7 @@ export interface UsuarioDTOMod {
   perfil: UsuarioPerfilDTOMod;
 }
 
-export interface UsuarioOpcionesDTO {
+export interface UsuarioNotificacionesDTO {
   nuevoPostNotifi: boolean | null;
   seguirNotifi: boolean | null;
   favoritoNotifi: boolean | null;
@@ -219,6 +219,11 @@ export interface BanearUsuarioDTO{
 
 export interface SeguirUsuarioDTO{
   id: number;
+}
+
+export interface GenericDTO{
+  result: boolean;
+  message: string;
 }
 
 export interface NewTrendDTO{

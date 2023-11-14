@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioOpcionesDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GenericDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioOpcionesDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -77,20 +77,20 @@ export const microbApis = createApi({
       }),
       invalidatesTags: ['usuarios'],
     }),
-    followUser: builder.mutation<void, SeguirUsuarioDTO>({
+    followUser: builder.mutation<GenericDTO, SeguirUsuarioDTO>({
       query: ({ id }) => ({
         url: `/usuarios/${id}/seguir`, 
         method: "PUT"
       }),
-      invalidatesTags: ['usuarios'],
+      invalidatesTags: ['seguidores', 'actualizarPerfil'],
     }),
-    userOpciones: builder.mutation<void, UsuarioOpcionesDTO>({
+    userNotifications: builder.mutation<void, UsuarioNotificacionesDTO>({
       query: (body) => ({
         url: `/usuarios/me/opciones`, 
         method: "PUT",
         body,
       }),
-      invalidatesTags: ['usuarios'],
+      invalidatesTags: ['opcionesUsuario'],
     }),
     newTrend: builder.mutation<void, NewTrendDTO>({
       query: ({ MinutosDesde  }) => ({
@@ -141,7 +141,7 @@ export const microbApis = createApi({
       query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
     }),
-    getOptionsUser: builder.query<UsuarioOpcionesDTO, void>({
+    getOptionsUser: builder.query<UsuarioNotificacionesDTO, void>({
       query: () => (`/usuarios/me/opciones`),
       providesTags: ["opcionesUsuario"],
     }),
@@ -153,7 +153,7 @@ export const microbApis = createApi({
       query: (id) => (`/posts/${id}`),
       providesTags: ["listaPosts"],
     }),
-    getSeguidores: builder.query<UsuarioDTO, number>({
+    getSeguidores: builder.query<UsuarioDTO[], number>({
       query: (id) => (`/usuarios/${id}/seguidores`),
       providesTags: ["seguidores"],
     }),
@@ -214,5 +214,10 @@ export const {
   useChangeStatusInstanceMutation,
   useChangeDataInstanceMutation,
   useGetUserQuery,
+  useFollowUserMutation,
+  useGetSeguidoresQuery,
+  useGetSeguidosQuery,
+  useGetOptionsUserQuery,
+  useUserNotificationsMutation,
   //useLoginGoogleMutation,
 } = microbApis;
