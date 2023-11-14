@@ -34,9 +34,7 @@ export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
     if(!clickeable) return;
     navigate(`post/${post.postCitado?.id}`, { state: post })
   }
-  
- 
-  
+
   return (
         <>
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
@@ -51,7 +49,7 @@ export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
            >
                 <CardHeader onClick={handlePostClick}
                 //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
-                  avatar={<Avatar src="https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg" />}
+                  avatar={<Avatar src={post.fotoUrl} />}
                   title={<Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none" >{post.usuarioNickname}</Link>}
                   subheader={<Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none" >@{post.usuarioUsername}@{post.instanciaAlias}</Link>}
                 />
@@ -63,7 +61,7 @@ export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
                   {post.tieneCita ? 
                     <Card sx={{ width:500,maxWidth:"100%" }}>
                     <CardHeader 
-                      avatar={<Avatar src="https://www.thesprucepets.com/thmb/17UY4UpiMekV7WpeXDziXsnt7q4=/1646x0/filters:no_upscale():strip_icc()/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg" />}
+                      avatar={<Avatar src={post.postCitado?.fotoUrl} />}
                       title={<Link href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`} underline="none" >{post.postCitado?.usuarioNickname}</Link>}
                       subheader={<Link href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`} underline="none" >@{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}</Link>}
                     />

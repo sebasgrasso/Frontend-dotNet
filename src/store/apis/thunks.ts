@@ -2,6 +2,7 @@ import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import { checkingCredentials, login, logout, addToken } from "../auth/authSlice";
 import { RootState } from "../store";
 import { getToken, limpiarToken, setToken } from "../../utils/localstorage";
+import { skipValue } from "../posts/postsSlice";
 
 export const startEmailAndPasswordLogin = (
   token: string
@@ -80,6 +81,7 @@ export const startLogout = (): ThunkAction<
     //logoutWithGoogle();
     dispatch(logout({ errorMessage: null }));
     limpiarToken();
+    dispatch(skipValue({ skip: 0 }));
 
     /* si esta logueado con google llamar a firbease.auth.signout */
     /* llamar a logout y eliminar la info de localstorage */

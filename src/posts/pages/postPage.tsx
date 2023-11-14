@@ -14,9 +14,10 @@ export const PostPage = () =>{
 const navigate = useNavigate();
 const instanciaDelStore = getInstanciaStorage();
 const dispatch = useAppDispatch();
+
 const pathParts = location.pathname.split('/');
-    
-const urlPostID = pathParts[3]; // This gets 'instance1' from the URL
+const urlPostID = pathParts[3]; 
+
 const {data: post} = useGetPostQuery(urlPostID)
 
 const { data: respuestas } = useGetRespuestasQuery(post?.id?.toString() || '');

@@ -25,6 +25,7 @@ export interface PostCitadoDTO {
   usuarioId: number;
   usuarioUsername: string;
   usuarioNickname: string;
+  fotoUrl: string;
   fechaHora: string; // Consider using Date type for date-time values
   contenido: string;
 }
@@ -42,6 +43,7 @@ export interface PostDTO {
   usuarioId: number;
   usuarioUsername: string;
   usuarioNickname: string;
+  fotoUrl: string;
   fechaHora: string; // Consider using Date type for date-time values
   contenido: string;
   hashtags: string[];
@@ -81,6 +83,7 @@ export interface UsuarioDTO {
   id: number;
   username: string;
   perfil: UsuarioPerfilDTO;
+  fotoUrl: string;
   cantSeguidores: number;
   cantSeguidos: number;
   instanciaAlias: string;
@@ -250,6 +253,12 @@ export interface CambiarRolUsuarioDTO {
 }
 
 export interface getPostsProps{
+  skip:number;
+  limit:number;
+}
+
+export interface getPostsBusquedaProps{
+  q:string;
   skip:number;
   limit:number;
 }

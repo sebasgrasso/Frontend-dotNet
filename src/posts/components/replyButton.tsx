@@ -29,7 +29,6 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
     };
 
     const handleCrearRespuesta = ()=>{
-        console.log("contenido: ",contenido," idPadre: ",post.id);
         
         handleCreatePost({contenido,postIdCita:null,postIdPadre:post.id})
         setOpenRepost(false);
@@ -51,7 +50,7 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
                             <Card sx={{ width: 500, maxWidth: "100%",}}>
                                 <CardHeader 
                                 //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
-                                avatar={<Avatar src="https://www.hindustantimes.com/ht-img/img/2023/08/25/1600x900/international_dog_day_1692974397743_1692974414085.jpg" />}
+                                avatar={<Avatar src={post.fotoUrl} />}
                                 title={<Link underline="none" >{post.usuarioNickname}</Link>}
                                 subheader={<Link underline="none" >@{post.usuarioUsername}@{post.instanciaAlias}</Link>}
                                 />
@@ -65,7 +64,7 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
                                 ? 
                                     <Card sx={{ width:500,maxWidth:"100%" }}>
                                     <CardHeader 
-                                    avatar={<Avatar src="https://www.thesprucepets.com/thmb/17UY4UpiMekV7WpeXDziXsnt7q4=/1646x0/filters:no_upscale():strip_icc()/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg" />}
+                                    avatar={<Avatar src={post.fotoUrl} />}
                                     title={<Link underline="none" >{post.postCitado?.usuarioNickname}</Link>}
                                     subheader={<Link underline="none" >@{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}</Link>}
                                     />

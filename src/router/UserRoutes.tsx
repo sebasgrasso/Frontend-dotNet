@@ -4,6 +4,7 @@ import { PostPage } from "../posts/pages/postPage";
 import { useAppSelector } from "../hooks/hooks";
 import AdminInstancia from "../backoffice/pages/adminInstancia";
 import Profile from "../profile/components/profile";
+import { SearchResultsPage } from "../posts/pages/searchResultsPage";
 
 
 export const UserRoutes = () => {
@@ -11,8 +12,10 @@ export const UserRoutes = () => {
     const { role } = useAppSelector((state)=>state.auth)
   return (
     <>
-    <Routes>
-      <Route path="perfil/:id" element={<Profile/>} />
+      <Routes>
+        <Route path="perfil/:id" element={<Profile/>} />
+        <Route path="searchResults" element={<SearchResultsPage/>} />
+
         {role==="User" && 
             <>
                 <Route path="*" element={<HomePage />} />
