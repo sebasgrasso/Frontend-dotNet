@@ -252,6 +252,12 @@ export interface getPostsProps{
   limit:number;
 }
 
+export interface getPostsBusquedaProps{
+  q:string;
+  skip:number;
+  limit:number;
+}
+
 export interface Token {
   sub: string
   username: string

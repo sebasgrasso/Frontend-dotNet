@@ -33,7 +33,6 @@ export const getToken = () => {
   };
 
   export const setInstanciaStorage = ({id,alias}: {id:string,alias:string}) =>{
-    console.log("setInstance",{id,alias});
     
     window.localStorage.setItem("instancia", JSON.stringify({id,alias}));
   }

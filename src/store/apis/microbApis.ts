@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioOpcionesDTO, UsuarioPerfilUpdateDTO, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioOpcionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -142,6 +142,10 @@ export const microbApis = createApi({
       query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
     }),
+    getPostsBusqueda: builder.query<PostDTO[], getPostsBusquedaProps>({
+      query: ({ skip, limit, q }) => (`/posts?q=${q}&skip=${skip}&limit=${limit}`),
+      providesTags: [],
+    }),
     getOptionsUser: builder.query<UsuarioOpcionesDTO, void>({
       query: () => (`/usuarios/me/opciones`),
       providesTags: ["opcionesUsuario"],
@@ -203,6 +207,7 @@ export const {
   useSignupMutation,
   useCreatePostMutation,
   useLazyGetPostsQuery,
+  useLazyGetPostsBusquedaQuery,
   useLazyGetPostsInstanciaQuery,
   useGetProfileQuery,
   useEditProfileMutation,

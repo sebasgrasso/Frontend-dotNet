@@ -34,9 +34,6 @@ export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
     if(!clickeable) return;
     navigate(`post/${post.postCitado?.id}`, { state: post })
   }
- 
-  console.log(post.fotoUrl);
-  
 
   return (
         <>

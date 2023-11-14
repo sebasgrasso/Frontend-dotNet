@@ -50,15 +50,13 @@ const Feed: React.FC = () => {
   const fetchMoreData = () => {
     dispatch(skipValue({ skip: skip + 10 }));
   };
-
-  console.log("posts:", posts);
   
-
   return (
     <Paper sx={{padding: '20px',backgroundColor:"rgb(25, 27, 34)"}}>
       {status == 'authenticated' ? <NuevoPost /> : null}
       <ToastContainer />
-      {(allPosts?.length && allPosts.length > 1) ? <InfiniteScroll
+      {(allPosts?.length && allPosts.length >= 1) ? 
+      <InfiniteScroll
         dataLength={allPosts?.length ?? 0}
         next={fetchMoreData}
         hasMore={true}
