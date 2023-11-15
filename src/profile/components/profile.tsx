@@ -20,10 +20,15 @@ import MuteIcon from '@mui/icons-material/VolumeOff';
 import Tooltip from '@mui/material/Tooltip'; 
 import { IconUserPlus } from '@tabler/icons-react';
 import SoundIcon from '@mui/icons-material/VolumeUp'; 
-import { IconFlagOff } from '@tabler/icons-react';
-import { IconFlag } from '@tabler/icons-react';
 import { useFollowUser } from '../../backoffice/hooks/useFollowUser';
 import { useUserNotifications } from '../hooks/useSetNotifications';
+import HttpsIcon from '@mui/icons-material/Https';
+import { MisBloqueadosList } from './listaDeBloqueados';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockIcon from '@mui/icons-material/Lock';
+import { useGetUsersPrivacityQuery } from "../../store/apis/microbApis";
+import { useBlockPrivateUser } from '../hooks/useBlockPrivateUser';
+
 
 const Profile = () => {
     const pathParts = window.location.pathname.split('/');
@@ -34,9 +39,12 @@ const Profile = () => {
     const [year, month, day] = usuario?.perfil.fechaNac?.split('-') ?? [0, 0, 0];
     const fechaNac = `${day}/${month}/${year}`;
     const idNumber = parseInt(idUsuario);
-
-    const seguidores = useGetSeguidoresQuery(idNumber);
     const [isFollowing, setIsFollowing] = useState(false);
+    const [isBlocked, setIsBlocked] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
+    const {data : usuariosPrivacidad} = useGetUsersPrivacityQuery();
+    const seguidores = useGetSeguidoresQuery(idNumber);
+
     useEffect(() => {
         if (seguidores.data) {
             const seguidoresIds = seguidores.data?.map((seguidor) => seguidor.id);
@@ -47,10 +55,17 @@ const Profile = () => {
         }
     }, [seguidores, idUserLogueado]);
 
+    useEffect(() => {
+        if (usuariosPrivacidad) {
+            const usuarioPrivacidad = usuariosPrivacidad.find((usuarioPrivado) => usuarioPrivado.usuarioPrivado.id === idNumber);
+                setIsBlocked(usuarioPrivacidad?.isBloqueado);
+                setIsMuted(usuarioPrivacidad?.isSilenciado);
+        }
+    }, [usuariosPrivacidad, idNumber]);
+    
+
     const {handleUserNotifications} = useUserNotifications();
-
     const {data : notificacionesUsuario} = useGetOptionsUserQuery();
-
     const [nuevoPostNotif, setNuevoPostNotif] = useState(false);
     const [seguirNotif, setSeguirNotif] = useState(false);
     const [favoritoNotif, setFavoritoNotif] = useState(false);
@@ -64,25 +79,21 @@ const Profile = () => {
         }
     }, [notificacionesUsuario]);
 
-    const [isBlocked, setIsBlocked] = useState(false);
-    const [isMuted, setIsMuted] = useState(false); 
-
     const { handleFollowUser } = useFollowUser();
+    const { handleBlockPrivateUser } = useBlockPrivateUser();
+
 
     const handleFollowToggle = () => {
         handleFollowUser(idNumber);
     };
     const handleBlockToggle = () => {
-        //logica
-        setIsBlocked(!isBlocked);
+        handleBlockPrivateUser(idNumber,!isBlocked,false,0);
     };
     const handleMuteToggle = () => {
         //logica
-        setIsMuted(!isMuted);
     };
 
     const handleSaveNotifications = () => {
-        console.log(nuevoPostNotif, seguirNotif, favoritoNotif);
         handleUserNotifications({nuevoPostNotifi : nuevoPostNotif , seguirNotifi : seguirNotif, favoritoNotifi : favoritoNotif});
     }
 
@@ -143,11 +154,11 @@ const Profile = () => {
 
                                 <Tooltip title={isBlocked ? "Desbloquear" : "Bloquear"}>
                                     <IconButton onClick={handleBlockToggle}>
-                                        {isBlocked ? <IconFlagOff  /> : < IconFlag/>}
+                                        {isBlocked ? <LockOpenIcon  /> : <LockIcon/>}
                                     </IconButton>
                                 </Tooltip>
 
-                                <Tooltip title={isMuted ? "Desmutear" : "Mutear"}>
+                                <Tooltip title={isMuted ? "No silenciar" : "Silenciar"}>
                                     <IconButton onClick={handleMuteToggle}>
                                     {isMuted ? <MuteIcon /> : < SoundIcon />}
                                     </IconButton>
@@ -157,7 +168,12 @@ const Profile = () => {
                             {idUserLogueado === idUsuario ?                             
                             <Button variant="contained" startIcon={<EditIcon />} onClick={handleOpenModal} sx={{ bgcolor: 'white', color: '#191B22' }}>
                                 Editar Perfil
-                            </Button> : null}
+                            </Button>: null}
+
+                            {idUserLogueado === idUsuario ?                             
+                            <Button variant="contained" startIcon={<HttpsIcon />} onClick={handleOpenModal} sx={{ bgcolor: 'white', color: '#191B22' }}>
+                                Cambiar Contraseña
+                            </Button>: null}
                             
                             <Modal
                                 aria-labelledby="transition-modal-title"
@@ -237,8 +253,9 @@ const Profile = () => {
                         <Grid item xs={12} md={12} lg={12}>
                             <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px', overflow: 'auto' }}>
                                 <CardContent>
-                                    <Typography variant="h6" gutterBottom>Seguridad / visibilidad</Typography>
-                                    <Divider />
+                                    <Typography variant="h6" gutterBottom>Mis Bloqueados</Typography>
+                                    <Divider/>
+                                    <MisBloqueadosList/>
                                 </CardContent>
                             </Card>
                         </Grid> 

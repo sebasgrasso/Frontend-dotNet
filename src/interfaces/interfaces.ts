@@ -36,6 +36,12 @@ export interface PostCreateDTO {
   postIdPadre: string | null;
 }
 
+export interface PrivacidadWriteUnicoDTO {
+  isBloqueado: boolean | null;
+  isSilenciado: boolean | null;
+  minutosSilenciado: number | null;
+}
+
 export interface PostDTO {
   id: string;
   instanciaId: number;

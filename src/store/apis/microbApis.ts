@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GenericDTO, GetInstanciaProps, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GenericDTO, GetInstanciaProps, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -25,7 +25,7 @@ export const microbApis = createApi({
       return headers;
     },
   }),
-  tagTypes: ["listaPosts","obtenerPerfil","usuarios","datosInstancia", "actualizarPerfil", "seguidores", "seguidos", "opcionesUsuario","obtenerTrends"],
+  tagTypes: ["listaPosts","obtenerPerfil","usuarios","datosInstancia", "actualizarPerfil", "seguidores", "seguidos", "opcionesUsuario","obtenerTrends", "privacidad"],
   endpoints: (builder) => ({
     login: builder.mutation<string, AuthLoginDTO>({
       query: (body) => ({
@@ -62,6 +62,14 @@ export const microbApis = createApi({
         method: "POST",
         body,
       }),
+    }),
+    privateBlockUser: builder.mutation<void, {id: number, body: PrivacidadWriteUnicoDTO} >({
+      query: ({ id, body }) => ({
+        url: `/usuarios/me/privacidad/${id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ['privacidad'],
     }),
     aproveUser: builder.mutation<void, AprobarUsuarioDTO>({
       query: ({ id }) => ({
@@ -186,6 +194,10 @@ export const microbApis = createApi({
       query: (body) => ("/private/usuarios"),
       providesTags: ['usuarios'],
     }),
+    getUsersPrivacity: builder.query<UsuarioDTO[],void>({
+      query: (body) => ("/usuarios/me/privacidad"),
+      providesTags: ['privacidad'],
+    }),
     getTrends: builder.query<TrendDTO[],void>({
       query: (body) => ("/posts/trends"),
       providesTags: ['obtenerTrends'],
@@ -229,6 +241,8 @@ export const {
   useGetSeguidosQuery,
   useGetOptionsUserQuery,
   useUserNotificationsMutation,
-  useGetTrendsQuery
+  useGetTrendsQuery,
+  useGetUsersPrivacityQuery,
+  usePrivateBlockUserMutation,
   //useLoginGoogleMutation,
 } = microbApis;
