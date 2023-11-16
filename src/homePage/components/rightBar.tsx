@@ -25,33 +25,6 @@ const RightBar = () => {
 
   return (
     <>
-        <Paper sx={{ padding: '20px',marginTop: '20px',}}>
-          {status == 'not-authenticated' ? 
-            <>
-            <Typography fontSize={18}>¿No tienes una cuenta?</Typography>
-            <Typography fontSize={14}>Regístrate ahora para obtener tu propia cronología personalizada.</Typography>
-              <SignUpPopup/>
-            <Typography fontSize={18}>¿Ya tienes una cuenta?</Typography>
-              <LoginPopup/>
-            </> 
-          :
-            <>
-              <ProfileCard username={username || ""} nickname={name || ""} imageUrl={picture || ""} />
-              { (role === 'Admin' || role === 'Mod') && 
-              <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleDashboardRedirect}
-                  sx={{ marginTop: '20px' }} 
-                >
-                  Ir al Dashboard
-                </Button>
-              }  
-              
-            </>
-          }
-        </Paper>
-        {(status == 'authenticated' && urlSearchbar!='searchResults' ) ? <SearchBar/> : null }
       <Paper sx={{
         padding: theme.spacing(3),
         marginTop: theme.spacing(3),
@@ -90,7 +63,7 @@ const RightBar = () => {
           </>
         )}
       </Paper>
-      {status === 'authenticated' && <SearchBar />}
+      {(status == 'authenticated' && urlSearchbar!='searchResults' ) ? <SearchBar/> : null }
     </>
     
   );
