@@ -58,7 +58,12 @@ export const useAuth = () => {
     username: string,
     email: string,
     contrasenia: string,
-    nickname:string
+    nickname:string,
+    fechaNac:string,
+    bio:string,
+    ocupacion:string,
+    sitioWeb:string,
+    fotoUrl:string
   ) => {
     startRegistrarUsuario({
         username,
@@ -66,11 +71,11 @@ export const useAuth = () => {
         contrasenia,
         perfil:{
           nickname,
-          fechaNac: "",
-          bio: null,
-          ocupacion: null,
-          sitioWeb: null,
-          fotoUrl: null
+          fechaNac,
+          bio,
+          ocupacion,
+          sitioWeb,
+          fotoUrl
         }
     })
       .unwrap()

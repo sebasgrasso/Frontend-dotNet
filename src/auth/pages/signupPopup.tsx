@@ -1,25 +1,38 @@
-import { Alert, Button, Dialog, Grid, TextField, Typography } from "@mui/material";
-import { FormLayout } from "../layout/formLayout";
-import { useForm } from "../../hooks/useForm";
+import { Alert, Button, Dialog, DialogContent, Grid, InputAdornment, TextField, Typography, LinearProgress  } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
+import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../hooks/useAuth";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'; 
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import PersonIcon from '@mui/icons-material/Person';
+import PasswordIcon from '@mui/icons-material/Password';
+import EmailIcon from '@mui/icons-material/Email';
+
 
 const initialStateForm = {
-  username: "",
-  email: "",
-  contrasenia: "",
-  nickname:""
+    username: "",
+    email: "",
+    contrasenia: "",
+    nickname: "",
+    fechaNac: "",
+    biografia: "",
+    ocupacion: "",
+    sitioWeb: "",
+    fotoUrl: ""
 };
 
 export const SignUpPopup = () => {
-    const [open, setOpen] = useState(false);  
-  const [isFirstStep, setIsFirstStep] = useState<boolean>(true);
-  //const navigate = useNavigate();
+  const [open, setOpen] = useState(false);  
+  const [isFirstStep, setIsFirstStep] = useState(true);
+  const [loading, setLoading] = useState(false);
   const {
     handleRegistrarUsuario,
-    errorSignup,
     isErrorSignup,
-    isSuccessSignup
+    isSuccessSignup,
+    errorSignup
   } = useAuth();
 
   const {
@@ -27,232 +40,340 @@ export const SignUpPopup = () => {
     email,
     contrasenia,
     nickname,
+    fechaNac,
+    biografia,
+    ocupacion,
+    sitioWeb,
+    fotoUrl,
     reset,
     handleInputChange
   } = useForm(initialStateForm);
 
   const handleFormSubmit = (event: SyntheticEvent): void => {
     event.preventDefault();
-    //checkear que datos son obligatorios
+    setLoading(true);
+    if (isFirstStep) {
+      setIsFirstStep(false);
+      setLoading(false);
+    } else {
     if (!username || !email || !contrasenia || !nickname ) return;
-    handleRegistrarUsuario(username,email,contrasenia,nickname);
-    reset();
+      handleRegistrarUsuario(username, email, contrasenia, nickname, fechaNac, biografia, ocupacion, sitioWeb, fotoUrl);
+      setLoading(false);
+    }
   };
 
   return (
     <>
-        <Button onClick={() => setOpen(true)} 
-        sx={{backgroundColor:"blue",
-            color:"white", 
-            ":hover":{backgroundColor:"white", color:"blue",borderColor:"blue",border:"1px solid"}}}>
-            Signup
-        </Button>
-        <Dialog onClose={() => setOpen(false)} open={open}>
-        <FormLayout>
-        <form onSubmit={handleFormSubmit}>
-            <Grid container alignItems="center">
-            <Grid container justifyContent="center">
-                <img
-                src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkplfjklL3n3QVZdOZZR-D-CFvdumk8GrY-w&usqp=CAU"}
-                alt="brand logo"
-                style={{ height: 100, width: 300, objectFit: "cover" }}
-                />
-            </Grid>
-
-            <Grid item xs={12} mb={1}>
-                <Typography variant="subtitle2" color="primary" mb={1}>
-                Crea tu cuenta
+      <Button
+        onClick={() => setOpen(true)}
+        sx={{
+          backgroundColor: "#1565c0", 
+          color: "white",
+          fontWeight: 'medium', 
+          letterSpacing: 1.2, 
+          width: '100%',
+          fontSize: '0.875rem', 
+          textTransform: 'none', 
+          borderRadius: '4px', 
+          padding: '8px 24px', 
+          boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+          transition: 'background-color .3s, color .3s, box-shadow .3s',
+          ":hover": {
+            backgroundColor: "white", 
+            color: "#1565c0",
+            borderColor: "#1565c0",
+            boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+          }
+        }}
+        startIcon={<PersonAddAltIcon />}
+      >
+        Registrate
+      </Button>
+      <Dialog onClose={() => setOpen(false)} open={open} PaperProps={{ sx: { backgroundColor: "#f7f7f7", borderRadius: '16px' } }}>
+        <DialogContent sx={{ padding: 4 }}>
+          <form onSubmit={handleFormSubmit}>
+            <Grid container spacing={2} direction="column" alignItems="center">
+              <Grid item xs={12}>
+                <Typography variant="h6" gutterBottom component="div" sx={{ textAlign: "center" }}>
+                  {isFirstStep ? "Crea tu cuenta" : "Casi terminamos"}
                 </Typography>
-            </Grid>
-            {isFirstStep ? (
+              </Grid>
+              {isFirstStep ? (
                 <>
-                <Grid item xs={12} mb={1}>
+                  <Grid item xs={12} mb={2}>
                     <TextField
-                    size="small"
-                    variant="filled"
-                    fullWidth
-                    label="Usuario"
-                    type="text"
-                    sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-                    name="username"
-                    value={username}
-                    onChange={handleInputChange}
-                    />
-                </Grid>
-                <Grid item xs={12} mb={1}>
-                    <TextField
-                    size="small"
-                    variant="filled"
-                    fullWidth
-                    label="Email"
-                    type="email"
-                    sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-                    name="email"
-                    value={email}
-                    onChange={handleInputChange}
-                    />
-                </Grid>
-                <Grid item xs={12} mb={3}>
-                    <TextField
-                    size="small"
-                    variant="filled"
-                    fullWidth
-                    label="Contraseña"
-                    type="password"
-                    sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-                    name="contrasenia"
-                    value={contrasenia}
-                    onChange={handleInputChange}
-                    />
-                </Grid>
-                </>
-            ) : (
-                <>
-                <Grid item xs={12} mb={1}>
-                    <TextField
-                    size="small"
-                    variant="filled"
-                    fullWidth
-                    label="Nickname"
-                    type="text"
-                    sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-                    name="nickname"
-                    value={nickname}
-                    onChange={handleInputChange}
-                    />
-                </Grid>
-                {/*<Grid item xs={12} mb={1}>
-                    <TextField
-                    size="small"
-                    variant="filled"
-                    fullWidth
-                    label="Apellido"
-                    type="text"
-                    sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-                    name="surname"
-                    value={surname}
-                    onChange={handleInputChange}
-                    />
-                </Grid>
-
-                <Grid item xs={12} mb={1}>
-                    <TextField
-                    size="small"
-                    variant="filled"
-                    fullWidth
-                    label="Telefono"
-                    type="text"
-                    sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-                    name="phone"
-                    value={phone}
-                    onChange={handleInputChange}
-                    />
-                </Grid>
-                <Grid item xs={12} mb={3} >
-                    <TextField
-                    size="small"
-                    variant="filled"
-                    fullWidth
-                    label="Fecha de Nacimiento"
-                    InputLabelProps={{
-                        shrink: true,
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      label="Usuario"
+                      type="text"
+                      name="username"
+                      value={username}
+                      onChange={handleInputChange}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <PersonIcon />
+                            </InputAdornment>
+                        ),
                     }}
-                    type="date"
-                    sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-                    name="fechaNac"
-                    value={fechaNac}
-                    onChange={handleInputChange}
                     />
-                </Grid> */}
-                
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      label="Email"
+                      type="email"
+                      name="email"
+                      value={email}
+                      onChange={handleInputChange}
+                      sx={{ mt: 1 }}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <EmailIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    />
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      label="Contraseña"
+                      type="password"
+                      name="contrasenia"
+                      value={contrasenia}
+                      onChange={handleInputChange}
+                      sx={{ mt: 1 }}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <PasswordIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    />                    
+                  </Grid>
+                  <Grid item xs={12} mb={2}>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      fullWidth
+                      type="submit"
+                      sx={{
+                        backgroundColor: "#1565c0", 
+                        color: "white",
+                        fontWeight: 'medium', 
+                        letterSpacing: 1.2, 
+                        width: '100%',
+                        fontSize: '0.875rem', 
+                        textTransform: 'none', 
+                        borderRadius: '4px', 
+                        padding: '8px 24px', 
+                        boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                        transition: 'background-color .3s, color .3s, box-shadow .3s',
+                        ":hover": {
+                          backgroundColor: "white", 
+                          color: "#1565c0",
+                          borderColor: "#1565c0",
+                          boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                        }
+                      }}
+                      startIcon={<NavigateNextIcon />}
+                    >
+                      Siguiente
+                    </Button>
+                  </Grid>
                 </>
+              ) : (
+                <>
+                  <Grid item xs={12} mb={2}>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      label="Nickname"
+                      type="text"
+                      name="nickname"
+                      value={nickname}
+                      onChange={handleInputChange}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <ArrowRightIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    />
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      type="date"
+                      name="fechaNac"
+                      value={fechaNac}
+                      onChange={handleInputChange}
+                      sx={{ mt: 1 }}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <ArrowRightIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    />
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      label="Biografia"
+                      type="text"
+                      name="biografia"
+                      value={biografia}
+                      onChange={handleInputChange}
+                      sx={{ mt: 1 }}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <ArrowRightIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    />
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      label="Ocupacion"
+                      type="text"
+                      name="ocupacion"
+                      value={ocupacion}
+                      onChange={handleInputChange}
+                      sx={{ mt: 1 }}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <ArrowRightIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    />
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      label="Sitio Web"
+                      type="text"
+                      name="sitioWeb"
+                      value={sitioWeb}
+                      onChange={handleInputChange}
+                      sx={{ mt: 1 }}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <ArrowRightIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    />
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      label="Foto URL"
+                      type="text"
+                      name="fotoUrl"
+                      value={fotoUrl}
+                      onChange={handleInputChange}
+                      sx={{ mt: 1 }}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <ArrowRightIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    />
+                  </Grid>
+                  <Grid item container xs={12} justifyContent="space-between" spacing={2}>
+                    <Grid item xs={6}>
+                        <Button
+                        variant="outlined"
+                        fullWidth
+                        onClick={() => setIsFirstStep(true)}
+                        sx={{
+                            backgroundColor: "#1565c0", 
+                            color: "white",
+                            fontWeight: 'medium', 
+                            letterSpacing: 1.2, 
+                            width: '100%',
+                            fontSize: '0.875rem', 
+                            textTransform: 'none', 
+                            borderRadius: '4px', 
+                            padding: '8px 24px', 
+                            boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                            transition: 'background-color .3s, color .3s, box-shadow .3s',
+                            ":hover": {
+                              backgroundColor: "white", 
+                              color: "#1565c0",
+                              borderColor: "#1565c0",
+                              boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                            }
+                          }}
+                        startIcon={<ChevronLeftIcon />}
+                        >
+                        Atrás
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Button
+                        variant="outlined"
+                        fullWidth
+                        type="submit"
+                        sx={{
+                            backgroundColor: "#1565c0", 
+                            color: "white",
+                            fontWeight: 'medium', 
+                            letterSpacing: 1.2, 
+                            width: '100%',
+                            fontSize: '0.875rem', 
+                            textTransform: 'none', 
+                            borderRadius: '4px', 
+                            padding: '8px 24px', 
+                            boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                            transition: 'background-color .3s, color .3s, box-shadow .3s',
+                            ":hover": {
+                              backgroundColor: "white", 
+                              color: "#1565c0",
+                              borderColor: "#1565c0",
+                              boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                            }
+                          }}
+                        startIcon={<CheckCircleIcon />} 
+                        >
+                        Registrarme
+                        </Button>
+                    </Grid>
+                  </Grid>
+                </>
+              )}
+            </Grid>
+            {isErrorSignup && (
+                <Alert variant="filled" severity="error" sx={{ mt: 2 }}>
+                {errorSignup ? "data" in errorSignup ? `${errorSignup.data}` : "" : "Algo salió mal"}
+                </Alert>
             )}
-
-            <Grid container justifyContent="center">
-                <Grid container justifyContent="space-between">
-                <Grid item xs={12} sm={5}>
-                    {!isFirstStep && (
-                    <Button
-                        variant="contained"
-                        size="small"
-                        fullWidth
-                        onClick={() => {
-                        setIsFirstStep(true);
-                        }}
-                    >
-                        Atras
-                    </Button>
-                    )}
-                </Grid>
-                <Grid item xs={12} sm={5}>
-                    {isFirstStep ? (
-                    <Button
-                        variant="contained"
-                        size="small"
-                        fullWidth
-                        onClick={() => {
-                        setIsFirstStep(false);
-                        }}
-                    >
-                        Siguiente
-                    </Button>
-                    ) : (
-                    <SignupButton titulo="Registrar" type="submit" />
-                    )}
-                </Grid>
-                </Grid>
-                <Grid container justifyContent="center" alignItems="center" mt={2}>
-                <Typography color="#fff" sx={{ fontSize: 12 }}>
-                    ¿Tienes una cuenta?
-                </Typography>
-                <Button
-                    size="small"
-                    variant="text"
-                    color="primary"
-                    sx={{ textTransform: "capitalize", fontSize: 12 }}
-                    onClick={() => {
-                    //navigate("/auth/login");
-                    }}
-                >
-                    Inicia sesión.
-                </Button>
-                </Grid>
-            </Grid>
-            </Grid>
-        </form>
-        {isErrorSignup && (
-            <Alert variant="filled" severity="error">
-            {errorSignup
-                ? "data" in errorSignup
-                ? `${errorSignup.data}`
-                : ""
-                : "Algo salio mal"}
-            </Alert>
-        )}
-        {isSuccessSignup && (
-            <Alert variant="filled" severity="success">
-            Usuario registrado Correctamente!.
-            </Alert>
-        )}
-        </FormLayout>
-    </Dialog>
+            {isSuccessSignup && (
+                <Alert variant="filled" severity="success" sx={{ mt: 2 }}>
+                Usuario registrado correctamente!
+                </Alert>
+            )}
+          </form>
+          {loading && <LinearProgress/>}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
 
-interface SignupButtonProps {
-  titulo: string;
-  handleOnClick?: () => void;
-  type?: "submit" | "button" | "reset";
-}
-const SignupButton = ({ titulo, handleOnClick, type }: SignupButtonProps) => (
-  <Button
-    fullWidth
-    size="small"
-    variant="contained"
-    onClick={handleOnClick}
-    type={type}
-  >
-    {titulo}
-  </Button>
-);

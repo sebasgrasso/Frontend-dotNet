@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GenericDTO, GetInstanciaProps, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarContraseniaDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, GenericDTO, GetInstanciaProps, InstanciaDTO, InvitacionDTO, NewTrendDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -83,7 +83,7 @@ export const microbApis = createApi({
         url: `/private/usuarios/${id}/banear`, 
         method: "PUT"
       }),
-      invalidatesTags: ['usuarios'],
+      invalidatesTags: ['usuarios', 'listaPosts'],
     }),
     followUser: builder.mutation<GenericDTO, SeguirUsuarioDTO>({
       query: ({ id }) => ({
@@ -99,6 +99,13 @@ export const microbApis = createApi({
         body,
       }),
       invalidatesTags: ['opcionesUsuario'],
+    }),
+    changePassword: builder.mutation<void, CambiarContraseniaDTO>({
+      query: (body) => ({
+        url: `/usuarios/me/privacidad/password`, 
+        method: "PUT",
+        body,
+      }),
     }),
     newTrend: builder.mutation<void, NewTrendDTO>({
       query: ({ MinutosDesde  }) => ({
@@ -244,5 +251,6 @@ export const {
   useGetTrendsQuery,
   useGetUsersPrivacityQuery,
   usePrivateBlockUserMutation,
+  useChangePasswordMutation,
   //useLoginGoogleMutation,
 } = microbApis;

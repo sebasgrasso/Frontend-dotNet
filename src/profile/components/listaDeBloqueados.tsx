@@ -2,6 +2,7 @@ import { Box, IconButton, Tooltip, Grid} from '@mui/material';
 import {DataGrid,GridColDef,GridRenderCellParams,GridValueGetterParams,} from "@mui/x-data-grid"
 import { useGetUsersPrivacityQuery } from "../../store/apis/microbApis";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { useBlockPrivateUser } from '../hooks/useBlockPrivateUser';
 
 const columns: GridColDef[] = [
     {
@@ -16,7 +17,7 @@ const columns: GridColDef[] = [
     {
         field: "bloqueados",
         headerName: "Desbloquear",
-        width: 200,
+        width: 100,
         headerAlign : "center",
         align : "center",
         renderCell: (params: GridRenderCellParams) => {
@@ -51,9 +52,14 @@ export const MisBloqueadosList = () => {
 };
 
 const BotonDesbloquear = ({ params }: { params: GridRenderCellParams }) => {
+  const { handleBlockPrivateUser } = useBlockPrivateUser();
+    const idUsuario = parseInt(params.id);
+    const handleAction = () => {
+      handleBlockPrivateUser(idUsuario,false,false,0);
+  }
   return (
         <Tooltip title="Desbloquear" placement="top" >
-          <IconButton>
+          <IconButton onClick={handleAction}>
             <LockOpenIcon />
           </IconButton>
         </Tooltip>

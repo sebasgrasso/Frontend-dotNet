@@ -1,33 +1,33 @@
-import { Alert, Box, Button, Dialog, Grid, IconButton, LinearProgress, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Dialog, DialogContent, Grid, IconButton, LinearProgress, TextField, Typography } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../hooks/useAuth";
-import { FormLayout } from "../layout/formLayout";
-import { FcGoogle } from "react-icons/fc";
+import PersonIcon from '@mui/icons-material/Person'; // Icono de usuario
+import LockIcon from '@mui/icons-material/Lock'; // Icono de cerradura para contraseña
+import GoogleIcon from '@mui/icons-material/Google'; // Icono de Google
 import { getInstanciaStorage } from "../../utils/localstorage";
+import LoginIcon from '@mui/icons-material/Login'; // Importa el icono de inicio de sesión
+
 
 const initialStateForm = {
   username: "",
   password: "",
 };
 
-
 export const LoginPopup = () => {
   const [open, setOpen] = useState(false);
-  const {id} = getInstanciaStorage();
-
+  const { id } = getInstanciaStorage();
 
   const { username, password, handleInputChange, reset } =
-  useForm(initialStateForm);
+    useForm(initialStateForm);
 
   const {
-      handleLogin,
-      isAuthenticatingLogin,
-      isErrorLogin,
-      isSuccessLogin,
-    } = useAuth();
+    handleLogin,
+    isAuthenticatingLogin,
+    isErrorLogin,
+    isSuccessLogin,
+  } = useAuth();
 
-  
   const handleFormSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (!username || !password) return;
@@ -38,150 +38,133 @@ export const LoginPopup = () => {
   const handleGoogleLogin = async () => {
     const idBase64 = btoa(id);
     const url = "http://localhost:5245/auth/login-google?cacheid=" + idBase64;
-    console.log(url);
-    window.open(url, "_blank");
-  }
+    window.location.href = url;
+  };
 
-
-    return (
-      <>
-        <Button onClick={() => setOpen(true)} 
+  return (
+    <>
+      <Button
+          onClick={() => setOpen(true)}
           sx={{
-            backgroundColor:"blue",
-            color:"white", 
-            ":hover":{backgroundColor:"white", color:"blue",borderColor:"blue",border:"1px solid"}}
-          
-          
-        }>
-          Iniciar Sesión
+            marginTop: 2,
+            backgroundColor: "#1565c0", 
+            color: "white",
+            width: '100%',
+            fontWeight: 'medium', 
+            letterSpacing: 1.2, 
+            fontSize: '0.875rem', 
+            textTransform: 'none', 
+            borderRadius: '4px', 
+            padding: '8px 24px', 
+            boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+            transition: 'background-color .3s, color .3s, box-shadow .3s',
+            ":hover": {
+              backgroundColor: "white", 
+              color: "#1565c0",
+              borderColor: "#1565c0",
+              boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+            }
+          }}
+          startIcon={<LoginIcon />} 
+        >
+          Inicia Sesión
         </Button>
-        <Dialog onClose={() => setOpen(false)} open={open}>
-        <FormLayout>
+      <Dialog onClose={() => setOpen(false)} open={open} PaperProps={{ sx: { backgroundColor: "#f7f7f7", width: '25%', margin: 'auto', borderRadius: '16px' } }}>
+        <DialogContent sx={{ padding: (theme) => theme.spacing(4) }}>
           <form onSubmit={handleFormSubmit}>
-            <Grid container alignItems="center">
-            <Grid container justifyContent="center">
-              <img
-                src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkplfjklL3n3QVZdOZZR-D-CFvdumk8GrY-w&usqp=CAU"}
-                alt="brand logo"
-                style={{ height: 100, width: 300, objectFit: "cover" }}
-              />
-            </Grid>
-            <Grid item xs={12} mb={2}>
-              <Typography variant="subtitle2" mb={1} color="primary">
-                Acceso
-              </Typography>
-              <TextField
-                size="small"
-                variant="filled"
-                fullWidth
-                label="Usuario"
-                type="text"
-                sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-                name="username"
-                value={username}
-                onChange={handleInputChange}
-                disabled={isAuthenticatingLogin}
-              />
-            </Grid>
-            <Grid item xs={12} mb={3}>
-              <TextField
-                size="small"
-                variant="filled"
-                fullWidth
-                label="Contraseña"
-                type="password"
-                sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-                name="password"
-                value={password}
-                onChange={handleInputChange}
-                disabled={isAuthenticatingLogin}
-              />
-            </Grid>
-            <Grid container mb={1} justifyContent="space-between">
+            <Grid container spacing={2} alignItems="center" justifyContent="center">
               <Grid item xs={12}>
-                <LoginButton
-                  titulo="Iniciar sesion"
-                  type="submit"
+                <Typography variant="h6" gutterBottom component="div" sx={{ textAlign: "center" }}>
+                  Acceso a tu cuenta
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  size="small"
+                  variant="outlined"
+                  fullWidth
+                  label="Usuario"
+                  type="text"
+                  InputProps={{
+                    startAdornment: (
+                      <PersonIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+                    ),
+                  }}
+                  name="username"
+                  value={username}
+                  onChange={handleInputChange}
                   disabled={isAuthenticatingLogin}
                 />
               </Grid>
-
-              <Grid container justifyContent="center" alignItems="center">
-                <Typography color="#fff" sx={{ fontSize: 12 }}>
-                  ¿Olvidaste tu contraseña?
-                </Typography>
-                <Button
+              <Grid item xs={12}>
+                <TextField
                   size="small"
-                  variant="text"
-                  sx={{
-                    textTransform: "capitalize",
-                    fontSize: 12,
-                    textDecoration: "underline",
-                    color: "#fff",
+                  variant="outlined"
+                  fullWidth
+                  label="Contraseña"
+                  type="password"
+                  InputProps={{
+                    startAdornment: (
+                      <LockIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+                    ),
                   }}
+                  name="password"
+                  value={password}
+                  onChange={handleInputChange}
                   disabled={isAuthenticatingLogin}
-                  
-                >
-                  Recuperar contraseña
-                </Button>
+                />
               </Grid>
-            </Grid>
-            <Grid item xs={12} mb={1} sx={{ position: "relative" }}>
-              <SocialMediaLoginLabel />
-              <Grid container justifyContent="center">
-                <IconButton
-                  onClick={() => {
-                    handleGoogleLogin();
-                  }}
-                  sx={{
-                    backgroundColor: "#fff",
-                    color: "rgb(0,130,255)",
-                    "&:hover": { backgroundColor: "#ddd" },
-                  }}
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  sx={{ mt: 2, mb: 2, backgroundColor: "#1565c0" }}
+                  disabled={isAuthenticatingLogin}
+                  startIcon={<LockIcon />} 
                 >
-                  <FcGoogle />
+                  INICIAR SESIÓN
+                </Button>
+                <Typography variant="body2" sx={{ textAlign: "center" }}>
+                  ¿Olvidaste tu contraseña? <Button color="secondary">RECUPERAR CONTRASEÑA</Button>
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sx={{ textAlign: "center" }}>
+                <Typography variant="body2" sx={{ mb: 2 }}>
+                  O inicia sesión con:
+                </Typography>
+                <IconButton onClick={handleGoogleLogin} sx={{ color: "primary.main" }}>
+                  <GoogleIcon />
                 </IconButton>
               </Grid>
             </Grid>
-          </Grid>
-            </form>
             {isErrorLogin && (
-        <Alert
-          variant="filled"
-          severity="error"
-          className="animate__animated animate__fadeIn"
-        >
-          Usuario o Contraseña invalidos
-        </Alert>
-      )}
-      {isSuccessLogin && (
-        <Alert
-          variant="filled"
-          severity="success"
-          className="animate__animated animate__fadeIn"
-          aria-label="successful-login-message"
-        >
-          Usuario logueado correctamente!
-        </Alert>
-      )}
-      {isAuthenticatingLogin && (
-        <Box
-          sx={{
-            width: "100%",
-            position: "absolute",
-            top: "100%",
-            left: "50%",
-            transform: "translate(-50%, -100%)",
-          }}
-        >
-          <LinearProgress />
-        </Box>
-      )}
-          </FormLayout>
-        </Dialog>
-      </>
-    );
-  };
+              <Alert
+                variant="filled"
+                severity="error"
+                sx={{ mt: 2 }}
+              >
+                Usuario o Contraseña inválidos
+              </Alert>
+            )}
+            {isSuccessLogin && (
+              <Alert
+                variant="filled"
+                severity="success"
+                sx={{ mt: 2 }}
+              >
+                Usuario logueado correctamente!
+              </Alert>
+            )}
+            {isAuthenticatingLogin && (
+              <LinearProgress sx={{ mt: 2 }} />
+            )}
+          </form>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
   
   interface LoginButtonProps {
     titulo: string;
@@ -189,24 +172,34 @@ export const LoginPopup = () => {
     type?: "submit" | "button" | "reset";
     disabled: boolean;
   }
-  const LoginButton = ({
-    titulo,
-    handleOnClick,
-    type,
-    disabled,
-  }: LoginButtonProps) => (
-    <Button
-      size="small"
-      fullWidth
-      variant="contained"
-      sx={{ mb: 1 }}
-      onClick={handleOnClick}
-      type={type}
-      disabled={disabled}
-    >
-      {titulo}
-    </Button>
-  );
+
+const LoginButton = ({
+  titulo,
+  handleOnClick,
+  type,
+  disabled,
+}: LoginButtonProps) => (
+  <Button
+    size="small"
+    fullWidth
+    variant="contained"
+    startIcon={<KeyIcon />} // Puedes cambiar KeyIcon por el icono que prefieras
+    sx={{
+      mb: 1,
+      backgroundColor: "primary.main",
+      color: "white",
+      ":hover": {
+        backgroundColor: "primary.dark",
+        color: "primary.contrastText",
+      },
+    }}
+    onClick={handleOnClick}
+    type={type}
+    disabled={disabled}
+  >
+    {titulo}
+  </Button>
+);
   
   const SocialMediaLoginLabel = () => (
     <Box
