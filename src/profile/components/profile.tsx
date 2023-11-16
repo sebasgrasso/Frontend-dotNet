@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import { Avatar, Button, Card, CardContent, Typography, Box, Grid, IconButton, Paper, Link, Divider, ListItem, ListItemText, ListItemIcon, Checkbox } from '@mui/material';
+import { Avatar, Button, Card, CardContent, Typography, Box, Grid, IconButton,TextField, Paper, Link,Select,MenuItem, Divider, ListItem, ListItemText, ListItemIcon, Checkbox } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useGetOptionsUserQuery, useGetSeguidoresQuery, useGetUserQuery } from '../../store/apis/microbApis';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -28,6 +28,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockIcon from '@mui/icons-material/Lock';
 import { useGetUsersPrivacityQuery } from "../../store/apis/microbApis";
 import { useBlockPrivateUser } from '../hooks/useBlockPrivateUser';
+import { useSilencePrivateUser } from '../hooks/useSilencePrivateUser';
+import { useChangePassword } from '../hooks/useChangePassword';
 
 
 const Profile = () => {
@@ -44,6 +46,16 @@ const Profile = () => {
     const [isMuted, setIsMuted] = useState(false);
     const {data : usuariosPrivacidad} = useGetUsersPrivacityQuery();
     const seguidores = useGetSeguidoresQuery(idNumber);
+    const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
+    const handleOpenChangePasswordModal = () => setOpenChangePasswordModal(true);
+    const handleCloseChangePasswordModal = () => setOpenChangePasswordModal(false);
+
+    const [openMuteModal, setOpenMuteModal] = useState(false);
+    const [muteDuration, setMuteDuration] = useState('1');
+    const handleOpenMuteModal = () => setOpenMuteModal(true);
+    const handleCloseMuteModal = () => setOpenMuteModal(false);
+
+
 
     useEffect(() => {
         if (seguidores.data) {
@@ -81,7 +93,11 @@ const Profile = () => {
 
     const { handleFollowUser } = useFollowUser();
     const { handleBlockPrivateUser } = useBlockPrivateUser();
+    const { handleSilencePrivateUser } = useSilencePrivateUser();
+    const {handleChangePassword} = useChangePassword();
 
+    const [oldPassword, setOldPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
 
     const handleFollowToggle = () => {
         handleFollowUser(idNumber);
@@ -90,7 +106,8 @@ const Profile = () => {
         handleBlockPrivateUser(idNumber,!isBlocked,false,0);
     };
     const handleMuteToggle = () => {
-        //logica
+        const duracion = parseInt(muteDuration) * 60;
+        handleSilencePrivateUser(idNumber,false,!isMuted,duracion);
     };
 
     const handleSaveNotifications = () => {
@@ -101,6 +118,13 @@ const Profile = () => {
 
     const handleBack = () => {
         navigate(-1); 
+    };
+
+    const handleSubmitChangePassword = (e) => {
+        e.preventDefault(); 
+        if (!oldPassword || !newPassword) return;
+        handleChangePassword(oldPassword, newPassword);
+        handleCloseChangePasswordModal(); 
     };
 
     const [openModal, setOpenModal] = useState(false);
@@ -116,8 +140,97 @@ const Profile = () => {
     return (
         <Grid container spacing={2} justifyContent="center" style={{ backgroundColor: '#191B22', minHeight: '100vh' }}>
             <ToastContainer />
+            <Modal
+                open={openChangePasswordModal}
+                onClose={handleCloseChangePasswordModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Box sx={{ bgcolor: 'background.paper', p: 2, borderRadius: 2, width: 300}}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Cambiar Contraseña
+                    </Typography>
+                    <Box component="form" onSubmit={handleSubmitChangePassword} sx={{ mt: 2 }}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="oldPassword"
+                            label="Contraseña Anterior"
+                            type="password"
+                            id="oldPassword"
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            autoComplete="current-password"
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="newPassword"
+                            label="Contraseña Nueva"
+                            type="password"
+                            id="newPassword"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            autoComplete="new-password"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Cambiar Contraseña
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
+            <Modal
+                open={openMuteModal}
+                onClose={handleCloseMuteModal}
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
+                <Paper sx={{
+                    width: 400, 
+                    padding: '20px',
+                    outline: 'none' 
+                }}>
+                    <Typography variant="h6">Seleccione la duración</Typography>
+                    <Select
+                        value={muteDuration}
+                        onChange={(e) => setMuteDuration(e.target.value)}
+                        fullWidth
+                    >
+                        <MenuItem value="1">1 Hora</MenuItem>
+                        <MenuItem value="5">5 Horas</MenuItem>
+                        <MenuItem value="12">12 Horas</MenuItem>
+                        <MenuItem value="24">24 Horas</MenuItem>
+                    </Select>
+                    <Button 
+                        onClick={() => { 
+                            handleMuteToggle();     
+                            handleCloseMuteModal(); 
+                        }}
+                        sx={{ mt: 2 }}
+                        fullWidth
+                        variant="contained"
+                    >
+                        Aceptar
+                    </Button>
+                </Paper>
+            </Modal>
+
             <Grid item xs={12} md={6} lg={4}>
-                {/* Botón para volver al menú principal */}
                 <IconButton onClick={handleBack} style={{ color: 'white', position: 'absolute', top: '20px', left: '20px' }}>
                     <ArrowBackIcon fontSize="large" />
                 </IconButton>
@@ -159,9 +272,14 @@ const Profile = () => {
                                 </Tooltip>
 
                                 <Tooltip title={isMuted ? "No silenciar" : "Silenciar"}>
+                                    {isMuted ? 
                                     <IconButton onClick={handleMuteToggle}>
-                                    {isMuted ? <MuteIcon /> : < SoundIcon />}
+                                        {<MuteIcon />}
+                                    </IconButton> : 
+                                     <IconButton onClick={handleOpenMuteModal}>
+                                        {<SoundIcon />}
                                     </IconButton>
+                                 }
                                 </Tooltip>
                             </Box> : null}
 
@@ -171,7 +289,7 @@ const Profile = () => {
                             </Button>: null}
 
                             {idUserLogueado === idUsuario ?                             
-                            <Button variant="contained" startIcon={<HttpsIcon />} onClick={handleOpenModal} sx={{ bgcolor: 'white', color: '#191B22' }}>
+                            <Button variant="contained" startIcon={<HttpsIcon />} onClick={handleOpenChangePasswordModal} sx={{ bgcolor: 'white', color: '#191B22' }}>
                                 Cambiar Contraseña
                             </Button>: null}
                             

@@ -10,9 +10,7 @@ export const SearchBar = () => {
   const location = useLocation();
   
   const pathParts = location.pathname.split('/');
-  // Assuming 'instance1' is at the second segment of the URL ('/')
-  const urlSearchbar = pathParts[2]; // This gets 'instance1' from the URL
-console.log("urlsearchbar: ",urlSearchbar);
+  const urlSearchbar = pathParts[2]; 
 
   const handlepostContentChange = (event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;

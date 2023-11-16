@@ -114,6 +114,11 @@ export interface UsuarioNotificacionesDTO {
   favoritoNotifi: boolean | null;
 }
 
+export interface CambiarContraseniaDTO {
+  contraseniaActual: string;
+  contraseniaNueva: string;
+}
+
 export interface UsuarioPerfilCreateDTO {
   nickname: string;
   fechaNac: string; // Consider using Date type for date values
