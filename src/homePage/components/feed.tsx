@@ -60,7 +60,7 @@ const Feed: React.FC = () => {
         dataLength={allPosts?.length ?? 0}
         next={fetchMoreData}
         hasMore={true}
-        loader={<Typography sx={{mt:"20px", color:"white"}}>...</Typography>}
+        loader={<Typography sx={{mt:"20px", color:"white"}}></Typography>}
         endMessage={
           <p style={{ textAlign: "center" }}>
             <b>No hay más posts para mostrar</b>

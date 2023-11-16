@@ -5,7 +5,14 @@ import { PostCreateDTO } from "../../interfaces/interfaces";
 
 export const useCreatePost = () => {
     const [
-        startCreatePostMutation,
+        startCreatePostMutation,{
+            isLoading,
+            status ,
+            error,
+            isError,
+            isSuccess,
+            data,
+          }
     ] = useCreatePostMutation();
 
     const handleCreatePost = async (datosPost:PostCreateDTO) => {
@@ -26,5 +33,11 @@ export const useCreatePost = () => {
             })
     };
 
-    return { handleCreatePost }
+    return { handleCreatePost,
+        isLoading,
+        status,
+        error,
+        isError,
+        isSuccess,
+        data, }
 }

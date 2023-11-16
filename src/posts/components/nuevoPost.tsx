@@ -1,4 +1,4 @@
-import { Button, Box, Card, CardContent, Grid, TextField } from "@mui/material";
+import { Button, Box, Card, CardContent, Grid, TextField, LinearProgress } from "@mui/material";
 import { SyntheticEvent, useState, useRef } from "react";
 import { useCreatePost } from "../hooks/useCreatePost";
 import { skipValue, changeNewPost } from '../../store/posts/postsSlice';
@@ -9,7 +9,7 @@ export const NuevoPost = () => {
   const textFieldRef = useRef(null);
   const dispatch = useAppDispatch();
   const {newPost} = useAppSelector((state) => state.postsSkip);
-  const {handleCreatePost}= useCreatePost();
+  const {handleCreatePost,isLoading}= useCreatePost();
   const {id} = useAppSelector((state)=>state.auth)
   const handlepostContentChange = (event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;
@@ -50,7 +50,22 @@ export const NuevoPost = () => {
                 Publicar
               </Button>
             </Grid>
+            {isLoading && (
+        <Box
+          sx={{
+            backgroundColor:"blue",
+            width: "100%",
+            position: "absolute",
+            top: "100%",
+            left: "50%",
+            transform: "translate(-50%, -100%)",
+          }}
+        >
+          <LinearProgress />
+        </Box>
+      )}
           </Grid>
+          
         </CardContent>
       </Card>
     </Box>

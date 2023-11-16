@@ -27,7 +27,6 @@ const volverAlInicio = ()=>{
     navigate(`/${instanciaDelStore.alias}`);
     dispatch(skipValue({ skip: 0 }));
   }
-
 }
   return (
       <div style={{ backgroundColor: "#191b22", minHeight: "100vh" }}>
@@ -47,7 +46,7 @@ const volverAlInicio = ()=>{
                 </Button>
                 <InfiniteScroll
                   dataLength={24}
-                  next={()=>alert("infinite scroll next")}
+                  next={()=>{}}
                   hasMore={true}
                   loader={""}
                   endMessage={

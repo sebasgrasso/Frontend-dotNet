@@ -6,99 +6,153 @@ import RepostButton from "./repostButton";
 import ReplyButton from "./replyButton";
 //import { IconArrowBigUpLine, IconArrowBigUpLineFilled  } from "@tabler/icons-react";
 //import { useState } from "react";
+// ... (import statements)
 
-export const Post = ({post,clickeable}:{post:PostDTO,clickeable:boolean}) =>{
+export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean }) => {
   const navigate = useNavigate();
   const instancia = post.instanciaAlias;
+  const pathParts = location.pathname.split('/');
+  const urlPost = pathParts[2];
+  const urlInstancia = pathParts[1];
 
-  
-  /*  UPVOTES A FUTURO
-  const [upvotes,setUpvotes] = useState(post.upvotes)
-  const [upvoted,setUpvoted] = useState(post.upvoted)
+  const handlePostClick = (e: { stopPropagation: () => void; }) => {
+    if (!clickeable) return;
+    e.stopPropagation(); // Stop propagation here
+    if (urlPost !== "post") {
+      if (urlPost === "searchResults") {
+        navigate(`/${urlInstancia}/post/${post.id}`, { state: post });
+      } else {
+        navigate(`post/${post.id}`, { state: post });
+      }
+    }
+  };
 
-  const handleUpvote = ()=>{
-    setUpvotes(upvotes+1)
-    setUpvoted(!upvoted)
-  }
-  const handleDownvote = ()=>{
-    setUpvotes(upvotes-1)
-    setUpvoted(!upvoted)
-  }*/
-
-  const handlePostClick = () => {
-    if(!clickeable) return;
-    navigate(`post/${post.id}`, { state: post })
-  }
-
-  const handleCitedPostClick = () => {
-    if(!clickeable) return;
-    navigate(`post/${post.postCitado?.id}`, { state: post })
-  }
+  const handleCitedPostClick = (e: { stopPropagation: () => void; }) => {
+    if (!clickeable) return;
+    e.stopPropagation(); // Stop propagation here
+    if (urlPost !== "post") {
+      if (urlPost === "searchResults") {
+        navigate(`/${urlInstancia}/post/${post.postCitado?.id}`, { state: post });
+      } else {
+        navigate(`post/${post.postCitado?.id}`, { state: post });
+      }
+    }
+  };
 
   return (
-        <>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-            <Card sx={{ width: 500, 
-                        maxWidth: "100%", 
-                        cursor: "pointer",
-                        '&:hover': {
-                          boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-                          backgroundColor: '#f9f9f9',
-                          transition: 'box-shadow 0.3s, background-color 0.3s',},
-                      }}
-           >
-                <CardHeader onClick={handlePostClick}
-                //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
-                  avatar={<Avatar src={post.fotoUrl} />}
-                  title={<Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none" >{post.usuarioNickname}</Link>}
-                  subheader={<Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none" >@{post.usuarioUsername}@{post.instanciaAlias}</Link>}
-                />
-                <CardContent >
-                  <Typography onClick={handlePostClick} sx={{ fontSize: 14,width:"100%"}} color="black" gutterBottom>
-                    {post.contenido}
-                  </Typography>
-                  {/* lo siguiente es el tuit citado en caso de haberlo*/}
-                  {post.tieneCita ? 
-                    <Card sx={{ width:500,maxWidth:"100%" }}>
-                    <CardHeader 
-                      avatar={<Avatar src={post.postCitado?.fotoUrl} />}
-                      title={<Link href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`} underline="none" >{post.postCitado?.usuarioNickname}</Link>}
-                      subheader={<Link href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`} underline="none" >@{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}</Link>}
-                    />
-                    <CardContent onClick={handleCitedPostClick} >
-                      <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
-                        {post.postCitado?.contenido}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                    </CardActions>
-                  </Card> : null           
+    <>
+    {post.contenido == null ? 
+    
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+      
+            {post.tieneCita ? (
+              <Card sx={{ width: 500, maxWidth: "100%" }}>
+                <Typography sx={{mt:"5px",ml:"5px",mb:"5px"}}>{`Reposteado por @${post.usuarioUsername}`}</Typography>
+                <CardHeader
+                  avatar={<Avatar src={post.postCitado?.fotoUrl} />}
+                  title={
+                    <Link
+                      href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
+                      underline="none"
+                    >
+                      {post.postCitado?.usuarioNickname}
+                    </Link>
                   }
+                  subheader={
+                    <Link
+                      href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
+                      underline="none"
+                    >
+                      @{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}
+                    </Link>
+                  }
+                />
+                <CardContent onClick={handleCitedPostClick}>
+                  <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
+                    {post.postCitado?.contenido}
+                  </Typography>
                 </CardContent>
-                {/* BOTON DE UPVOTE
-                  !upvoted ? 
-                  <CardActions>
-                    <IconButton onClick={handleUpvote} sx={ { "&:hover": { backgroundColor: "#b7e778",color:"#468966" } }} >
-                      <IconArrowBigUpLine />
-                    </IconButton>
-                    <Typography> {upvotes} </Typography>
-                  </CardActions>:
-                  <CardActions>
-                    <IconButton onClick={handleDownvote} sx={ { "&:hover": { backgroundColor: "#eaceb4",color:"#ff0000" } }} >
-                      <IconArrowBigUpLineFilled />
-                    </IconButton>
-                  <Typography> {upvotes} </Typography>
-                </CardActions>*/
-                }
                 <CardActions>
-                  <RepostButton post={post} />
-                  <ReplyButton post={post} />
                 </CardActions>
               </Card>
-          </Box>
-          
-        </>
+            ) : null}
         
-      )
+      </Box>
+
+    : 
+    
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+        <Card
+          sx={{
+            width: 500,
+            maxWidth: "100%",
+            cursor: "pointer",
+            '&:hover': {
+              boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+              backgroundColor: '#f9f9f9',
+              transition: 'box-shadow 0.3s, background-color 0.3s',
+            },
+          }}
+        >
+          <CardHeader
+            // Modify the onClick event for CardHeader to prevent propagation
+            onClick={(e) => e.stopPropagation()}
+            avatar={<Avatar src={post.fotoUrl} />}
+            title={
+              <Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none">
+                {post.usuarioNickname}
+              </Link>
+            }
+            subheader={
+              <Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none">
+                @{post.usuarioUsername}@{post.instanciaAlias}
+              </Link>
+            }
+          />
+          <CardContent>
+            <Typography onClick={handlePostClick} sx={{ fontSize: 14, width: "100%" }} color="black" gutterBottom>
+              {post.contenido}
+            </Typography>
+            {/* lo siguiente es el tuit citado en caso de haberlo*/}
+            {post.tieneCita ? (
+              <Card sx={{ width: 500, maxWidth: "100%" }}>
+                <CardHeader
+                  avatar={<Avatar src={post.postCitado?.fotoUrl} />}
+                  title={
+                    <Link
+                      href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
+                      underline="none"
+                    >
+                      {post.postCitado?.usuarioNickname}
+                    </Link>
+                  }
+                  subheader={
+                    <Link
+                      href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
+                      underline="none"
+                    >
+                      @{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}
+                    </Link>
+                  }
+                />
+                <CardContent onClick={handleCitedPostClick}>
+                  <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
+                    {post.postCitado?.contenido}
+                  </Typography>
+                </CardContent>
+                <CardActions></CardActions>
+              </Card>
+            ) : null}
+          </CardContent>
+          <CardActions>
+            <RepostButton post={post} />
+            <ReplyButton post={post} />
+          </CardActions>
+        </Card>
+      </Box>
+    
+    }
       
-}
+    </>
+  );
+};

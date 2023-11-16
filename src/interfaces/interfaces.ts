@@ -42,6 +42,18 @@ export interface PrivacidadWriteUnicoDTO {
   minutosSilenciado: number | null;
 }
 
+export interface PostCitadoDTO {
+  id: string;
+  instanciaId: number;
+  instanciaAlias: string;
+  usuarioId: number;
+  usuarioUsername: string;
+  usuarioNickname: string;
+  fotoUrl: string;
+  fechaHora: string; // Assuming date-time format
+  contenido: string;
+}
+
 export interface PostDTO {
   id: string;
   instanciaId: number;
@@ -50,13 +62,18 @@ export interface PostDTO {
   usuarioUsername: string;
   usuarioNickname: string;
   fotoUrl: string;
-  fechaHora: string; // Consider using Date type for date-time values
+  fechaHora: string; // Assuming date-time format
   contenido: string;
   hashtags: string[];
   tieneCita: boolean;
-  postCitado: PostCitadoDTO | null;
-  postIdPadre: string | null;
+  tieneMensaje: boolean;
+  cantMensaje: number;
+  cantFavoritos: number;
+  isUsuarioInFavoritos: boolean;
+  postCitado?: PostCitadoDTO;
+  postIdPadre?: string | null;
 }
+
 
 export type Rolstring = 'User' | 'Mod' | 'Admin';
 

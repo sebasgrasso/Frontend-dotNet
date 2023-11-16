@@ -5,29 +5,26 @@ import { useLocation, useNavigate } from "react-router-dom";
 export const SearchBar = () => {
   const [q, setQ] = useState("");
   const textFieldRef = useRef(null);
-  const [postContent, setPostContent] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   
   const pathParts = location.pathname.split('/');
   // Assuming 'instance1' is at the second segment of the URL ('/')
   const urlSearchbar = pathParts[2]; // This gets 'instance1' from the URL
-console.log("urlsearchbar: ",urlSearchbar);
+  const urlInstancia = pathParts[1]; // This gets 'instance1' from the URL
 
   const handlepostContentChange = (event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;
-    setPostContent(target.value);
     setQ(target.value);
   };
 
-  const handlepostSubmit = () => {
-    if(urlSearchbar=="searchResults"){
-      location.state = postContent
-      console.log("este es el estado ",location.state);
-      return;
-    }
-    navigate(`searchResults`, { state: q })
-  };
+  const handlepostSubmit = ()=>{
+      if(urlSearchbar!="searchResults"){
+        navigate(`searchResults`, {state: q})}
+      else{
+        navigate(`/${urlInstancia}/searchResults`, {state:q})
+        }
+  }
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start',marginTop:"20px", marginBottom: '20px'}}>

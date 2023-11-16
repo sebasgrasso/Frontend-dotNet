@@ -18,6 +18,11 @@ const RightBar: React.FC = () => {
     navigate(`administracion`);
   };
 
+  
+  const pathParts = location.pathname.split('/');
+  // Assuming 'instance1' is at the second segment of the URL ('/')
+  const urlSearchbar = pathParts[2]; // This gets 'instance1' from the URL
+
   return (
     <>
         <Paper sx={{ padding: '20px',marginTop: '20px',}}>
@@ -46,10 +51,9 @@ const RightBar: React.FC = () => {
             </>
           }
         </Paper>
-        {status == 'authenticated' ? <SearchBar/> : null }
+        {(status == 'authenticated' && urlSearchbar!='searchResults' ) ? <SearchBar/> : null }
 
     </>
-    
     
   );
 }
