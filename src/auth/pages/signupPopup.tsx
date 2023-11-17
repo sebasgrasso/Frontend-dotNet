@@ -10,6 +10,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
 import EmailIcon from '@mui/icons-material/Email';
+import BadgeIcon from '@mui/icons-material/Badge';
 
 
 const initialStateForm = {
@@ -153,7 +154,25 @@ export const SignUpPopup = () => {
                             </InputAdornment>
                         ),
                     }}
-                    />                    
+                    /> 
+                                        <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      label="Nickname"
+                      type="text"
+                      name="nickname"
+                      value={nickname}
+                      onChange={handleInputChange}
+                      sx={{ mt: 1 }}
+                      InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <BadgeIcon />
+                            </InputAdornment>
+                        ),
+                    }}
+                    />                   
                   </Grid>
                   <Grid item xs={12} mb={2}>
                     <Button
@@ -189,23 +208,6 @@ export const SignUpPopup = () => {
               ) : (
                 <>
                   <Grid item xs={12} mb={2}>
-                    <TextField
-                      size="small"
-                      variant="outlined"
-                      fullWidth
-                      label="Nickname"
-                      type="text"
-                      name="nickname"
-                      value={nickname}
-                      onChange={handleInputChange}
-                      InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <ArrowRightIcon />
-                            </InputAdornment>
-                        ),
-                    }}
-                    />
                     <TextField
                       size="small"
                       variant="outlined"
