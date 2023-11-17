@@ -9,7 +9,7 @@ export const HomePage = () =>{
   
     return (
         <div style={{ backgroundColor: "#191b22", minHeight: "100vh" }}>
-        <Container style={{ backgroundColor: "#191b22", minHeight: "100vh" }}>
+        <Container style={{ backgroundColor: "#191b22", minHeight: "100vh"}}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <LeftBar  />

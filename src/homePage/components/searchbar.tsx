@@ -1,6 +1,8 @@
-import { Button, Box, Card, CardContent, Grid, TextField } from "@mui/material";
+import { IconButton, InputBase, Paper } from "@mui/material";
 import { SyntheticEvent, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import SearchIcon from '@mui/icons-material/Search';
+
 
 export const SearchBar = () => {
   const [q, setQ] = useState("");
@@ -27,29 +29,30 @@ export const SearchBar = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start',marginTop:"20px", marginBottom: '20px'}}>
-      <Card sx={{ width: 500, maxWidth: '100%' }}> {}
-        <CardContent>
-          <TextField
-            id="outlined-multiline-static"
-            placeholder="Buscar"
-            multiline
-            rows={4}
-            fullWidth
-            value={q}
-            onChange={handlepostContentChange}
-            variant="outlined"
-            inputRef={textFieldRef}
-          />
-          <Grid container justifyContent="flex-end" sx={{ marginTop: '10px' }}>
-            <Grid item>
-              <Button variant="contained" onClick={handlepostSubmit}>
-                Buscar
-              </Button>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-    </Box>
+    <Paper
+      component="form"
+      onSubmit={handlepostSubmit}
+      sx={{
+        p: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        marginTop: 2,
+        marginBottom: 3,
+        borderRadius: 20,
+      }}
+    >
+      <IconButton type="submit" sx={{ p: '10px', color: 'black' }} aria-label="search">
+        <SearchIcon />
+      </IconButton>
+      <InputBase
+        sx={{ ml: 1, flex: 1, color: 'black' }} 
+        placeholder="Buscar"
+        inputProps={{ 'aria-label': 'buscar' }}
+        value={q}
+        onChange={handlepostContentChange}
+        inputRef={textFieldRef}
+      />
+    </Paper>
   );
 };

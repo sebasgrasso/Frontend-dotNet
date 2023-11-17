@@ -14,6 +14,7 @@ import { useAppSelector } from '../../hooks/hooks';
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
   const {alias} = getInstanciaStorage();
+  
 
   const { role } = useAppSelector((state) => state.auth);
 
@@ -23,13 +24,11 @@ const AdminInstancia: React.FC = () => {
   }
 
   const {data:instancia} = useGetInstanciaQuery({alias: alias});
-  const reg = instancia?.tipoRegistro;
 
-  const [tipoRegistro, setTipoRegistro] = useState(reg);
+  const [tipoRegistro, setTipoRegistro] = useState(instancia?.tipoRegistro);
   const [nombre, setNombre] = useState(instancia?.nombre);
 
   const estado = instancia?.isActiva ? 'Activa' : 'Inactiva';
-
 
   const {handleChangeStatusInstance} = useChangeStatusInstance();
   const {handleChangeDataInstance} = useChangeDataInstance();
@@ -109,20 +108,20 @@ const AdminInstancia: React.FC = () => {
                       onChange={(e) => setNombre(e.target.value)}
                     />
                     <FormControl fullWidth margin="normal">
-                      <InputLabel id="tipo-registro-label">Tipo de registro</InputLabel>
+                    <InputLabel id="tipo-registro-label">Tipo de registro</InputLabel>
                       <Select
                         labelId="tipo-registro-label"
                         id="tipo-registro"
                         value={tipoRegistro}
                         label="Tipo de registro"
-                        onChange={(event) => setTipoRegistro(event.target.value)}
+                        onChange={(e) => setTipoRegistro(e.target.value as string)}
                       >
                         <MenuItem value="Abierto">Abierto</MenuItem>
                         <MenuItem value="AbiertoConAprobacion">Abierto con aprobación</MenuItem>
                         <MenuItem value="CerradoConInvitacion">Cerrado con invitación</MenuItem>
                         <MenuItem value="Cerrado">Cerrado</MenuItem>
                       </Select>
-                    </FormControl>
+                  </FormControl>
                   </CardContent>
                   <Button 
                     variant="contained" 

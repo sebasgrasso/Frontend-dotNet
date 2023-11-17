@@ -3,6 +3,7 @@ import { SyntheticEvent, useState, useRef } from "react";
 import { useCreatePost } from "../hooks/useCreatePost";
 import { skipValue, changeNewPost } from '../../store/posts/postsSlice';
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import SendIcon from '@mui/icons-material/Send';
 
 export const NuevoPost = () => {
   const [postContent, setPostContent] = useState("");
@@ -30,42 +31,56 @@ export const NuevoPost = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '20px'}}>
-      <Card sx={{ width: 500, maxWidth: '100%' }}> {}
-        <CardContent>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '20px' }}>
+      <Card sx={{ width: '100%', maxWidth: 500, boxShadow: 3, borderRadius: 2 }}>
+        <CardContent sx={{ padding: '20px' }}>
           <TextField
-            id="outlined-multiline-static"
-            placeholder="¿En que estas pensando?"
+            placeholder="¿En qué estás pensando?"
             multiline
             rows={4}
             fullWidth
             value={postContent}
             onChange={handlepostContentChange}
             variant="outlined"
-            inputRef={textFieldRef}
+            sx={{ 
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+                '&.Mui-focused': {
+                  borderColor: 'primary.main',
+                },
+              },
+            }}
           />
-          <Grid container justifyContent="flex-end" sx={{ marginTop: '10px' }}>
-            <Grid item>
-              <Button variant="contained" onClick={handlepostSubmit}>
-                Publicar
-              </Button>
-            </Grid>
-            {isLoading && (
-        <Box
-          sx={{
-            backgroundColor:"blue",
-            width: "100%",
-            position: "absolute",
-            top: "100%",
-            left: "50%",
-            transform: "translate(-50%, -100%)",
+          <Box textAlign="right" mt={2}>
+            <Button variant="contained" onClick={handlepostSubmit} disabled={isLoading} sx={{
+            marginTop: 2,
+            backgroundColor: "#1565c0", 
+            color: "white",
+            width: '100%',
+            fontWeight: 'medium', 
+            letterSpacing: 1.2, 
+            fontSize: '0.875rem', 
+            textTransform: 'none', 
+            borderRadius: '4px', 
+            padding: '8px 24px', 
+            boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+            transition: 'background-color .3s, color .3s, box-shadow .3s',
+            ":hover": {
+              backgroundColor: "white", 
+              color: "#1565c0",
+              borderColor: "#1565c0",
+              boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+            }
           }}
-        >
-          <LinearProgress />
-        </Box>
-      )}
-          </Grid>
-          
+          startIcon={<SendIcon />} >
+              Publicar
+            </Button>
+          </Box>
+          {isLoading && (
+            <Box sx={{ width: '100%', mt: 1 }}>
+              <LinearProgress />
+            </Box>
+          )}
         </CardContent>
       </Card>
     </Box>

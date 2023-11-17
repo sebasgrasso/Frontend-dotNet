@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography, List, ListItem, ListItemText  } from '@mui/material';
 import { useGetTrendsQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
+import logoPng from '../img/logo.png';
 
 const LeftBar: React.FC = () => {
   const {data:trends} = useGetTrendsQuery();
@@ -11,38 +12,86 @@ const LeftBar: React.FC = () => {
   const urlSearchbar = pathParts[2];
   const urlInstancia = pathParts[1];
 
+
+
   return (
     <>
-      <Paper sx={{padding: '20px',marginTop: '20px'}}>
-        <Typography variant="h6">Microb.uy</Typography>
-        <Typography variant="body2">Esto esta en desarrollo para .NET</Typography>
+      <Paper elevation={0} sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '20px',
+        marginTop: '20px',
+        borderRadius: '8px',
+        bgcolor: 'background.default',
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)'
+      }}>
+        <Box
+          component="img"
+          src={logoPng}
+          onClick={()=>{navigate(`/${urlInstancia}`)}}
+          sx={{
+            width: 1,
+            height: 'auto',
+            cursor: 'pointer', // Esto cambia el cursor a un puntero cuando se pasa el mouse sobre la imagen
+            '&:hover': {
+              opacity: 0.9, // Opcional: Agregar un efecto de opacidad al pasar el mouse
+            }
+          }} 
+        />
+        <Typography variant="h7"  color="text.secondary">
+          Aplicacion web para .NET
+        </Typography>
       </Paper>
-      <Paper sx={{padding:"5px" ,marginTop: '20px'}}>
-        <Typography fontSize={25} fontWeight={"bold"} sx={{marginLeft:"10px"}} >Últimas tendencias</Typography>
-        {trends?.map((trend,index) => (
-            <Box
-              key={trend.keyword}
-              onClick={()=>{
-                if(urlSearchbar!="searchResults"){
-                  navigate(`searchResults`, {state: trend.keyword})}
-                else{
-                  navigate(`/${urlInstancia}/searchResults`, {state:trend.keyword})
-                  }
-                }}
-              sx={{backgroundColor:"white",
-              width:"100%",
-              color:"black", 
-              ":hover":{
-                backgroundColor:"#DCDCDC", 
-                color:"black",
-                borderColor:"blue",
-                border:"1px "}}}
+      <Paper elevation={0} sx={{ 
+        padding: '20px', 
+        marginTop: '20px', 
+        borderRadius: '8px', 
+        bgcolor: 'background.default', 
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)'
+      }}>
+        <Typography variant="h6" fontWeight="bold" >
+          Últimas tendencias
+        </Typography>
+        <List sx={{ width: '100%' }}>
+          {trends?.map((trend, index) => (
+            <ListItem 
+              key={trend.keyword} 
+              button 
+              onClick={() => {
+                if (urlSearchbar !== "searchResults") {
+                  navigate(`searchResults`, { state: trend.keyword })
+                } else {
+                  navigate(`/${urlInstancia}/searchResults`, { state: trend.keyword })
+                }
+              }}
+              sx={{ 
+                pl: 0,
+                pr: 2,
+                '&:hover': {
+                  bgcolor: 'action.hover',
+                },
+                '&:not(:last-child)': {
+                  borderBottom: '1.2px solid',
+                  borderColor: 'divider',
+                }
+              }}
             >
-              <Typography  fontSize={16} fontWeight={"bold"} key={index}>{trend.keyword} </Typography>
-              <Typography fontSize={13}>{trend.cantidad} posts</Typography>
-            </Box>
+              <ListItemText 
+                primary={trend.keyword} 
+                primaryTypographyProps={{ 
+                  fontWeight: 'bold',
+                  color: 'text.primary',
+                  lineHeight: '0.8', 
+                }} 
+                secondary={`${trend.cantidad} posts`}
+                secondaryTypographyProps={{
+                  color: 'text.secondary'
+                }}
+              />
+            </ListItem>
           ))}
-        <Typography variant="body2"></Typography>
+        </List>
       </Paper>
     </>
   );
