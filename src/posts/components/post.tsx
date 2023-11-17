@@ -49,7 +49,7 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
               <Card sx={{ width: 500, maxWidth: "100%" }}>
                 <Typography sx={{mt:"5px",ml:"5px",mb:"5px"}}>{`Reposteado por @${post.usuarioUsername}`}</Typography>
                 <CardHeader
-                  avatar={<Avatar src={post.postCitado?.fotoUrl} />}
+                  avatar={<Avatar sx={{cursor:"pointer"}} onClick={()=>navigate(`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`)} src={post.postCitado?.fotoUrl} />}
                   title={
                     <Link
                       href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
@@ -63,7 +63,7 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                       href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
                       underline="none"
                     >
-                      @{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}
+                      {urlInstancia == post.postCitado?.instanciaAlias ? `@${post.postCitado?.usuarioUsername}` : `@${post.postCitado?.usuarioUsername}@${post.postCitado?.instanciaAlias}` }
                     </Link>
                   }
                 />
@@ -105,12 +105,12 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
             }
             subheader={
               <Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none">
-                @{post.usuarioUsername}@{post.instanciaAlias}
+                {urlInstancia == post.instanciaAlias ? `@${post.usuarioUsername}` : `@${post.usuarioUsername}@${post.instanciaAlias}` }
               </Link>
             }
           />
           <CardContent>
-            <Typography onClick={handlePostClick} sx={{ fontSize: 14, width: "100%" }} color="black" gutterBottom>
+            <Typography onClick={handlePostClick} sx={{ fontSize: 16, width: "100%" }} color="black" gutterBottom>
               {post.contenido}
             </Typography>
             {/* lo siguiente es el tuit citado en caso de haberlo*/}
@@ -131,12 +131,12 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                       href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
                       underline="none"
                     >
-                      @{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}
+                      {urlInstancia == post.postCitado?.instanciaAlias ? `@${post.postCitado?.usuarioUsername}` : `@${post.postCitado?.usuarioUsername}@${post.postCitado?.instanciaAlias}` }
                     </Link>
                   }
                 />
                 <CardContent onClick={handleCitedPostClick}>
-                  <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
+                  <Typography sx={{ fontSize: 16 }} color="black" gutterBottom>
                     {post.postCitado?.contenido}
                   </Typography>
                 </CardContent>

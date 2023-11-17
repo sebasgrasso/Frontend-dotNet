@@ -1,5 +1,4 @@
-import React from 'react';
-import { Paper, Typography, Button } from '@mui/material';
+import { Paper, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { LoginPopup } from '../../auth/pages/loginPopup';
 import { SignUpPopup } from '../../auth/pages/signupPopup';
@@ -11,7 +10,6 @@ import { SearchBar } from './searchbar';
 const RightBar = () => {
   const { status, username, picture, name, role } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
-  const { alias } = useAppSelector((state) => state.instance);
   const theme = useTheme();
 
   const handleDashboardRedirect = () => {

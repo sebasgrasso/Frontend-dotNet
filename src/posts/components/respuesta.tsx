@@ -11,19 +11,6 @@ interface PostProp{
 
 
 export const Respuesta = ({post,padre}:PostProp) =>{
-  
-  /*  UPVOTES A FUTURO
-  const [upvotes,setUpvotes] = useState(post.upvotes)
-  const [upvoted,setUpvoted] = useState(post.upvoted)
-
-  const handleUpvote = ()=>{
-    setUpvotes(upvotes+1)
-    setUpvoted(!upvoted)
-  }
-  const handleDownvote = ()=>{
-    setUpvotes(upvotes-1)
-    setUpvoted(!upvoted)
-  }*/
 
   return (
         <>
@@ -34,7 +21,7 @@ export const Respuesta = ({post,padre}:PostProp) =>{
               avatar={<Avatar src={post.fotoUrl} />}
               title={
                 <>
-                    <Link sx={{padding:"6px"}} href={`/${post.usuarioNickname}`} underline="hover" color="neutral">{`${post.usuarioNickname}`}</Link>
+                    <Link sx={{padding:"6px"}} href={`/${post.usuarioNickname}`} underline="none" >{`${post.usuarioNickname}`}</Link>
                     <Link href={`/${post.usuarioUsername}`} underline="none" >{post.usuarioUsername}</Link>
                 </>}
               subheader={
@@ -66,21 +53,6 @@ export const Respuesta = ({post,padre}:PostProp) =>{
               </Card> : null           
               }
             </CardContent>
-            {/* BOTON DE UPVOTE
-              !upvoted ? 
-              <CardActions>
-                <IconButton onClick={handleUpvote} sx={ { "&:hover": { backgroundColor: "#b7e778",color:"#468966" } }} >
-                  <IconArrowBigUpLine />
-                </IconButton>
-                <Typography> {upvotes} </Typography>
-              </CardActions>:
-              <CardActions>
-                <IconButton onClick={handleDownvote} sx={ { "&:hover": { backgroundColor: "#eaceb4",color:"#ff0000" } }} >
-                  <IconArrowBigUpLineFilled />
-                </IconButton>
-              <Typography> {upvotes} </Typography>
-            </CardActions>*/
-            }
             
           </Card>
           </Box>

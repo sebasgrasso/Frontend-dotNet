@@ -90,7 +90,7 @@ export const microbApis = createApi({
         url: `/usuarios/${id}/seguir`, 
         method: "PUT"
       }),
-      invalidatesTags: ['seguidores', 'actualizarPerfil'],
+      invalidatesTags: ['seguidores', 'actualizarPerfil','listaPosts'],
     }),
     userNotifications: builder.mutation<void, UsuarioNotificacionesDTO>({
       query: (body) => ({
@@ -166,7 +166,7 @@ export const microbApis = createApi({
       providesTags: ["opcionesUsuario"],
     }),
     getPostsInstancia: builder.query<PostDTO[], getPostsProps>({
-      query: ({ skip, limit }) => (`/posts/instancia/?skip=${skip}&limit=${limit}`),
+      query: ({ skip, limit }) => (`/posts/hometimeline/?skip=${skip}&limit=${limit}`),
       providesTags: ["listaPosts"],
     }),
     getPost: builder.query<PostDTO, string>({
