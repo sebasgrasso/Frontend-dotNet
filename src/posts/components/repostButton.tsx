@@ -39,7 +39,7 @@ const RepostButton= ({post}:{post:PostDTO}) => {
 
   return (
     <>
-    <Button aria-label="settings" onClick={handleClick}>
+    <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleClick}>
         <IconRepeat />
       </Button>
       <Menu

@@ -303,3 +303,9 @@ export interface Token {
   iss: string
   aud: string
 }
+
+export interface getPostsFavoritosProps{
+  postID:string;
+  skip:string;
+  limit:string;
+}

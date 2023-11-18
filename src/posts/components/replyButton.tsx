@@ -1,7 +1,7 @@
 // profileCard.tsx
 import React, { useState } from 'react';
 import {  Dialog, DialogContent, DialogActions, Button, IconButton, Card, CardContent, Box, CardHeader, Avatar, Link, Typography, TextField } from '@mui/material';
-import { IconMessage, IconX } from '@tabler/icons-react';
+import { IconMessage2Plus, IconX } from '@tabler/icons-react';
 import { PostDTO } from '../../interfaces/interfaces';
 import { useCreatePost } from '../hooks/useCreatePost';
 
@@ -36,8 +36,9 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
 
     return (
         <>
-            <Button aria-label="settings" onClick={handleClick}>
-                <IconMessage />
+            <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleClick}>
+                <IconMessage2Plus />
+                <Typography sx={{marginLeft:"5px"}} >{post.cantMensaje}</Typography>
             </Button>
             
             <Dialog open={openRepost} onClose={handleReplyClose}>

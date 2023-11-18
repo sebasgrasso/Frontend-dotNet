@@ -1,9 +1,14 @@
-import { Box, Card, CardActions, CardContent, CardHeader, Link, Typography } from "@mui/material"
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Link, Typography } from "@mui/material"
 import { PostDTO } from "../../interfaces/interfaces" 
 import Avatar from '@mui/material/Avatar';
 import { useNavigate } from "react-router-dom";
 import RepostButton from "./repostButton";
 import ReplyButton from "./replyButton";
+import { useAppSelector } from "../../hooks/hooks";
+import LikeButton from "./likeButton";
+import { IconStar, IconStarFilled } from "@tabler/icons-react";
+import { useState } from "react";
+import { useAddFavorito } from "../hooks/useAddFavoritos";
 //import { IconArrowBigUpLine, IconArrowBigUpLineFilled  } from "@tabler/icons-react";
 //import { useState } from "react";
 // ... (import statements)
@@ -14,6 +19,9 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
   const pathParts = location.pathname.split('/');
   const urlPost = pathParts[2];
   const urlInstancia = pathParts[1];
+  const {handleAddFavorito} = useAddFavorito();
+  const [liked,setLiked] = useState(post.isUsuarioInFavoritos);
+  const [cantFav,setCantFav] = useState(post.cantFavoritos);
 
   const handlePostClick = (e: { stopPropagation: () => void; }) => {
     if (!clickeable) return;
@@ -38,6 +46,17 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
       }
     }
   };
+
+  
+
+    
+
+    const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        handleAddFavorito(post.id)
+        {liked ? setCantFav(cantFav-1) : setCantFav(cantFav+1)}
+        setLiked(!liked)
+        event.stopPropagation();
+    };
 
   return (
     <>
@@ -72,7 +91,9 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                     {post.postCitado?.contenido}
                   </Typography>
                 </CardContent>
+
                 <CardActions>
+                  {/* IMPLEMENTAR REPOST DE REPOST */}
                 </CardActions>
               </Card>
             ) : null}
@@ -147,6 +168,21 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
           <CardActions>
             <RepostButton post={post} />
             <ReplyButton post={post} />
+
+
+            <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleLikeClick}>
+                {liked 
+                    ? 
+                    <IconStarFilled/>
+                    :
+                    <IconStar />
+                }
+                
+                
+            </Button>
+
+
+            <Typography>{cantFav}</Typography>
           </CardActions>
         </Card>
       </Box>
