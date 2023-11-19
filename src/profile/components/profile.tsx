@@ -138,7 +138,7 @@ const Profile = () => {
     };
 
     return (
-        <Grid container spacing={2} justifyContent="center" style={{ backgroundColor: '#191B22', minHeight: '100vh' }}>
+        <Grid container spacing={1} justifyContent="center" style={{ backgroundColor: '#191B22', minHeight: '101vh', overflowY: 'hidden'}}>
             <ToastContainer />
             <Modal
                 open={openChangePasswordModal}
@@ -319,7 +319,7 @@ const Profile = () => {
 
             {idUserLogueado === idUsuario ?             
                 <Grid item xs={12} md={6} lg={3}>
-                    <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px', overflow: 'auto' }}>
+                    <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px'}}>
                         <CardContent>
                             <Typography variant="h6" gutterBottom>Notificaciones</Typography>
                             <Divider />
@@ -366,10 +366,8 @@ const Profile = () => {
                             </ListItem>
                         </CardContent>
                     </Card>
-
-                    {idUserLogueado === idUsuario ?             
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px', overflow: 'auto' }}>
+                    <Grid item >
+                            <Card sx={{bgcolor: 'white', color: 'black', maxHeight: '357px'}}>
                                 <CardContent>
                                     <Typography variant="h6" gutterBottom>Mis Bloqueados</Typography>
                                     <Divider/>
@@ -377,11 +375,8 @@ const Profile = () => {
                                 </CardContent>
                             </Card>
                         </Grid> 
-                    : null}
-
                 </Grid> 
             : null}
-
         </Grid>
     );
 }

@@ -36,12 +36,12 @@ export const MisBloqueadosList = () => {
   return (
     <Grid container spacing={2} className="animate__animated animate__fadeIn">
     <Grid item xs={12} lg={12}>
-      <Box sx={{ height: '30vh', width: '100%' }}>
+      <Box sx={{ height: '280px', width: '100%' }}>
         <DataGrid
             columns={columns}
             rows={bloqueadosFiltrados || []}
             initialState={{
-              pagination: { paginationModel: { pageSize: 3 } },
+              pagination: { paginationModel: { pageSize: 2 } },
             }}
             getRowId={(row) => row.usuarioPrivado.id}
         />

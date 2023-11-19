@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, Grid, Typography, Card, CardContent, Button } from "@mui/material";
+import { Paper, Grid, Typography, Card, CardContent, Button, Box } from "@mui/material";
 import { useLazyGetPostsInstanciaQuery, useLazyGetPostsQuery } from "../../store/apis/microbApis";
 import { useEffect } from "react";
 import { Post } from "../../posts/components/post";
@@ -93,23 +93,52 @@ const Feed: React.FC = () => {
   const fetchMoreData = () => {
     dispatch(skipValue({ skip: skip + 10 }));
   };
+
+  const globalLocalButtons = (
+    <Box width="100%" display="flex" justifyContent="space-between"> 
+      <Button
+        variant={global ? "contained" : "outlined"}
+        onClick={() => { setGlobal(true); dispatch(skipValue({ skip: 0 })) }}
+        sx={{
+          flexGrow: 1,
+          marginBottom: '4px', 
+          backgroundColor: global ? "white" : "transparent", 
+          color: global ? "#1565c0" : "#1565c0", 
+          '&:hover': {
+            backgroundColor: global ? "white" : "transparent",
+          },
+        }}
+      >
+        Global
+      </Button>
+      <Button
+        variant={!global ? "contained" : "outlined"}
+        onClick={() => { setGlobal(false); dispatch(skipValue({ skip: 0 })) }}
+        sx={{
+          flexGrow: 1,
+          marginBottom: '4px', 
+          backgroundColor: !global ? "white" : "transparent", 
+          color: !global ? "#1565c0" : "#1565c0", 
+          '&:hover': {
+            backgroundColor: !global ? "white" : "transparent",
+
+          },
+        }}
+      >
+        Local
+      </Button>
+    </Box>
+  );
   
   return (
-    <Paper sx={{padding: '20px',backgroundColor:"rgb(25, 27, 34)"}}>
+    <Paper sx={{ padding: '20px', backgroundColor: "rgb(25, 27, 34)" }}>
+      {status === 'authenticated' && (
+        <Box width={500} mx="auto">
+          {globalLocalButtons}
+          <NuevoPost />
+        </Box>
+      )}
       
-      {status == 'authenticated' ? 
-      <>
-        <Grid container justifyContent="center" alignItems="center" >
-          <Grid item xs={6} justifyContent="center" alignItems="center" > 
-            <Button onClick={()=>{setGlobal(true); dispatch(skipValue({skip:0}))}} >GLOBAL</Button>
-          </Grid>
-          <Grid item xs={6} justifyContent="center" alignItems="center" >
-            <Button onClick={()=>{setGlobal(false);dispatch(skipValue({skip:0}))}} >LOCAL</Button>
-          </Grid>
-        </Grid>
-        <NuevoPost />
-      </>
-      : null}
       <ToastContainer />
       
       {global ? 

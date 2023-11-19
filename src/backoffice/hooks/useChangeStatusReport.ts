@@ -1,7 +1,6 @@
 import { useChangeStatusReportMutation } from "../../store/apis/microbApis";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {ChangeStatusReport } from "../../interfaces/interfaces";
 
 export const useChangeStatusReport = () => {
     const [startChangeStatusReportMutation] = useChangeStatusReportMutation();

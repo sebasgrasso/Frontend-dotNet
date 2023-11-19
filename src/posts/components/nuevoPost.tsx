@@ -31,8 +31,8 @@ export const NuevoPost = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '20px' }}>
-      <Card sx={{ width: '100%', maxWidth: 500, boxShadow: 3, borderRadius: 2 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start'}}>
+      <Card sx={{ width: '100%', maxWidth: 500, boxShadow: 3, borderRadius: 2, marginBottom: 2 }}>
         <CardContent sx={{ padding: '20px' }}>
           <TextField
             placeholder="¿En qué estás pensando?"
