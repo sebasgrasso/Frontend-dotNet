@@ -18,7 +18,7 @@ const initialStateForm = {
     email: "",
     contrasenia: "",
     nickname: "",
-    fechaNac: "",
+    fechaNac: null,
     biografia: "",
     ocupacion: "",
     sitioWeb: "",

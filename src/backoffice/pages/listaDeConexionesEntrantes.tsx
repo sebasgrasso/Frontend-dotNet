@@ -57,7 +57,7 @@ export const ConexionesEntrantesList = () => {
   return (
     <Grid container spacing={2} className="animate__animated animate__fadeIn">
     <Grid item xs={12} lg={12}>
-      <Box sx={{ height: '472px', width: '100%' }}>
+      <Box sx={{ height: '552px', width: '100%' }}>
         <DataGrid
           columns={columns}
           rows={conexionesEntrantes || []}

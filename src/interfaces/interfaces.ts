@@ -95,6 +95,20 @@ export interface TrendDTO {
   cantidad: number;
 }
 
+export interface DtEstadisticaUsuario {
+  intervalo: number;
+  cantidades: {
+    adminCount: number;
+    modCount: number;
+    userCount: number;
+  };
+}
+
+export interface DtEstadisticaPost {
+  intervalo: number;
+  cantidades: number;
+}
+
 export interface UsuarioCreateDTO {
   username: string;
   email: string;
@@ -237,6 +251,7 @@ export interface InstanciaDTO {
   nombre: string;
   tematicas: TematicaDTO[];
   tipoRegistro: TipoRegistrostring;
+  tema: string;
   url: string;
 }
 
@@ -265,6 +280,11 @@ export interface GetInstanciaProps {
   alias:string;
 }
 
+export interface ChangeStatusReport {
+  post : string;
+  s : string;
+}
+
 export interface SuspenderUsuarioDTO{
   id: number;
   fecha: Date;
@@ -273,6 +293,7 @@ export interface SuspenderUsuarioDTO{
 export interface CambiarDataInstanciaDTO{
   nombre: string;
   tipoRegistro: string;
+  tema: string;
 }
 
 export interface CambiarRolUsuarioDTO {
@@ -287,6 +308,12 @@ export interface getPostsProps{
 
 export interface getPostsBusquedaProps{
   q:string;
+  skip:number;
+  limit:number;
+}
+
+export interface getReportsDetailsProps{
+  post:string;
   skip:number;
   limit:number;
 }

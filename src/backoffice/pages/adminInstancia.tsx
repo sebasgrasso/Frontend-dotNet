@@ -20,7 +20,6 @@ const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
   const {alias} = getInstanciaStorage();
   
-
   const { role } = useAppSelector((state) => state.auth);
 
   let menuOptions = ['Inicio', 'Denuncias', 'Usuarios', 'Volver a inicio'];
@@ -34,11 +33,13 @@ const AdminInstancia: React.FC = () => {
   const [tipoRegistro, setTipoRegistro] = useState(instancia?.tipoRegistro);
   const [idInstancia, setIdInstancia] = useState(1);
   const [nombre, setNombre] = useState(instancia?.nombre);
+  const [tema, setTema] = useState(instancia?.tema);
   const [estadosSolicitudes, setEstadosSolicitudes] = useState('Entrante');
 
   useEffect(() => {
     setNombre(instancia?.nombre);
     setTipoRegistro(instancia?.tipoRegistro);
+    setTema(instancia?.tema);
   }, [instancia]);
 
   const estado = instancia?.isActiva ? 'Activa' : 'Inactiva';
@@ -151,41 +152,55 @@ const AdminInstancia: React.FC = () => {
                   </Grid>
                   
                   <Grid item>
-                    <Card>
-                                <CardContent>
-                                <Typography variant="h6">Configuracion general de la instancia</Typography>
-                                  <TextField
-                                    label="Nombre"
-                                    variant="outlined"
-                                    fullWidth
-                                    margin="normal"
-                                    value={nombre}
-                                    onChange={(e) => setNombre(e.target.value)}
-                                  />
-                                  <FormControl fullWidth margin="normal">
-                                  <InputLabel id="tipo-registro-label">Tipo de registro</InputLabel>
-                                    <Select
-                                      labelId="tipo-registro-label"
-                                      id="tipo-registro"
-                                      value={tipoRegistro}
-                                      label="Tipo de registro"
-                                      onChange={(e) => setTipoRegistro(e.target.value as string)}
-                                    >
-                                      <MenuItem value="Abierto">Abierto</MenuItem>
-                                      <MenuItem value="AbiertoConAprobacion">Abierto con aprobación</MenuItem>
-                                      <MenuItem value="CerradoConInvitacion">Cerrado con invitación</MenuItem>
-                                      <MenuItem value="Cerrado">Cerrado</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                </CardContent>
-                                <Button 
-                                  variant="contained" 
-                                  color="primary" 
-                                  sx={{ margin: '8px' }}
-                                  onClick={() => handleChangeDataInstance({nombre, tipoRegistro})}
-                                >
-                                  Guardar
-                                </Button>
+                    <Card> 
+                          <CardContent>
+                          <Typography variant="h6">Configuracion general de la instancia</Typography>
+                            <TextField
+                              label="Nombre"
+                              variant="outlined"
+                              fullWidth
+                              margin="normal"
+                              value={nombre}
+                              onChange={(e) => setNombre(e.target.value)}
+                            />
+                            <FormControl fullWidth margin="normal">
+                            <InputLabel id="tipo-registro-label">Tipo de registro</InputLabel>
+                              <Select
+                                labelId="tipo-registro-label"
+                                id="tipo-registro"
+                                value={tipoRegistro}
+                                label="Tipo de registro"
+                                onChange={(e) => setTipoRegistro(e.target.value as string)}
+                              >
+                                <MenuItem value="Abierto">Abierto</MenuItem>
+                                <MenuItem value="AbiertoConAprobacion">Abierto con aprobación</MenuItem>
+                                <MenuItem value="CerradoConInvitacion">Cerrado con invitación</MenuItem>
+                                <MenuItem value="Cerrado">Cerrado</MenuItem>
+                              </Select>
+                            </FormControl>
+                            <FormControl fullWidth margin="normal">
+                            <InputLabel id="tema-label">Tema</InputLabel>
+                              <Select
+                                labelId="tema-label"
+                                id="tema"
+                                value={tema}
+                                label="Tema"
+                                onChange={(e) => setTema(e.target.value as string)}
+                              >
+                                <MenuItem value="azul">Azul</MenuItem>
+                                <MenuItem value="verde">Verde</MenuItem>
+                                <MenuItem value="rojo">Rojo</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </CardContent>
+                          <Button 
+                            variant="contained" 
+                            color="primary" 
+                            sx={{ margin: '8px' }}
+                            onClick={() => handleChangeDataInstance({nombre, tipoRegistro, tema})}
+                          >
+                            Guardar
+                          </Button>
                     </Card>
                   </Grid>
                   
@@ -220,6 +235,7 @@ const AdminInstancia: React.FC = () => {
                                 </Button>
                     </Card>
                   </Grid>
+
                 </Grid>
 
                 <Grid item xs={12} md={4} lg={6} marginTop={3}>
@@ -231,7 +247,6 @@ const AdminInstancia: React.FC = () => {
                       backdropFilter: 'blur(10px)',
                       padding: '16px',
                       overflow: 'auto',
-                      maxHeight: 'calc(100vh - 100px)', 
                     }}
                   >
                    <Typography variant="h6" color={'#000000'} >Solicitud de conexiones</Typography>

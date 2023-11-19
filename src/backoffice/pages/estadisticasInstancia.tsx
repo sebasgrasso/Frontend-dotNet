@@ -3,34 +3,34 @@ import { IconPlus } from '@tabler/icons-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, LineChart, Line, AreaChart, Area, CartesianGrid, ResponsiveContainer } from 'recharts';
 import NuevoTrendModal from '../components/modalNewTrend';
 import React, { useState, useCallback } from 'react';
-
-
-// Datos de ejemplo
-const dataUsuarios = [
-  { tipo: 'Administrador', cantidad: 44 },
-  { tipo: 'Moderador', cantidad: 34 },
-  { tipo: 'Usuario', cantidad: 70 },
-];
-
-const dataPosts = [
-  { fecha: '2023-01-01', cantidad: 20 },
-  { fecha: '2023-02-01', cantidad: 25 },
-  { fecha: '2023-03-01', cantidad: 18 },
-  { fecha: '2023-04-01', cantidad: 44 },
-  { fecha: '2023-05-01', cantidad: 66 },
-  { fecha: '2023-06-01', cantidad: 56 },
-  { fecha: '2023-07-01', cantidad: 87 },
-];
-
-const dataTrends = [
-  { trend: '.NET', cant: 2243 },
-  { trend: 'tecnologo', cant: 1453 },
-  { trend: 'microbuy', cant: 3565 },
-  { trend: 'developer', cant: 1124 },
-  { trend: 'x', cant: 7765 },
-];
+import { useGetEstadisticasPostsQuery, useGetEstadisticasTrendsQuery, useGetEstadisticasUsersQuery } from '../../store/apis/microbApis';
 
 export const EstadisticasInstancia = () => {
+  const {data: usuarios} = useGetEstadisticasUsersQuery();
+  const {data: trends} = useGetEstadisticasTrendsQuery();
+  const {data: posts} = useGetEstadisticasPostsQuery();
+
+  const dataUsuarios = usuarios ? [
+    { tipo: 'Administrador', cantidad: usuarios.cantidades.adminCount },
+    { tipo: 'Moderador', cantidad: usuarios.cantidades.modCount },
+    { tipo: 'Usuario', cantidad: usuarios.cantidades.userCount },
+  ] : [];
+  const dataTrends = trends || [];
+
+  const calculateStartDate = (intervalo) => {
+    const today = new Date();
+    const endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30);
+    return new Date(endDate.getTime() + (intervalo - 1) * 7 * 24 * 60 * 60 * 1000);
+  };
+  const formatDate = (date) => {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  };
+
+  const dataPosts = posts ? posts.map(post => ({
+    fecha: formatDate(calculateStartDate(post.intervalo)),
+    cantidades: post.cantidades
+  })) : [];
+
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpenModal = useCallback(() => {
@@ -40,7 +40,6 @@ export const EstadisticasInstancia = () => {
   const handleCloseModal = useCallback(() => {
     setOpenModal(false);
   }, []);
-
 
   return (
     <Grid container spacing={2} className="animate__animated animate__fadeIn" marginTop={4}>
@@ -52,11 +51,11 @@ export const EstadisticasInstancia = () => {
             </Box>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={dataUsuarios}>
-                <XAxis dataKey="tipo" />
+                <XAxis dataKey='tipo' />
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="cantidad" fill="#8884d8" />
+                <Bar dataKey="cantidad" fill="#ff6723" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -66,7 +65,7 @@ export const EstadisticasInstancia = () => {
         <Card>
           <CardContent>
             <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="15px">
-              <Typography variant="h6">Cantidad de Posts</Typography>
+              <Typography variant="h6">Cantidad de Posts (ultimos 30 dias)</Typography>
             </Box>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={dataPosts}>
@@ -74,7 +73,7 @@ export const EstadisticasInstancia = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="cantidad" stroke="#82ca9d" />
+                <Line type="monotone" dataKey="cantidades" stroke="#82ca9d" />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -101,10 +100,10 @@ export const EstadisticasInstancia = () => {
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={dataTrends}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="trend" />
+                <XAxis dataKey="keyword" />
                 <YAxis />
                 <Tooltip />
-                <Area type="monotone" dataKey="cant" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
+                <Area type="monotone" dataKey="cantidad" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
               </AreaChart>
             </ResponsiveContainer>
           </CardContent>

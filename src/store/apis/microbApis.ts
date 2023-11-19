@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarContraseniaDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, DenunciaCreateDTO, DenunciaRazonDTO, DenunciaSalidaDTO, GenericDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, NotificacionDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsFavoritosProps, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarContraseniaDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, ChangeStatusReport, DenunciaCreateDTO, DenunciaDTO, DenunciaRazonDTO, DenunciaSalidaDTO, DtEstadisticaPost, DtEstadisticaUsuario, GenericDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, NotificacionDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsFavoritosProps, getPostsProps, getReportsDetailsProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -192,6 +192,15 @@ export const microbApis = createApi({
       }),
       invalidatesTags: [],
     }),
+    changeStatusReport: builder.mutation<void, ChangeStatusReport>({
+      query: ({ post, s }) => ({
+        url: `/private/denuncias/estado`,
+        method: "PUT",
+        params: { post, s },
+      }),
+      invalidatesTags: ["denuncias"],
+    }),
+    
     getReportRazones: builder.query<DenunciaRazonDTO[], void >({
       query: () => ("/denuncias/razones"),
       providesTags: [],
@@ -207,6 +216,18 @@ export const microbApis = createApi({
     getReports: builder.query<DenunciaSalidaDTO[],void>({
       query: () => ("/private/denuncias"),
       providesTags: ["denuncias"],
+    }),
+    getDetailsReport: builder.query<DenunciaDTO[],string>({
+      query: (post) => (`/private/denuncias/info?post=${post}&skip=0&limit=1000`),
+    }),
+    getEstadisticasUsers: builder.query<DtEstadisticaUsuario,void>({
+      query: () => (`/private/instancias/estadisticas/usuarios`),
+    }),
+    getEstadisticasTrends: builder.query<TrendDTO,void>({
+      query: () => (`/private/instancias/estadisticas/trend`),
+    }),
+    getEstadisticasPosts: builder.query<DtEstadisticaPost,void>({
+      query: () => (`/private/instancias/estadisticas/post`),
     }),
     getOptionsUser: builder.query<UsuarioNotificacionesDTO, void>({
       query: () => (`/usuarios/me/opciones`),
@@ -286,6 +307,10 @@ export const {
   useGetProfileQuery,
   useGetConexionesInstanciasQuery,
   useGetReportsQuery,
+  useGetDetailsReportQuery,
+  useGetEstadisticasPostsQuery,
+  useGetEstadisticasTrendsQuery,
+  useGetEstadisticasUsersQuery,
   useEditProfileMutation,
   useGetUsuariosQuery,
   useInviteUserMutation,
@@ -298,6 +323,7 @@ export const {
   useNewTrendMutation,
   useGetRespuestasQuery,
   useGetPostQuery,
+  useChangeStatusReportMutation,
   useChangeStatusInstanceMutation,
   useChangeDataInstanceMutation,
   useGetUserQuery,
