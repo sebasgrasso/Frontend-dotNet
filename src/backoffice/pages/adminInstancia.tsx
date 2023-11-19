@@ -14,7 +14,7 @@ import { skipValue } from '../../store/posts/postsSlice';
 
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
-  const {alias} = getInstanciaStorage();
+  const { alias } = getInstanciaStorage();
   const dispatch = useAppDispatch();
   
 
