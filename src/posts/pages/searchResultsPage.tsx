@@ -7,8 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 export const SearchResultsPage = () =>{
   const location = useLocation();
-  const q = location.state
-  console.log("q en searchfeed: ",q);
+  const q = location.state;
   
   
     return (

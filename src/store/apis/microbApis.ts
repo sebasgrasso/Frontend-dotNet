@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarContraseniaDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, DenunciaSalidaDTO, GenericDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, NotificacionDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsFavoritosProps, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarContraseniaDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, DenunciaCreateDTO, DenunciaRazonDTO, DenunciaSalidaDTO, GenericDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, NotificacionDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsFavoritosProps, getPostsProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -184,6 +184,18 @@ export const microbApis = createApi({
       }),
       invalidatesTags: [],
     }),
+    reportPost: builder.mutation<void, DenunciaCreateDTO>({
+      query: (body ) => ({
+        url: (`/denuncias`),
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [],
+    }),
+    getReportRazones: builder.query<DenunciaRazonDTO[], void >({
+      query: () => ("/denuncias/razones"),
+      providesTags: [],
+    }),
     getPostsBusqueda: builder.query<PostDTO[], getPostsBusquedaProps>({
       query: ({ skip, limit, q }) => (`/posts?q=${q}&skip=${skip}&limit=${limit}`),
       providesTags: [],
@@ -303,7 +315,7 @@ export const {
   useGetPostFavoritosQuery,
   useAddPostFavoritosMutation,
   useRequestConnectionMutation,
-
-
+  useReportPostMutation,
+  useGetReportRazonesQuery
   //useLoginGoogleMutation,
 } = microbApis;

@@ -24,10 +24,7 @@ const SearchFeed: React.FC<searchPostsProps> = ({q}) => {
   const [allPosts, setAllPosts] = useState(posts);
   const navigate = useNavigate();
   const instanciaDelStore = getInstanciaStorage();
-
-  console.log("esto es q: ",q);
   
-
   const volverAlInicio = ()=>{
     if(instanciaDelStore?.alias){
       navigate(`/${instanciaDelStore.alias}`);

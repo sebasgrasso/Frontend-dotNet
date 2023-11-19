@@ -17,12 +17,11 @@ export const Respuesta = ({post,padre}:PostProp) =>{
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '5px'}}>
           <Card sx={{ width:500, maxWidth: "100%" }}>
             <CardHeader 
-              //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
               avatar={<Avatar src={post.fotoUrl} />}
               title={
                 <>
                     <Link sx={{padding:"6px"}} href={`/${post.usuarioNickname}`} underline="none" >{`${post.usuarioNickname}`}</Link>
-                    <Link href={`/${post.usuarioUsername}`} underline="none" >{post.usuarioUsername}</Link>
+                    <Link href={`/${post.usuarioUsername}`} underline="none" >@{post.usuarioUsername}</Link>
                 </>}
               subheader={
                 <Typography fontSize={12}>
@@ -39,7 +38,7 @@ export const Respuesta = ({post,padre}:PostProp) =>{
                 <Card sx={{ minWidth: 600 }}>
                 <CardHeader 
                 //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
-                  avatar={<Avatar src="https://www.thesprucepets.com/thmb/17UY4UpiMekV7WpeXDziXsnt7q4=/1646x0/filters:no_upscale():strip_icc()/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg" />}
+                  avatar={<Avatar src={post.postCitado?.fotoUrl} />}
                   title={<Link href={`/${post.postCitado?.usuarioNickname}`} underline="hover" color="neutral">{post.postCitado?.usuarioNickname}</Link>}
                   subheader={<Link href={`/${post.postCitado?.usuarioUsername}`} underline="none" >{post.postCitado?.usuarioUsername}</Link>}
                 />

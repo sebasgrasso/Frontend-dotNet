@@ -7,6 +7,8 @@ import LockIcon from '@mui/icons-material/Lock'; // Icono de cerradura para cont
 import GoogleIcon from '@mui/icons-material/Google'; // Icono de Google
 import { getInstanciaStorage } from "../../utils/localstorage";
 import LoginIcon from '@mui/icons-material/Login'; // Importa el icono de inicio de sesión
+import { useAppDispatch } from "../../hooks/hooks";
+import { skipValue } from "../../store/posts/postsSlice";
 
 
 const initialStateForm = {
@@ -17,7 +19,7 @@ const initialStateForm = {
 export const LoginPopup = () => {
   const [open, setOpen] = useState(false);
   const { id } = getInstanciaStorage();
-
+  const dispatch = useAppDispatch();
   const { username, password, handleInputChange, reset } =
     useForm(initialStateForm);
 
@@ -31,6 +33,7 @@ export const LoginPopup = () => {
   const handleFormSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (!username || !password) return;
+    dispatch(skipValue({ skip: 0}));
     handleLogin(username, password);
     reset();
   };
