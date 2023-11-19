@@ -24,7 +24,7 @@ const { data: respuestas } = useGetRespuestasQuery(post?.id?.toString() || '');
 
 const volverAlInicio = ()=>{
   if(instanciaDelStore?.alias){
-    navigate(`/${instanciaDelStore.alias}`);
+    navigate(-1);
     dispatch(skipValue({ skip: 0 }));
   }
 }

@@ -14,7 +14,7 @@ export const Respuesta = ({post,padre}:PostProp) =>{
 
   return (
         <>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '5px'}}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginBottom: '2px'}}>
           <Card sx={{ width:500, maxWidth: "100%" }}>
             <CardHeader 
               avatar={<Avatar src={post.fotoUrl} />}

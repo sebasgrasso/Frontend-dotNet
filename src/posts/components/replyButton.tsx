@@ -32,10 +32,19 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
     };
 
     const handleCrearRespuesta = ()=>{
-        handleCreatePost({contenido,postIdCita:null,postIdPadre:post.id})
-        setOpenRepost(false);
+        if (post.tieneCita && post.contenido!=null){
+            handleCreatePost({contenido,postIdCita:null,postIdPadre:post.id})
+            setContenido("");
+            setOpenRepost(false);
+        }
+        else if (post.tieneCita && post.contenido==null && post.postCitado){
+            handleCreatePost({contenido,postIdCita:null,postIdPadre:post.postCitado.id})
+            setContenido("");
+            setOpenRepost(false);
+        }
     } 
-
+    
+    
     return (
         <>
             <Tooltip title="Respuestas">
@@ -52,10 +61,27 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
                         <IconX/>
                     </IconButton>
                     
-                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-                            <Card sx={{ width: 500, maxWidth: "100%",}}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+                        {post.tieneCita && post.contenido==null ? 
+                    
+                            <Card sx={{ width:500,maxWidth:"100%" }}>
+                                <Typography>{`Reposteado por @${post.usuarioNickname}`}</Typography>
+                            <CardHeader 
+                            avatar={<Avatar src={post.postCitado?.fotoUrl} />}
+                            title={<Link underline="none" >{post.postCitado?.usuarioNickname}</Link>}
+                            subheader={<Link underline="none" >@{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}</Link>}
+                            />
+                            <CardContent>
+                            <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
+                                {post.postCitado?.contenido}
+                            </Typography>
+                            </CardContent>
+                            </Card> 
+                                         
+                        :
+                                
+                                <Card sx={{ width: 500, maxWidth: "100%",}}>
                                 <CardHeader 
-                                //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
                                 avatar={<Avatar src={post.fotoUrl} />}
                                 title={<Link underline="none" >{post.usuarioNickname}</Link>}
                                 subheader={<Link underline="none" >@{post.usuarioUsername}@{post.instanciaAlias}</Link>}
@@ -64,8 +90,7 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
                                 <Typography color="black" gutterBottom>
                                     {post.contenido}
                                 </Typography>
-                               
-                                {/* lo siguiente es el tuit citado en caso de haberlo*/}
+
                                 {   post.tieneCita 
                                 ? 
                                     <Card sx={{ width:500,maxWidth:"100%" }}>
@@ -84,30 +109,36 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
                                     null
                                 }
                                 </CardContent>
-                            
-                            </Card>
-                        </Box>
+                        
+                                </Card>
+                               
+                                
+                    
+                    
+                    }
+                        
+                    </Box>
 
-                        <Box>
-                            <Typography sx={{ fontSize: 14,width:"100%",mt:"5px" }} >{`Respondiendo a @${post.usuarioUsername}`}</Typography>
-                            <TextField
-                                fullWidth
-                                name="Citar"
-                                value={contenido}
-                                onChange={handleInputChange}
-                                variant="outlined"
-                                margin="normal"
-                                placeholder='Postea tu respuesta'
-                                InputProps={{
-                                    style: { color: 'black' }
-                                }}
-                                InputLabelProps={{ style: { color: 'black' } }}
-                            />
-                        </Box>
+                    <Box>
+                        <Typography sx={{ fontSize: 14,width:"100%",mt:"5px" }} >{`Respondiendo a @${post.usuarioUsername}`}</Typography>
+                        <TextField
+                            fullWidth
+                            name="Citar"
+                            value={contenido}
+                            onChange={handleInputChange}
+                            variant="outlined"
+                            margin="normal"
+                            placeholder='Postea tu respuesta'
+                            InputProps={{
+                                style: { color: 'black' }
+                            }}
+                            InputLabelProps={{ style: { color: 'black' } }}
+                        />
+                    </Box>
 
-                        <Box>
-                            <Button variant="contained" color="primary" onClick={handleCrearRespuesta} >Responder</Button>
-                        </Box>
+                    <Box>
+                        <Button variant="contained" color="primary" onClick={handleCrearRespuesta} >Responder</Button>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
                 </DialogActions>

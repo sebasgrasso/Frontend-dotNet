@@ -16,7 +16,7 @@ const DenunciarPostButton= ({post}:{post:PostDTO}) => {
     const {status} = useAppSelector((state)=>state.auth);
     const [razon, setRazon] = useState('1');
     const {data:razones} = useGetReportRazonesQuery();
-
+    
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         if(status=="authenticated"){
