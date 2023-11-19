@@ -110,6 +110,7 @@ export interface DtEstadisticaPost {
 }
 
 export interface UsuarioCreateDTO {
+  guidToken: string | null;
   username: string;
   email: string;
   contrasenia: string;
@@ -152,7 +153,7 @@ export interface CambiarContraseniaDTO {
 
 export interface UsuarioPerfilCreateDTO {
   nickname: string;
-  fechaNac: string; // Consider using Date type for date values
+  fechaNac: string | null; // Consider using Date type for date values
   bio: string | null;
   ocupacion: string | null;
   sitioWeb: string | null;

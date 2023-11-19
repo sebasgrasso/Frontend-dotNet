@@ -92,7 +92,7 @@ export const DenunciasList = () => {
             headerName: "Razon de la denuncia",
             width: 180,
             headerAlign: "center",
-            align: "center",
+            align: "left",
             renderCell: (params) => `${params.row.denunciaRazon.nombre || ''}`,
         },
     ];
