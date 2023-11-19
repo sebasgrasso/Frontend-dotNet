@@ -1,21 +1,24 @@
 // profileCard.tsx
 import React, { useState } from 'react';
-import {  Dialog, DialogContent, DialogActions, Button, IconButton, Card, CardContent, Box, CardHeader, Avatar, Link, Typography, TextField } from '@mui/material';
+import {  Dialog, DialogContent, DialogActions, Button, IconButton, Card, CardContent, Box, CardHeader, Avatar, Link, Typography, TextField, Tooltip } from '@mui/material';
 import { IconMessage2Plus, IconX } from '@tabler/icons-react';
 import { PostDTO } from '../../interfaces/interfaces';
 import { useCreatePost } from '../hooks/useCreatePost';
+import { useAppSelector } from '../../hooks/hooks';
 
 
 
 const ReplyButton= ({post}:{post:PostDTO}) => {
- 
+    const {status} = useAppSelector((state)=>state.auth)
     const {handleCreatePost}= useCreatePost();
     const [contenido, setContenido] = useState("");
     const [openRepost, setOpenRepost] = useState(false);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        if(status=="authenticated"){
+            setOpenRepost(true);
+        }
         event.stopPropagation();
-        setOpenRepost(true);
     };
 
     const handleReplyClose = () => {
@@ -29,17 +32,19 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
     };
 
     const handleCrearRespuesta = ()=>{
-        
         handleCreatePost({contenido,postIdCita:null,postIdPadre:post.id})
         setOpenRepost(false);
     } 
 
     return (
         <>
-            <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleClick}>
-                <IconMessage2Plus />
-                <Typography sx={{marginLeft:"5px"}} >{post.cantMensaje}</Typography>
-            </Button>
+            <Tooltip title="Respuestas">
+                <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleClick}>
+                    <IconMessage2Plus />
+                    <Typography sx={{marginLeft:"5px"}} >{post.cantMensaje}</Typography>
+                </Button>
+            </Tooltip>
+                
             
             <Dialog open={openRepost} onClose={handleReplyClose}>
                 <DialogContent>
@@ -65,7 +70,7 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
                                 ? 
                                     <Card sx={{ width:500,maxWidth:"100%" }}>
                                     <CardHeader 
-                                    avatar={<Avatar src={post.fotoUrl} />}
+                                    avatar={<Avatar src={post.postCitado?.fotoUrl} />}
                                     title={<Link underline="none" >{post.postCitado?.usuarioNickname}</Link>}
                                     subheader={<Link underline="none" >@{post.postCitado?.usuarioUsername}@{post.postCitado?.instanciaAlias}</Link>}
                                     />

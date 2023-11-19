@@ -1,19 +1,24 @@
 // profileCard.tsx
 import React, { useState } from 'react';
-import { Menu, MenuItem, ListItemIcon, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Menu, MenuItem, ListItemIcon, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Button, Tooltip } from '@mui/material';
 import { IconBlockquote, IconRepeat } from '@tabler/icons-react';
 import { PostDTO } from '../../interfaces/interfaces';
 import { useCreatePost } from '../hooks/useCreatePost';
 import CitarPost from './citarPost';
+import { useAppSelector } from '../../hooks/hooks';
 
 
 
 const RepostButton= ({post}:{post:PostDTO}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const {handleCreatePost}= useCreatePost();
+  const {status} = useAppSelector((state)=>state.auth)
+  
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    if(status=="authenticated"){
+      setAnchorEl(event.currentTarget);
+    }
     event.stopPropagation();
   };
 
@@ -34,14 +39,18 @@ const RepostButton= ({post}:{post:PostDTO}) => {
   
 
   const handleRepost = () => {
-    handleCreatePost({contenido:null,postIdCita:post.id,postIdPadre:null})
+    if(status=="authenticated"){
+      handleCreatePost({contenido:null,postIdCita:post.id,postIdPadre:null})
+    }
   }
 
   return (
     <>
-    <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleClick}>
-        <IconRepeat />
-      </Button>
+      <Tooltip title="Repost">
+        <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleClick}>
+          <IconRepeat />
+        </Button>
+      </Tooltip>
       <Menu
         anchorEl={anchorEl}
         keepMounted

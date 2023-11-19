@@ -19,16 +19,15 @@ const Feed: React.FC = () => {
   
   const [startGetPostsInstancia,{data:postsInstancia}] = useLazyGetPostsInstanciaQuery();
   const [allPostsInstancia, setAllPostsInstancia] = useState(postsInstancia);
-  
-  console.log("Posts instancia",postsInstancia);
-  console.log("All posts instancia",allPostsInstancia);
 
   //cargar postsInstancia
   useEffect(() => {
-    startGetPostsInstancia({ skip, limit });
+    if(status=="authenticated"){
+      startGetPostsInstancia({ skip, limit });
+    }
     setAllPostsInstancia(postsInstancia);
   }, []);
-//cargar posts globales
+  //cargar posts globales
   useEffect(() => {
     startGetPosts({ skip, limit });
     setAllPosts(posts);
@@ -39,7 +38,9 @@ const Feed: React.FC = () => {
   }, [skip, newPost]);
 
   useEffect(() => {
-    startGetPostsInstancia({ skip, limit });
+    if(status=="authenticated"){
+      startGetPostsInstancia({ skip, limit });
+    }
   }, [skip, newPost]);
 
   //agregar posts nuevos global
@@ -95,21 +96,22 @@ const Feed: React.FC = () => {
   
   return (
     <Paper sx={{padding: '20px',backgroundColor:"rgb(25, 27, 34)"}}>
-      <Grid container justifyContent="center"
-  alignItems="center" >
-        <Grid item xs={6} justifyContent="center"
-  alignItems="center">
-          
-          <Button onClick={()=>{setGlobal(true); dispatch(skipValue({skip:0}))}} >GLOBAL</Button>
       
+      {status == 'authenticated' ? 
+      <>
+        <Grid container justifyContent="center" alignItems="center" >
+          <Grid item xs={6} justifyContent="center" alignItems="center" > 
+            <Button onClick={()=>{setGlobal(true); dispatch(skipValue({skip:0}))}} >GLOBAL</Button>
+          </Grid>
+          <Grid item xs={6} justifyContent="center" alignItems="center" >
+            <Button onClick={()=>{setGlobal(false);dispatch(skipValue({skip:0}))}} >LOCAL</Button>
+          </Grid>
         </Grid>
-        <Grid item xs={6} justifyContent="center"
-  alignItems="center" >
-          <Button onClick={()=>{setGlobal(false);dispatch(skipValue({skip:0}))}} >LOCAL</Button>
-        </Grid>
-      </Grid>
-      {status == 'authenticated' ? <NuevoPost /> : null}
+        <NuevoPost />
+      </>
+      : null}
       <ToastContainer />
+      
       {global ? 
       <>
         {(allPosts?.length && allPosts.length >= 1) ? 
@@ -131,8 +133,8 @@ const Feed: React.FC = () => {
               </Grid>
             ))}
           </Grid>
-        </InfiniteScroll> : 
-        //ACA HAY QUE PONER PLACEHOLDER POR SI NO HAY POSTS
+        </InfiniteScroll> 
+        : 
         <Card sx={{ width: 500, 
           maxWidth: "100%", 
           cursor: "pointer",
