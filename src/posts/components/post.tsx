@@ -37,19 +37,12 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
       }
     };
 
-    post.postCitado?.usuarioId
-
     const handleCitedPostClick = (e: { stopPropagation: () => void; }) => {
-      if (!clickeable) return;
       e.stopPropagation(); // Stop propagation here
-      if (urlPost !== "post") {
-        if (urlPost === "searchResults") {
           navigate(`/${urlInstancia}/post/${post.postCitado?.id}`, { state: post });
-        } else {
-          navigate(`post/${post.postCitado?.id}`, { state: post });
-        }
+
       }
-    };
+    
 
     const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if(status=="authenticated"){
@@ -57,9 +50,21 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
           {liked ? setCantFav(cantFav-1) : setCantFav(cantFav+1)}
           setLiked(!liked)
         }
-        
         event.stopPropagation();
     };
+
+    const handleLikeCitadoClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      console.log("entre 1");
+      
+      if(status=="authenticated" && post.postCitado){
+        console.log("entre 2");
+        
+        handleAddFavorito(post.postCitado.id)
+        {liked ? setCantFav(cantFav-1) : setCantFav(cantFav+1)}
+        setLiked(!liked)
+      }
+      event.stopPropagation();
+  };
 
   return (
     <>
@@ -96,7 +101,39 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                 </CardContent>
 
                 <CardActions>
-                  {/* IMPLEMENTAR REPOST DE REPOST */}
+                  <Grid container justifyContent={"center"} alignItems={"center"}>
+                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                          <ReplyButton post={post} />
+                        </Grid>
+                        
+                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                          {post.postCitado ? <RepostButton post={post} /> : null}
+                        </Grid>
+
+                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                        <Tooltip title="Favorito">
+                          <Button sx={{ minWidth:40}} aria-label="settings" onClick={(e)=>handleLikeCitadoClick(e)}>
+                            {liked 
+                                ? 
+                                <IconStarFilled/>
+                                :
+                                <IconStar />
+                            }
+                          </Button>
+                          </Tooltip>
+                           <Typography>{cantFav}</Typography>
+                        </Grid>
+
+                        
+                          { (id==(post.usuarioId).toString() || post.instanciaAlias!=urlInstancia) ? 
+                            null 
+                            : 
+                            <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                              <DenunciarPostButton post={post}/>
+                            </Grid>
+                          }
+                        
+                  </Grid>
                 </CardActions>
               </Card>
             ) : null}
@@ -120,7 +157,7 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
           >
             <CardHeader
               // Modify the onClick event for CardHeader to prevent propagation
-              onClick={(e) => e.stopPropagation()}
+              //onClick={(e) => e.stopPropagation()}
               avatar={<Avatar src={post.fotoUrl} />}
               title={
                 <Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none">
@@ -194,7 +231,7 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                     </Grid>
 
                     
-                      { id==(post.usuarioId).toString() ? 
+                      { (id==(post.usuarioId).toString() || post.instanciaAlias!=urlInstancia) ? 
                         null 
                         : 
                         <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
@@ -202,14 +239,8 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                         </Grid>
                       }
                     
-              
               </Grid>
 
-              
-
-              
-              
-              
             </CardActions>
           </Card>
         </Box>

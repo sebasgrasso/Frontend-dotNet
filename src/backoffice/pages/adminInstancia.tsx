@@ -9,16 +9,18 @@ import { ToastContainer } from 'react-toastify';
 import { getInstanciaStorage } from '../../utils/localstorage';
 import { useChangeStatusInstance} from '../hooks/useChangeStatusInstance';
 import { useChangeDataInstance} from '../hooks/useChangeDataInstance';
-import { useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { useRequestConnection } from '../hooks/useRequestConnection';
 import { ConexionesEntrantesList } from './listaDeConexionesEntrantes';
 import { ConexionesSalientesList } from './listaDeConexionesSalientes'; 
 import { DenunciasList } from './listaDeDenuncias'; 
+import { skipValue } from '../../store/posts/postsSlice';
 
 
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
-  const {alias} = getInstanciaStorage();
+  const { alias } = getInstanciaStorage();
+  const dispatch = useAppDispatch();
   
   const { role } = useAppSelector((state) => state.auth);
 
@@ -51,6 +53,7 @@ const AdminInstancia: React.FC = () => {
   const handleNavigation = (option: string) => {
     setSelectedOption(option); 
     if (option === 'Volver a inicio') {
+      dispatch(skipValue({skip:0}))
       navigate(`/${alias}`); 
     }
   };

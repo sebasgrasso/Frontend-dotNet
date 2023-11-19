@@ -1,6 +1,6 @@
 // profileCard.tsx
 import React, { useState } from 'react';
-import { Menu, MenuItem, ListItemIcon, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Button, Tooltip } from '@mui/material';
+import { Menu, MenuItem, ListItemIcon, ListItemText, Dialog, DialogTitle, DialogContent, Button, Tooltip } from '@mui/material';
 import { IconBlockquote, IconRepeat } from '@tabler/icons-react';
 import { PostDTO } from '../../interfaces/interfaces';
 import { useCreatePost } from '../hooks/useCreatePost';
@@ -39,7 +39,11 @@ const RepostButton= ({post}:{post:PostDTO}) => {
   
 
   const handleRepost = () => {
+    console.log("entre al handle repost");
+    
     if(status=="authenticated"){
+      console.log("post.id",post.id);
+      
       handleCreatePost({contenido:null,postIdCita:post.id,postIdPadre:null})
     }
   }
@@ -75,8 +79,6 @@ const RepostButton= ({post}:{post:PostDTO}) => {
             <DialogContent>
                 <CitarPost post={post} />
             </DialogContent>
-            <DialogActions>
-            </DialogActions>
         </Dialog>
     </>
       
