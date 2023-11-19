@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarContraseniaDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, DenunciaCreateDTO, DenunciaRazonDTO, GenericDTO, GetInstanciaProps, InstanciaDTO, InvitacionDTO, NewTrendDTO, NotificacionDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsFavoritosProps, getPostsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarContraseniaDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, DenunciaCreateDTO, DenunciaRazonDTO, DenunciaSalidaDTO, GenericDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, NotificacionDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsFavoritosProps, getPostsProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -25,7 +25,7 @@ export const microbApis = createApi({
       return headers;
     },
   }),
-  tagTypes: ["listaPosts","obtenerPerfil","usuarios","datosInstancia", "actualizarPerfil", "seguidores", "seguidos", "opcionesUsuario","obtenerTrends", "privacidad", "notificaciones"],
+  tagTypes: ["listaPosts","obtenerPerfil","usuarios","denuncias","datosInstancia", "actualizarPerfil", "conexionesInstancia", "seguidores", "seguidos", "opcionesUsuario","obtenerTrends","instancias", "privacidad", "notificaciones"],
   endpoints: (builder) => ({
     login: builder.mutation<string, AuthLoginDTO>({
       query: (body) => ({
@@ -159,7 +159,15 @@ export const microbApis = createApi({
         method: "PUT",
         body,
       }),
-      invalidatesTags: ['datosInstancia'],
+      invalidatesTags: ['datosInstancia' , 'instancias'],
+    }),
+    requestConnection: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/private/instancias/conexion`, 
+        method: "PUT",
+        params: {id}      
+      }),
+      invalidatesTags: ['conexionesInstancia'],
     }),
     getPosts: builder.query<PostDTO[], getPostsProps>({
       query: ({ skip, limit }) => (`/posts?skip=${skip}&limit=${limit}`),
@@ -196,6 +204,10 @@ export const microbApis = createApi({
       query: () => ("/notificaciones/usuarios"),
       providesTags: ["notificaciones"],
     }),
+    getReports: builder.query<DenunciaSalidaDTO[],void>({
+      query: () => ("/private/denuncias"),
+      providesTags: ["denuncias"],
+    }),
     getOptionsUser: builder.query<UsuarioNotificacionesDTO, void>({
       query: () => (`/usuarios/me/opciones`),
       providesTags: ["opcionesUsuario"],
@@ -224,9 +236,17 @@ export const microbApis = createApi({
       query: ( id ) => (`/posts/${id}/respuestas`),
       providesTags: [],
     }),
+    getInstancias: builder.query<InstanciaDTO[],void>({
+      query: () => (`/instancias`),
+      providesTags: ["instancias"],
+    }),
     getInstancia: builder.query<InstanciaDTO,GetInstanciaProps>({
       query: ({alias}) => (`/instancias/alias/${alias}`),
       providesTags: ["datosInstancia"],
+    }),
+    getConexionesInstancias: builder.query<InstanciaConectadaDTO[],void>({
+      query: () => (`/private/instancias/conexion`),
+      providesTags: ["conexionesInstancia"],
     }),
     getProfile: builder.query<UsuarioDTO,void>({
       query: (body) => ("/usuarios/me"),
@@ -264,6 +284,8 @@ export const {
   useLazyGetPostsBusquedaQuery,
   useLazyGetPostsInstanciaQuery,
   useGetProfileQuery,
+  useGetConexionesInstanciasQuery,
+  useGetReportsQuery,
   useEditProfileMutation,
   useGetUsuariosQuery,
   useInviteUserMutation,
@@ -272,6 +294,7 @@ export const {
   useSuspendUserMutation,
   useChangeRolMutation,
   useGetInstanciaQuery,
+  useGetInstanciasQuery,
   useNewTrendMutation,
   useGetRespuestasQuery,
   useGetPostQuery,
@@ -291,6 +314,7 @@ export const {
   useNotificationViewedMutation,
   useGetPostFavoritosQuery,
   useAddPostFavoritosMutation,
+  useRequestConnectionMutation,
   useReportPostMutation,
   useGetReportRazonesQuery
   //useLoginGoogleMutation,

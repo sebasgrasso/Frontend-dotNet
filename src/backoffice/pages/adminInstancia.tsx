@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, Card, Avatar, CardContent, TextField, Button, Grid, Select, MenuItem, FormControl, InputLabel} from '@mui/material';
 import { MisUsuariosList } from './listaDeUsuarios';
 import { EstadisticasInstancia } from './estadisticasInstancia';
-import { useGetInstanciaQuery, useGetProfileQuery } from '../../store/apis/microbApis';
+import { useGetInstanciaQuery, useGetInstanciasQuery, useGetProfileQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 import { ToastContainer } from 'react-toastify';
@@ -10,7 +10,12 @@ import { getInstanciaStorage } from '../../utils/localstorage';
 import { useChangeStatusInstance} from '../hooks/useChangeStatusInstance';
 import { useChangeDataInstance} from '../hooks/useChangeDataInstance';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { useRequestConnection } from '../hooks/useRequestConnection';
+import { ConexionesEntrantesList } from './listaDeConexionesEntrantes';
+import { ConexionesSalientesList } from './listaDeConexionesSalientes'; 
+import { DenunciasList } from './listaDeDenuncias'; 
 import { skipValue } from '../../store/posts/postsSlice';
+
 
 const AdminInstancia: React.FC = () => {
   const navigate = useNavigate(); 
@@ -20,20 +25,29 @@ const AdminInstancia: React.FC = () => {
 
   const { role } = useAppSelector((state) => state.auth);
 
-  let menuOptions = ['Inicio', 'Usuarios', 'Volver a inicio'];
+  let menuOptions = ['Inicio', 'Denuncias', 'Usuarios', 'Volver a inicio'];
   if (role === 'Admin') {
-    menuOptions = ['Inicio', 'Configuracion', 'Usuarios', 'Volver a inicio'];
+    menuOptions = ['Inicio', 'Configuracion','Denuncias', 'Usuarios', 'Volver a inicio'];
   }
 
   const {data:instancia} = useGetInstanciaQuery({alias: alias});
+  const {data: instancias} = useGetInstanciasQuery();
 
   const [tipoRegistro, setTipoRegistro] = useState(instancia?.tipoRegistro);
+  const [idInstancia, setIdInstancia] = useState(1);
   const [nombre, setNombre] = useState(instancia?.nombre);
+  const [estadosSolicitudes, setEstadosSolicitudes] = useState('Entrante');
+
+  useEffect(() => {
+    setNombre(instancia?.nombre);
+    setTipoRegistro(instancia?.tipoRegistro);
+  }, [instancia]);
 
   const estado = instancia?.isActiva ? 'Activa' : 'Inactiva';
 
   const {handleChangeStatusInstance} = useChangeStatusInstance();
   const {handleChangeDataInstance} = useChangeDataInstance();
+  const {handleRequestConnection} = useRequestConnection();
 
   const handleNavigation = (option: string) => {
     setSelectedOption(option); 
@@ -63,7 +77,7 @@ const AdminInstancia: React.FC = () => {
 
   const renderContent = () => {
     switch (selectedOption) {
-      case 'Inicio':
+        case 'Inicio':
         return (
           <>
           <Box p={3}>
@@ -73,7 +87,7 @@ const AdminInstancia: React.FC = () => {
           </>
         );
 
-      case 'Usuarios':
+        case 'Usuarios':
         return (
             <Box p={3}>
             <Typography variant="h5">Panel de Usuarios</Typography>
@@ -93,68 +107,156 @@ const AdminInstancia: React.FC = () => {
           </Box>
         );
 
+        case 'Denuncias':
+        return (
+            <Box p={3}>
+            <Typography variant="h5">Panel de Denuncias</Typography>
+            <Box
+              component="div"
+              sx={{
+                backgroundColor: '#ffffff',
+                borderRadius: '10px',
+                backdropFilter: 'blur(10px)',
+                padding: '16px',
+                overflow: 'auto',
+                marginTop: '50px'
+              }}
+            >
+            <DenunciasList/>
+            </Box>
+          </Box>
+        );
+
         case 'Configuracion':
           return (
+            <>
             <Box p={3}>
-            <Typography variant="h5">Panel de Configuracion</Typography>
-            <Grid container spacing={2} className="animate__animated animate__fadeIn">
-              <Grid item xs={12} lg={3} marginTop={5}>
-                <Card>
-                  <CardContent>
-                  <Typography variant="h6">Configuracion general de la instancia</Typography>
-                    <TextField
-                      label="Nombre"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      value={nombre}
-                      onChange={(e) => setNombre(e.target.value)}
-                    />
-                    <FormControl fullWidth margin="normal">
-                    <InputLabel id="tipo-registro-label">Tipo de registro</InputLabel>
-                      <Select
-                        labelId="tipo-registro-label"
-                        id="tipo-registro"
-                        value={tipoRegistro}
-                        label="Tipo de registro"
-                        onChange={(e) => setTipoRegistro(e.target.value as string)}
-                      >
-                        <MenuItem value="Abierto">Abierto</MenuItem>
-                        <MenuItem value="AbiertoConAprobacion">Abierto con aprobación</MenuItem>
-                        <MenuItem value="CerradoConInvitacion">Cerrado con invitación</MenuItem>
-                        <MenuItem value="Cerrado">Cerrado</MenuItem>
-                      </Select>
-                  </FormControl>
-                  </CardContent>
-                  <Button 
-                    variant="contained" 
-                    color="primary" 
-                    sx={{ margin: '8px' }}
-                    onClick={() => handleChangeDataInstance({nombre, tipoRegistro})}
+              <Typography variant="h5">Panel de Configuración</Typography>
+
+              <Grid container spacing={1} className="animate__animated animate__fadeIn">
+                <Grid item xs={12} md={8} lg={6} container direction="column" spacing={2}>
+                  <Grid item marginTop={3}>
+                    <Card>
+                                <CardContent>
+                                <Typography variant="h6">Estado actual: {estado } </Typography>
+                                </CardContent>
+                                <Box sx={{ width: '100%', padding: '0 8px 8px 8px' }}> 
+                                <Button 
+                                  variant="contained" 
+                                  color="primary" 
+                                  sx={{ width: '100%' }} 
+                                  onClick={() => handleChangeStatusInstance()}
+                                >
+                                  Cambiar Estado
+                                </Button>
+                              </Box>
+                    </Card>
+                  </Grid>
+                  
+                  <Grid item>
+                    <Card>
+                                <CardContent>
+                                <Typography variant="h6">Configuracion general de la instancia</Typography>
+                                  <TextField
+                                    label="Nombre"
+                                    variant="outlined"
+                                    fullWidth
+                                    margin="normal"
+                                    value={nombre}
+                                    onChange={(e) => setNombre(e.target.value)}
+                                  />
+                                  <FormControl fullWidth margin="normal">
+                                  <InputLabel id="tipo-registro-label">Tipo de registro</InputLabel>
+                                    <Select
+                                      labelId="tipo-registro-label"
+                                      id="tipo-registro"
+                                      value={tipoRegistro}
+                                      label="Tipo de registro"
+                                      onChange={(e) => setTipoRegistro(e.target.value as string)}
+                                    >
+                                      <MenuItem value="Abierto">Abierto</MenuItem>
+                                      <MenuItem value="AbiertoConAprobacion">Abierto con aprobación</MenuItem>
+                                      <MenuItem value="CerradoConInvitacion">Cerrado con invitación</MenuItem>
+                                      <MenuItem value="Cerrado">Cerrado</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                </CardContent>
+                                <Button 
+                                  variant="contained" 
+                                  color="primary" 
+                                  sx={{ margin: '8px' }}
+                                  onClick={() => handleChangeDataInstance({nombre, tipoRegistro})}
+                                >
+                                  Guardar
+                                </Button>
+                    </Card>
+                  </Grid>
+                  
+                  <Grid item>
+                    <Card>
+                                <CardContent>
+                                <Typography variant="h6">Solicitar conexion</Typography>
+                                  <FormControl fullWidth margin="normal">
+                                  <InputLabel id="id-instancia-label">Instancia</InputLabel>
+                                    <Select
+                                      labelId="id-instancia-label"
+                                      id="id-instancia"
+                                      value={idInstancia}
+                                      label="Instancia"
+                                      onChange={(e) => setIdInstancia(Number(e.target.value))}
+                                    >
+                                      {instancias?.map((instancia) => (
+                                        <MenuItem key={instancia.id} value={instancia.id}>
+                                          {instancia.nombre}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                </CardContent>
+                                <Button 
+                                  variant="contained" 
+                                  color="primary" 
+                                  sx={{ margin: '8px' }}
+                                  onClick={() => handleRequestConnection(idInstancia)}
+                                >
+                                  Solicitar
+                                </Button>
+                    </Card>
+                  </Grid>
+                </Grid>
+
+                <Grid item xs={12} md={4} lg={6} marginTop={3}>
+                  <Box
+                    component="div"
+                    sx={{
+                      backgroundColor: '#ffffff',
+                      borderRadius: '10px',
+                      backdropFilter: 'blur(10px)',
+                      padding: '16px',
+                      overflow: 'auto',
+                      maxHeight: 'calc(100vh - 100px)', 
+                    }}
                   >
-                    Guardar
-                  </Button>
-                </Card>
+                   <Typography variant="h6" color={'#000000'} >Solicitud de conexiones</Typography>
+                   <FormControl fullWidth margin="normal"  sx={{ width: '40%' }}>
+                      <InputLabel id="estado-label">Estado</InputLabel>
+                        <Select
+                          labelId="estado-label"
+                          id="estado"
+                          value={estadosSolicitudes}
+                          label="Estado"
+                          onChange={(e) => setEstadosSolicitudes(e.target.value as string)}
+                        >
+                          <MenuItem value="Entrante">Por aceptar</MenuItem>
+                          <MenuItem value="Saliente">Aceptadas</MenuItem>
+                        </Select>
+                    </FormControl>
+                    {estadosSolicitudes === 'Entrante' ? <ConexionesEntrantesList/> : <ConexionesSalientesList/>}
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={12} lg={3} marginTop={5}>
-                <Card>
-                  <CardContent>
-                  <Typography variant="h6">Estado actual: {estado } </Typography>
-                  </CardContent>
-                  <Box sx={{ width: '100%', padding: '0 8px 8px 8px' }}> 
-                  <Button 
-                    variant="contained" 
-                    color="primary" 
-                    sx={{ width: '100%' }} 
-                    onClick={() => handleChangeStatusInstance()}
-                  >
-                    Cambiar Estado
-                  </Button>
-                </Box>
-                </Card>
-              </Grid>
-            </Grid>
             </Box>
+          </>
           );
 
       default:
