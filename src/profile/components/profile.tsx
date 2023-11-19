@@ -283,15 +283,65 @@ const Profile = () => {
                                 </Tooltip>
                             </Box> : null}
 
-                            {idUserLogueado === idUsuario ?                             
-                            <Button variant="contained" startIcon={<EditIcon />} onClick={handleOpenModal} sx={{ bgcolor: 'white', color: '#191B22' }}>
-                                Editar Perfil
-                            </Button>: null}
+                            {idUserLogueado === idUsuario ?   
+                                <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleOpenModal}
+                                sx={{
+                                backgroundColor: "#1565c0", 
+                                color: "white",
+                                width: '40%',
+                                fontWeight: 'medium', 
+                                letterSpacing: 1.2, 
+                                fontSize: '0.875rem', 
+                                textTransform: 'none', 
+                                borderRadius: '4px', 
+                                padding: '8px 24px', 
+                                boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                                transition: 'background-color .3s, color .3s, box-shadow .3s',
+                                ":hover": {
+                                    backgroundColor: "white", 
+                                    color: "#1565c0",
+                                    borderColor: "#1565c0",
+                                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                                }
+                                }}
+                                startIcon={<EditIcon />} 
+                                >
+                                    Editar Perfil
+                                </Button>                          
+                            : null}
 
                             {idUserLogueado === idUsuario ?                             
-                            <Button variant="contained" startIcon={<HttpsIcon />} onClick={handleOpenChangePasswordModal} sx={{ bgcolor: 'white', color: '#191B22' }}>
-                                Cambiar Contraseña
-                            </Button>: null}
+                                <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleOpenChangePasswordModal}
+                                sx={{
+                                backgroundColor: "#1565c0", 
+                                color: "white",
+                                width: '40%',
+                                fontWeight: 'medium', 
+                                letterSpacing: 1.2, 
+                                fontSize: '0.875rem', 
+                                textTransform: 'none', 
+                                borderRadius: '4px', 
+                                padding: '8px 24px', 
+                                boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                                transition: 'background-color .3s, color .3s, box-shadow .3s',
+                                ":hover": {
+                                    backgroundColor: "white", 
+                                    color: "#1565c0",
+                                    borderColor: "#1565c0",
+                                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                                }
+                                }}
+                                startIcon={<HttpsIcon />} 
+                                >
+                                    Cambiar Contraseña
+                                </Button> 
+                            : null}
                             
                             <Modal
                                 aria-labelledby="transition-modal-title"
@@ -360,9 +410,33 @@ const Profile = () => {
                                 </ListItemIcon>
                             </ListItem>
                             <ListItem >
-                                <Button variant="contained" onClick={handleSaveNotifications} startIcon={<SaveIcon />} sx={{ bgcolor: 'white', color: '#191B22' }}>
-                                    Guardar
-                                </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleSaveNotifications}
+                                sx={{
+                                backgroundColor: "#1565c0", 
+                                color: "white",
+                                width: '100%',
+                                fontWeight: 'medium', 
+                                letterSpacing: 1.2, 
+                                fontSize: '0.875rem', 
+                                textTransform: 'none', 
+                                borderRadius: '4px', 
+                                padding: '8px 24px', 
+                                boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                                transition: 'background-color .3s, color .3s, box-shadow .3s',
+                                ":hover": {
+                                    backgroundColor: "white", 
+                                    color: "#1565c0",
+                                    borderColor: "#1565c0",
+                                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                                }
+                                }}
+                                startIcon={<SaveIcon />} 
+                            >
+                                Guardar
+                            </Button>
                             </ListItem>
                         </CardContent>
                     </Card>

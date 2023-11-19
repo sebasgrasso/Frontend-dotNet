@@ -197,7 +197,7 @@ export const microbApis = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: [],
+      invalidatesTags: ["denuncias"],
     }),
     changeStatusReport: builder.mutation<void, ChangeStatusReport>({
       query: ({ post, s }) => ({
