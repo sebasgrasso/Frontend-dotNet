@@ -1,16 +1,16 @@
-import { Alert, Button, Dialog, DialogContent, Grid, InputAdornment, TextField, Typography, LinearProgress  } from "@mui/material";
+import { Alert, Button, Grid, InputAdornment, TextField, Typography, LinearProgress  } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../hooks/useAuth";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'; 
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
 import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
+import { useNavigate } from "react-router-dom";
 
 
 const initialStateForm = {
@@ -25,17 +25,19 @@ const initialStateForm = {
     fotoUrl: ""
 };
 
-export const SignUpPopup = () => {
-  const [open, setOpen] = useState(false);  
+export const InvitationPage = () => {
   const [isFirstStep, setIsFirstStep] = useState(true);
   const [loading, setLoading] = useState(false);
+  const pathParts = location.pathname.split('/');
+  const tokenInv = pathParts[3];
+  const instanciaURL = pathParts[1];
+  const navigate = useNavigate();
   const {
-    handleRegistrarUsuario,
+    handleRegistrarUsuarioInvitacion,
     isErrorSignup,
     isSuccessSignup,
     errorSignup
   } = useAuth();
-
   const {
     username,
     email,
@@ -57,40 +59,14 @@ export const SignUpPopup = () => {
       setLoading(false);
     } else {
     if (!username || !email || !contrasenia || !nickname ) return;
-      handleRegistrarUsuario(username, email, contrasenia, nickname, fechaNac, biografia, ocupacion, sitioWeb, fotoUrl);
-      setLoading(false);
+        handleRegistrarUsuarioInvitacion(username, email, contrasenia, nickname,fechaNac, biografia, ocupacion, sitioWeb, fotoUrl,tokenInv);
+        setLoading(false);
+        navigate(`/${instanciaURL}`)
     }
   };
 
   return (
     <>
-      <Button
-        onClick={() => setOpen(true)}
-        sx={{
-          backgroundColor: "#1565c0", 
-          color: "white",
-          fontWeight: 'medium', 
-          letterSpacing: 1.2, 
-          width: '100%',
-          fontSize: '0.875rem', 
-          textTransform: 'none', 
-          borderRadius: '4px', 
-          padding: '8px 24px', 
-          boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
-          transition: 'background-color .3s, color .3s, box-shadow .3s',
-          ":hover": {
-            backgroundColor: "white", 
-            color: "#1565c0",
-            borderColor: "#1565c0",
-            boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-          }
-        }}
-        startIcon={<PersonAddAltIcon />}
-      >
-        Registrate
-      </Button>
-      <Dialog onClose={() => setOpen(false)} open={open} PaperProps={{ sx: { backgroundColor: "#f7f7f7", borderRadius: '16px' } }}>
-        <DialogContent sx={{ padding: 4 }}>
           <form onSubmit={handleFormSubmit}>
             <Grid container spacing={2} direction="column" alignItems="center">
               <Grid item xs={12}>
@@ -372,8 +348,7 @@ export const SignUpPopup = () => {
             )}
           </form>
           {loading && <LinearProgress/>}
-        </DialogContent>
-      </Dialog>
+        
     </>
   );
 };

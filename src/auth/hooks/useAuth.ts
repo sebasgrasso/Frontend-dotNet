@@ -1,6 +1,6 @@
 import { useAppDispatch } from "../../hooks/hooks";
-import { useLoginMutation, useSignupMutation } from "../../store/apis/microbApis";
-import { startEmailAndPasswordLogin, /*startGoogleSignIn,*/ startLogout } from "../../store/apis/thunks";
+import { useInvitationSignUpMutation, useLoginMutation, useSignupMutation } from "../../store/apis/microbApis";
+import { startEmailAndPasswordLogin, startLogout } from "../../store/apis/thunks";
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +28,18 @@ export const useAuth = () => {
       data: dataSignup,
     },
   ] = useSignupMutation();
+
+  const [
+    startInvitationSignUp,
+    {
+      isLoading: isAuthenticatingRegistroInvitacion,
+      status: statusRegistroInvitacion,
+      error: errorSignupInvitacion,
+      isError: isErrorSignupInvitacion,
+      isSuccess: isSuccessSignupInvitacion,
+      data: dataSignupInvitacion,
+    },
+  ] = useInvitationSignUpMutation();
 
   const handleLogout = () => {
     dispatch(startLogout());
@@ -59,11 +71,12 @@ export const useAuth = () => {
     email: string,
     contrasenia: string,
     nickname:string,
-    fechaNac:string,
+    fechaNac:string | null,
     bio:string,
     ocupacion:string,
     sitioWeb:string,
-    fotoUrl:string
+    fotoUrl:string,
+    guidToken: string | null,
   ) => {
     startRegistrarUsuario({
         username,
@@ -76,7 +89,46 @@ export const useAuth = () => {
           ocupacion,
           sitioWeb,
           fotoUrl
-        }
+        },
+        guidToken
+    })
+      .unwrap()
+      .then((resp) => {
+        setTimeout(() => {
+          const token: string = resp;
+          dispatch(startEmailAndPasswordLogin(token));
+        }, 3000);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleRegistrarUsuarioInvitacion = async (
+    username: string,
+    email: string,
+    contrasenia: string,
+    nickname:string,
+    fechaNac:string | null,
+    bio:string,
+    ocupacion:string,
+    sitioWeb:string,
+    fotoUrl:string,
+    guidToken: string,
+  ) => {
+    startInvitationSignUp({
+        username,
+        email,
+        contrasenia,
+        perfil:{
+          nickname,
+          fechaNac,
+          bio,
+          ocupacion,
+          sitioWeb,
+          fotoUrl
+        },
+        guidToken
     })
       .unwrap()
       .then((resp) => {
@@ -106,6 +158,14 @@ export const useAuth = () => {
     errorSignup,
     isSuccessSignup,
     dataLogin,
-    dataSignup
+    dataSignup,
+    handleRegistrarUsuarioInvitacion,
+    isAuthenticatingRegistroInvitacion,
+    statusRegistroInvitacion,
+    errorSignupInvitacion,
+    isErrorSignupInvitacion,
+    isSuccessSignupInvitacion,
+    dataSignupInvitacion,
+
   };
 };

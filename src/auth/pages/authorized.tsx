@@ -18,6 +18,8 @@ const Authorized = () => {
     dispatch(startEmailAndPasswordLogin(accessToken));
     navigate(`/${instancia}`);
   }
+
+  return null
 };
 
 export default Authorized;

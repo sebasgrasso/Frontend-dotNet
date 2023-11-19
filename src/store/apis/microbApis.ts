@@ -44,7 +44,14 @@ export const microbApis = createApi({
         method: "POST",
         body,
       }),
-      transformResponse: (resp: AuthLoginResponseDTO, meta) => resp.accessToken,
+      invalidatesTags: [],
+    }),
+    invitationSignUp: builder.mutation<string, UsuarioCreateDTO>({
+      query: (body) => ({
+        url: `/auth/register?token=${body.guidToken}`,
+        method: "POST",
+        body,
+      }),
       invalidatesTags: [],
     }),
     createPost: builder.mutation<PostDTO, PostCreateDTO>({
@@ -342,6 +349,7 @@ export const {
   useAddPostFavoritosMutation,
   useRequestConnectionMutation,
   useReportPostMutation,
-  useGetReportRazonesQuery
+  useGetReportRazonesQuery,
+  useInvitationSignUpMutation,
   //useLoginGoogleMutation,
 } = microbApis;
