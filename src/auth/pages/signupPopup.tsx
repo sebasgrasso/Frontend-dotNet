@@ -1,5 +1,5 @@
 import { Alert, Button, Dialog, DialogContent, Grid, InputAdornment, TextField, Typography, LinearProgress  } from "@mui/material";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../hooks/useAuth";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -11,13 +11,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
 import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
+import { useLocation, useNavigate } from "react-router-dom";
 
 const initialStateForm = {
     username: "",
     email: "",
     contrasenia: "",
     nickname: "",
-    fechaNac: "",
+    fechaNac: null,
     biografia: "",
     ocupacion: "",
     sitioWeb: "",
@@ -28,6 +29,10 @@ export const SignUpPopup = () => {
   const [open, setOpen] = useState(false);  
   const [isFirstStep, setIsFirstStep] = useState(true);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const pathParts = location.pathname.split('/');
+  const instancia = pathParts[1]; 
+  const navigate = useNavigate();
   const {
     handleRegistrarUsuario,
     isErrorSignup,
@@ -57,8 +62,15 @@ export const SignUpPopup = () => {
     } else {
     if (!username || !email || !contrasenia || !nickname ) return;
       handleRegistrarUsuario(username, email, contrasenia, nickname, fechaNac, biografia, ocupacion, sitioWeb, fotoUrl,null);
+      setTimeout(() => {
+        setOpen(false);
+      }, 2000);
       setLoading(false);
     }
+  };
+
+  const isFormValid = () => {
+    return username && email && contrasenia.length >=8 && nickname;
   };
 
   return (
@@ -83,8 +95,8 @@ export const SignUpPopup = () => {
       >
         Registrate
       </Button>
-      <Dialog onClose={() => setOpen(false)} open={open} PaperProps={{ borderRadius: '16px' }}>
-        <DialogContent sx={{ padding: 4 }}>
+      <Dialog onClose={() => setOpen(false)} open={open} PaperProps={{ sx: { width: '25%', margin: 'auto', borderRadius: '16px' } }}>
+        <DialogContent sx={{ padding: (theme) => theme.spacing(4) }}>
           <form onSubmit={handleFormSubmit}>
             <Grid container spacing={2} direction="column" alignItems="center">
               <Grid item xs={12}>
@@ -140,6 +152,8 @@ export const SignUpPopup = () => {
                       value={contrasenia}
                       onChange={handleInputChange}
                       sx={{ mt: 1 }}
+                      error={contrasenia && contrasenia.length < 8}
+                      helperText={contrasenia && contrasenia.length < 8 ? "La contraseña debe tener al menos 8 caracteres" : ""}
                       InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -173,6 +187,7 @@ export const SignUpPopup = () => {
                       size="small"
                       fullWidth
                       type="submit"
+                      disabled={!isFormValid()}
                       sx={{
                         color: "white",
                         fontWeight: 'medium', 
@@ -337,7 +352,7 @@ export const SignUpPopup = () => {
             </Grid>
             {isErrorSignup && (
                 <Alert variant="filled" severity="error" sx={{ mt: 2 }}>
-                {errorSignup ? "data" in errorSignup ? `${errorSignup.data}` : "" : "Algo salió mal"}
+                  {errorSignup?.data?.message + '!'}
                 </Alert>
             )}
             {isSuccessSignup && (

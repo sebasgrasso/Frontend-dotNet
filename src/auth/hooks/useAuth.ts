@@ -94,10 +94,6 @@ export const useAuth = () => {
     })
       .unwrap()
       .then((resp) => {
-        setTimeout(() => {
-          const token: string = resp;
-          dispatch(startEmailAndPasswordLogin(token));
-        }, 3000);
       })
       .catch((error) => {
         console.error(error);

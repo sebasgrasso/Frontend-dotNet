@@ -1,14 +1,17 @@
 import { Card, CardContent, Grid, Typography, IconButton, Box } from '@mui/material';
 import { IconPlus } from '@tabler/icons-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, LineChart, Line, AreaChart, Area, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, LineChart, Line, ResponsiveContainer } from 'recharts';
 import NuevoTrendModal from '../components/modalNewTrend';
 import React, { useState, useCallback } from 'react';
 import { useGetEstadisticasPostsQuery, useGetEstadisticasTrendsQuery, useGetEstadisticasUsersQuery } from '../../store/apis/microbApis';
+import { useTheme } from '@mui/material/styles';
+
 
 export const EstadisticasInstancia = () => {
   const {data: usuarios} = useGetEstadisticasUsersQuery();
   const {data: trends} = useGetEstadisticasTrendsQuery();
   const {data: posts} = useGetEstadisticasPostsQuery();
+  const theme = useTheme();
 
   const dataUsuarios = usuarios ? [
     { tipo: 'Administrador', cantidad: usuarios.cantidades.adminCount },
@@ -55,7 +58,7 @@ export const EstadisticasInstancia = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="cantidad" fill="#ff6723" />
+                <Bar dataKey="cantidad" fill={theme.palette.primary.main} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -85,7 +88,7 @@ export const EstadisticasInstancia = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="cantidad" fill="#ff6723" />
+                <Bar dataKey="cantidad" fill={theme.palette.primary.main} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -103,7 +106,7 @@ export const EstadisticasInstancia = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="cantidades" stroke="#82ca9d" />
+                <Line type="monotone" dataKey="cantidades" stroke={theme.palette.primary.main} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
