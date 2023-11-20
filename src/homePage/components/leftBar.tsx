@@ -2,17 +2,27 @@ import React from 'react';
 import { Box, Paper, Typography, List, ListItem, ListItemText  } from '@mui/material';
 import { useGetTrendsQuery } from '../../store/apis/microbApis';
 import { useNavigate } from 'react-router-dom';
-import logoPng from '../img/logo.png';
+import logoAzul from '../img/logoAzul.png';
+import logoRojo from '../img/logoRojo.png';
+import logoVerde from '../img/logoVerde.png';
+import { useAppSelector } from '../../hooks/hooks';
+
 
 const LeftBar: React.FC = () => {
   const {data:trends} = useGetTrendsQuery();
   const navigate = useNavigate();
+  const tema = useAppSelector(state => state.instance.tema);
+
+  let logoPng = logoAzul;
+  if (tema === 'rojo') {
+    logoPng = logoRojo;
+  } else if (tema === 'verde') {
+    logoPng = logoVerde;
+  }
 
   const pathParts = location.pathname.split('/');
   const urlSearchbar = pathParts[2];
   const urlInstancia = pathParts[1];
-
-
 
   return (
     <>
