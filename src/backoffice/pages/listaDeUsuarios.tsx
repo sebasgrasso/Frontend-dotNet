@@ -145,7 +145,7 @@ export const MisUsuariosList = () => {
           variant="contained" 
           color="primary" 
           onClick={handleInvite}
-          sx={{ margin: '8px' }}
+          sx={{ margin: '8px', color:"white"}}
         >
           Invitar
         </Button>

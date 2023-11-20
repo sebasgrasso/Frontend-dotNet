@@ -230,7 +230,7 @@ const Profile = () => {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 3, mb: 2, color:"white"}}
                         >
                             Cambiar Contraseña
                         </Button>
@@ -291,7 +291,6 @@ const Profile = () => {
                         color="primary"
                         onClick={handleCloseFollowersDialog}
                         sx={{
-                        backgroundColor: "#1565c0", 
                         color: "white",
                         width: '100%',
                         fontWeight: 'medium', 
@@ -302,12 +301,7 @@ const Profile = () => {
                         padding: '8px 24px', 
                         boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
                         transition: 'background-color .3s, color .3s, box-shadow .3s',
-                        ":hover": {
-                            backgroundColor: "white", 
-                            color: "#1565c0",
-                            borderColor: "#1565c0",
-                            boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                        }
+                        
                         }}
                         >
                             Cerrar
@@ -330,7 +324,6 @@ const Profile = () => {
                         color="primary"
                         onClick={handleCloseFollowingDialog}
                         sx={{
-                        backgroundColor: "#1565c0", 
                         color: "white",
                         width: '100%',
                         fontWeight: 'medium', 
@@ -341,12 +334,7 @@ const Profile = () => {
                         padding: '8px 24px', 
                         boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
                         transition: 'background-color .3s, color .3s, box-shadow .3s',
-                        ":hover": {
-                            backgroundColor: "white", 
-                            color: "#1565c0",
-                            borderColor: "#1565c0",
-                            boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                        }
+                       
                         }}
                         >
                             Cerrar
@@ -441,7 +429,6 @@ const Profile = () => {
                                 color="primary"
                                 onClick={handleOpenModal}
                                 sx={{
-                                backgroundColor: "#1565c0", 
                                 color: "white",
                                 width: '40%',
                                 fontWeight: 'medium', 
@@ -452,12 +439,7 @@ const Profile = () => {
                                 padding: '8px 24px', 
                                 boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
                                 transition: 'background-color .3s, color .3s, box-shadow .3s',
-                                ":hover": {
-                                    backgroundColor: "white", 
-                                    color: "#1565c0",
-                                    borderColor: "#1565c0",
-                                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                                }
+                                
                                 }}
                                 startIcon={<EditIcon />} 
                                 >
@@ -471,7 +453,6 @@ const Profile = () => {
                                 color="primary"
                                 onClick={handleOpenChangePasswordModal}
                                 sx={{
-                                backgroundColor: "#1565c0", 
                                 color: "white",
                                 width: '40%',
                                 fontWeight: 'medium', 
@@ -482,12 +463,7 @@ const Profile = () => {
                                 padding: '8px 24px', 
                                 boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
                                 transition: 'background-color .3s, color .3s, box-shadow .3s',
-                                ":hover": {
-                                    backgroundColor: "white", 
-                                    color: "#1565c0",
-                                    borderColor: "#1565c0",
-                                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                                }
+                               
                                 }}
                                 startIcon={<HttpsIcon />} 
                                 >
@@ -567,7 +543,6 @@ const Profile = () => {
                                 color="primary"
                                 onClick={handleSaveNotifications}
                                 sx={{
-                                backgroundColor: "#1565c0", 
                                 color: "white",
                                 width: '100%',
                                 fontWeight: 'medium', 
@@ -578,12 +553,7 @@ const Profile = () => {
                                 padding: '8px 24px', 
                                 boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
                                 transition: 'background-color .3s, color .3s, box-shadow .3s',
-                                ":hover": {
-                                    backgroundColor: "white", 
-                                    color: "#1565c0",
-                                    borderColor: "#1565c0",
-                                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                                }
+                               
                                 }}
                                 startIcon={<SaveIcon />} 
                             >

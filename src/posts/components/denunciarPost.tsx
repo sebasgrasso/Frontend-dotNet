@@ -87,7 +87,7 @@ const DenunciarPostButton= ({post}:{post:PostDTO}) => {
                     </Box>
 
                     <Box>
-                        <Button variant="contained" color="primary" onClick={handleReportarClick} >Reportar</Button>
+                        <Button variant="contained" sx={{color:"white"}} onClick={handleReportarClick} >Reportar</Button>
                     </Box>
                 </Box>
                 </DialogContent>

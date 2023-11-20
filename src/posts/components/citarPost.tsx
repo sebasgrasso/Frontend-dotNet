@@ -45,7 +45,7 @@ const CitarPost = ({post}:{post:PostDTO}) => {
                     <Post post={post} clickeable={false} />
 
                     <Box mt={4}>
-                        <Button variant="contained" color="primary" onClick={handleGuardarPerfil} >Crear Post</Button>
+                        <Button variant="contained" sx={{color:"white"}} onClick={handleGuardarPerfil} >Crear Post</Button>
                     </Box>
                 </CardContent>
             </Card>

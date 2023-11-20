@@ -20,7 +20,7 @@ export const SearchBar = () => {
     setQ(target.value);
   };
 
-  const handlepostSubmit = ()=>{
+  const handleSearchClick = ()=>{
       if(urlSearchbar!="searchResults"){
         navigate(`searchResults`, {state: q})}
       else{
@@ -28,10 +28,14 @@ export const SearchBar = () => {
         }
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearchClick();
+    }
+  };
+
   return (
     <Paper
-      component="form"
-      onSubmit={handlepostSubmit}
       sx={{
         p: '2px 4px',
         display: 'flex',
@@ -42,7 +46,7 @@ export const SearchBar = () => {
         borderRadius: 20,
       }}
     >
-      <IconButton type="submit" sx={{ p: '10px', color: 'black' }} aria-label="search">
+      <IconButton onClick={handleSearchClick} sx={{ p: '10px', color: 'black' }} aria-label="search">
         <SearchIcon />
       </IconButton>
       <InputBase
@@ -52,6 +56,7 @@ export const SearchBar = () => {
         value={q}
         onChange={handlepostContentChange}
         inputRef={textFieldRef}
+        onKeyDown={handleKeyDown}
       />
     </Paper>
   );

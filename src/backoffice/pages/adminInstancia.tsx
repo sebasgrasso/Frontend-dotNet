@@ -231,7 +231,7 @@ const AdminInstancia: React.FC = () => {
                                 <Button 
                                   variant="contained" 
                                   color="primary" 
-                                  sx={{ margin: '8px' }}
+                                  sx={{ margin: '8px',color:"white" }}
                                   onClick={() => handleRequestConnection(idInstancia)}
                                 >
                                   Solicitar

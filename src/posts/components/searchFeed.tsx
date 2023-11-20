@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, Grid, Typography, Card, CardContent, Button } from "@mui/material";
+import { Paper, Grid, Typography, Card, CardContent } from "@mui/material";
 import { useLazyGetPostsBusquedaQuery } from "../../store/apis/microbApis";
 import { useEffect } from "react";
 import { Post } from "../../posts/components/post";
@@ -7,8 +7,6 @@ import { ToastContainer } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { skipValue } from "../../store/posts/postsSlice";
-import { useNavigate } from "react-router-dom";
-import { getInstanciaStorage } from "../../utils/localstorage";
 import { SearchBar } from "../../homePage/components/searchbar";
 
 interface searchPostsProps {
@@ -22,15 +20,6 @@ const SearchFeed: React.FC<searchPostsProps> = ({q}) => {
   
   const { skip, limit } = useAppSelector((state) => state.postsSkip);
   const [allPosts, setAllPosts] = useState(posts);
-  const navigate = useNavigate();
-  const instanciaDelStore = getInstanciaStorage();
-  
-  const volverAlInicio = ()=>{
-    if(instanciaDelStore?.alias){
-      navigate(`/${instanciaDelStore.alias}`);
-      dispatch(skipValue({ skip: 0 }));
-    }
-  }
 
   useEffect(() => {
     startGetPosts({ skip, limit , q});
@@ -71,14 +60,8 @@ const SearchFeed: React.FC<searchPostsProps> = ({q}) => {
   return (
     <Paper sx={{padding: '20px',backgroundColor:"rgb(25, 27, 34)"}}>
       <ToastContainer />
-      <Button 
-                  sx={{backgroundColor:"white"}} 
-                  onClick={()=>{instanciaDelStore?.alias ? volverAlInicio() : navigate("/") }}
-                >
-                  VOLVER
-      </Button>
       <SearchBar/>
-      {(allPosts?.length && allPosts.length >= 1) ? 
+      {(allPosts && allPosts.length >= 1) ? 
         <InfiniteScroll
             dataLength={allPosts?.length ?? 0}
             next={fetchMoreData}
