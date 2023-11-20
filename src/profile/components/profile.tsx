@@ -31,6 +31,7 @@ import { useBlockPrivateUser } from '../hooks/useBlockPrivateUser';
 import { useSilencePrivateUser } from '../hooks/useSilencePrivateUser';
 import { useChangePassword } from '../hooks/useChangePassword';
 import { skipValue } from '../../store/posts/postsSlice';
+import { useTheme } from '@mui/material/styles';
 
 
 const Profile = () => {
@@ -142,6 +143,7 @@ const Profile = () => {
         setOpenModal(false);
     };
 
+    const theme = useTheme();
     const [openFollowersDialog, setOpenFollowersDialog] = useState(false);
     const [openFollowingDialog, setOpenFollowingDialog] = useState(false);
 
@@ -309,7 +311,7 @@ const Profile = () => {
                 </DialogActions>
             </Dialog>
 
-            <Dialog open={openFollowingDialog} onClose={handleCloseFollowingDialog} style={{height: '500px', overflowY: 'auto'}}>
+            <Dialog open={openFollowingDialog} onClose={handleCloseFollowingDialog} style={{height: '500px', overflowY: 'auto'}} >
                 <DialogTitle>Seguidos</DialogTitle>
                 <DialogContent>
                     <List>
@@ -348,7 +350,10 @@ const Profile = () => {
                     <ArrowBackIcon fontSize="large" />
                 </IconButton>
 
-                <Card sx={{ my: 5, bgcolor: 'white', color: 'black' }}>
+                <Card sx={{ my: 5, bgcolor: 'white', color: 'black', padding: theme.spacing(3),
+                        marginTop: theme.spacing(4),
+                        boxShadow: theme.shadows[5],
+                        borderRadius: theme.shape.borderRadius}}>
                     <CardContent>
                         <Box display="flex" flexDirection="column" alignItems="center" gap={2} mb={3}>
                             <Avatar src={usuario?.perfil.fotoUrl} alt="Avatar del usuario" sx={{ width: 100, height: 100 }} />
@@ -430,7 +435,7 @@ const Profile = () => {
                                 onClick={handleOpenModal}
                                 sx={{
                                 color: "white",
-                                width: '40%',
+                                width: '45%',
                                 fontWeight: 'medium', 
                                 letterSpacing: 1.2, 
                                 fontSize: '0.875rem', 
@@ -454,7 +459,7 @@ const Profile = () => {
                                 onClick={handleOpenChangePasswordModal}
                                 sx={{
                                 color: "white",
-                                width: '40%',
+                                width: '45%',
                                 fontWeight: 'medium', 
                                 letterSpacing: 1.2, 
                                 fontSize: '0.875rem', 
@@ -497,7 +502,9 @@ const Profile = () => {
 
             {idUserLogueado === idUsuario ?             
                 <Grid item xs={12} md={6} lg={3}>
-                    <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px'}}>
+                    <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px', marginTop: theme.spacing(4),
+                        boxShadow: theme.shadows[5],
+                        borderRadius: theme.shape.borderRadius}}>
                         <CardContent>
                             <Typography variant="h6" gutterBottom>Notificaciones</Typography>
                             <Divider />
@@ -563,7 +570,9 @@ const Profile = () => {
                         </CardContent>
                     </Card>
                     <Grid item >
-                            <Card sx={{bgcolor: 'white', color: 'black', maxHeight: '357px'}}>
+                            <Card sx={{bgcolor: 'white', color: 'black',height: '405px', marginTop: theme.spacing(4),
+                        boxShadow: theme.shadows[5],
+                        borderRadius: theme.shape.borderRadius}}>
                                 <CardContent>
                                     <Typography variant="h6" gutterBottom>Mis Bloqueados</Typography>
                                     <Divider/>

@@ -75,9 +75,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl 
                   transition: 'background-color .3s, color .3s, box-shadow .3s',
                   ":hover": {
                     backgroundColor: "white", 
-                    color: "#1565c0",
-                    borderColor: "#1565c0",
-                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                    color: "primary.main",
+
                   }
                 }}>
                 <CheckIcon />
@@ -114,7 +113,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl 
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background-color: red;
+            background-color: black;
             color: white;
             display: flex;
             justify-content: center;
