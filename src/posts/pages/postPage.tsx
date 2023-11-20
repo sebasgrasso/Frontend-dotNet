@@ -29,21 +29,15 @@ const volverAlInicio = ()=>{
   }
 }
   return (
-      <div style={{ backgroundColor: "#191b22", minHeight: "100vh" }}>
-      <Container style={{ backgroundColor: "#191b22", minHeight: "100vh" }}>
+      <div style={{ backgroundColor: "#191b22", minHeight: "102vh" }}>
+      <Container style={{ backgroundColor: "#191b22"}}>
         <Grid container spacing={2}>
           <Grid item xs={3}>
             <LeftBar  />
           </Grid>
           {post ?
             <Grid item xs={6}>
-              <Paper sx={{padding: '20px',marginTop: '20px',backgroundColor:"rgb(25, 27, 34)"}}>
-                <Button 
-                  sx={{backgroundColor:"white"}} 
-                  onClick={()=>{instanciaDelStore?.alias ? volverAlInicio() : navigate("/") }}
-                >
-                  VOLVER
-                </Button>
+              <Paper sx={{backgroundColor:"rgb(25, 27, 34)"}}>
                 <InfiniteScroll
                   dataLength={24}
                   next={()=>{}}

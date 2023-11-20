@@ -15,9 +15,6 @@ export const useViewedNotification = () => {
         ).unwrap()
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .then(() => {
-                toast.success("Notificacion vista con exito!", {
-                    position: toast.POSITION.TOP_RIGHT
-                });
             })
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .catch((error) => {
