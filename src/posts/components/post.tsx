@@ -227,7 +227,7 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                         }
                       </Button>
                       </Tooltip>
-                      <Typography>{cantFav}</Typography>
+                      <Typography >{cantFav}</Typography>
                     </Grid>
 
                     

@@ -145,7 +145,7 @@ const AdminInstancia: React.FC = () => {
                                 <Button 
                                   variant="contained" 
                                   color="primary" 
-                                  sx={{ width: '100%' }} 
+                                  sx={{ width: '100%',color:"white" }} 
                                   onClick={() => handleChangeStatusInstance()}
                                 >
                                   Cambiar Estado
@@ -199,7 +199,7 @@ const AdminInstancia: React.FC = () => {
                           <Button 
                             variant="contained" 
                             color="primary" 
-                            sx={{ margin: '8px' }}
+                            sx={{ margin: '8px', color:"white" }}
                             onClick={() => handleChangeDataInstance({nombre, tipoRegistro, tema})}
                           >
                             Guardar

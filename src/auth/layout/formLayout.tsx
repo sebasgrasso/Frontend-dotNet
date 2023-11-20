@@ -15,7 +15,6 @@ export const FormLayout = ({ children }: any) => {
         sx={{
           position: "relative",
           width: 550,
-          backgroundColor: "#333",
           py: 2,
           px: 5,
           borderRadius: 3,

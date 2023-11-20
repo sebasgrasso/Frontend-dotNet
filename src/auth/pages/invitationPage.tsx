@@ -1,4 +1,4 @@
-import { Alert, Button, Grid, InputAdornment, TextField, Typography, LinearProgress  } from "@mui/material";
+import { Alert, Button, Grid, InputAdornment, TextField, Typography, LinearProgress, useTheme  } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../hooks/useAuth";
@@ -156,7 +156,6 @@ export const InvitationPage = () => {
                       fullWidth
                       type="submit"
                       sx={{
-                        backgroundColor: "#1565c0", 
                         color: "white",
                         fontWeight: 'medium', 
                         letterSpacing: 1.2, 
@@ -167,12 +166,7 @@ export const InvitationPage = () => {
                         padding: '8px 24px', 
                         boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
                         transition: 'background-color .3s, color .3s, box-shadow .3s',
-                        ":hover": {
-                          backgroundColor: "white", 
-                          color: "#1565c0",
-                          borderColor: "#1565c0",
-                          boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                        }
+                        
                       }}
                       startIcon={<NavigateNextIcon />}
                     >
@@ -275,58 +269,47 @@ export const InvitationPage = () => {
                   </Grid>
                   <Grid item container xs={12} justifyContent="space-between" spacing={2}>
                     <Grid item xs={6}>
-                        <Button
-                        variant="outlined"
-                        fullWidth
-                        onClick={() => setIsFirstStep(true)}
-                        sx={{
-                            backgroundColor: "#1565c0", 
-                            color: "white",
-                            fontWeight: 'medium', 
-                            letterSpacing: 1.2, 
-                            width: '100%',
-                            fontSize: '0.875rem', 
-                            textTransform: 'none', 
-                            borderRadius: '4px', 
-                            padding: '8px 24px', 
-                            boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
-                            transition: 'background-color .3s, color .3s, box-shadow .3s',
-                            ":hover": {
-                              backgroundColor: "white", 
-                              color: "#1565c0",
-                              borderColor: "#1565c0",
-                              boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                            }
-                          }}
+                    <Button
+                      variant="contained"
+                      size="small"
+                      fullWidth
+                      type="submit"
+                      sx={{
+                        color: "white",
+                        fontWeight: 'medium', 
+                        letterSpacing: 1.2, 
+                        width: '100%',
+                        fontSize: '0.875rem', 
+                        textTransform: 'none', 
+                        borderRadius: '4px', 
+                        padding: '8px 24px', 
+                        boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                        transition: 'background-color .3s, color .3s, box-shadow .3s',
+                      }}
                         startIcon={<ChevronLeftIcon />}
                         >
                         Atrás
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
-                        <Button
-                        variant="outlined"
-                        fullWidth
-                        type="submit"
-                        sx={{
-                            backgroundColor: "#1565c0", 
-                            color: "white",
-                            fontWeight: 'medium', 
-                            letterSpacing: 1.2, 
-                            width: '100%',
-                            fontSize: '0.875rem', 
-                            textTransform: 'none', 
-                            borderRadius: '4px', 
-                            padding: '8px 24px', 
-                            boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
-                            transition: 'background-color .3s, color .3s, box-shadow .3s',
-                            ":hover": {
-                              backgroundColor: "white", 
-                              color: "#1565c0",
-                              borderColor: "#1565c0",
-                              boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                            }
-                          }}
+                    <Button
+                      variant="contained"
+                      size="small"
+                      fullWidth
+                      type="submit"
+                      sx={{
+                        color: "white",
+                        fontWeight: 'medium', 
+                        letterSpacing: 1.2, 
+                        width: '100%',
+                        fontSize: '0.875rem', 
+                        textTransform: 'none', 
+                        borderRadius: '4px', 
+                        padding: '8px 24px', 
+                        boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                        transition: 'background-color .3s, color .3s, box-shadow .3s',
+                        
+                      }}
                         startIcon={<CheckCircleIcon />} 
                         >
                         Registrarme

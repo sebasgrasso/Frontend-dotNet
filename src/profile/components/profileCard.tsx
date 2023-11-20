@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Avatar, Typography, Tooltip,IconButton, Paper, Box,Dialog, DialogTitle, DialogContent, List, ListItem, ListItemText, Button  } from '@mui/material';
+import React, { useState } from 'react';
+import { Avatar, Typography, Tooltip, IconButton, Paper, Box,Dialog, DialogContent, List, ListItem, ListItemText  } from '@mui/material';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/hooks';
@@ -64,7 +64,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl 
               <IconButton 
                 onClick={() => handleNotificationClick(notification.id)} 
                 sx={{
-                  backgroundColor: "#1565c0", 
+                  backgroundColor: "primary.main", 
                   color: "white",
                   textTransform: 'none', 
                   borderRadius: '4px', 
@@ -148,15 +148,15 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl 
       <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '5px' }}>
         <Tooltip title="Perfil">
           <IconButton onClick={handleMenuClick} sx={{
-            backgroundColor: "#1565c0", 
+            backgroundColor: "primary.main", 
             color: "white",
             textTransform: 'none', 
             borderRadius: '4px', 
             boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
             transition: 'background-color .3s, color .3s, box-shadow .3s',
             ":hover": {
+              color:"primary.main",
               backgroundColor: "white", 
-              color: "#1565c0",
               borderColor: "#1565c0",
               boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
             }
@@ -166,7 +166,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl 
         </Tooltip>
         <Tooltip title="Notificaciones">
           <IconButton onClick={handleNotificationsOpen} sx={{
-            backgroundColor: "#1565c0", 
+            backgroundColor: "primary.main", 
             color: "white",
             textTransform: 'none', 
             borderRadius: '4px', 
@@ -174,8 +174,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl 
             boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
             transition: 'background-color .3s, color .3s, box-shadow .3s',
             ":hover": {
+              color:"primary.main",
               backgroundColor: "white", 
-              color: "#1565c0",
               borderColor: "#1565c0",
               boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
             }
@@ -186,7 +186,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl 
         </Tooltip>
         <Tooltip title="Cerrar sesión">
           <IconButton onClick={handleLogout} sx={{
-            backgroundColor: "#1565c0", 
+            backgroundColor: "primary.main", 
             color: "white",
             textTransform: 'none', 
             borderRadius: '4px', 
@@ -194,8 +194,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ username, nickname, imageUrl 
             boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
             transition: 'background-color .3s, color .3s, box-shadow .3s',
             ":hover": {
+              color:"primary.main",
               backgroundColor: "white", 
-              color: "#1565c0",
               borderColor: "#1565c0",
               boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
             }

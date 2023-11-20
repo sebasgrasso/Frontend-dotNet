@@ -12,13 +12,12 @@ import PasswordIcon from '@mui/icons-material/Password';
 import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
 
-
 const initialStateForm = {
     username: "",
     email: "",
     contrasenia: "",
     nickname: "",
-    fechaNac: null,
+    fechaNac: "",
     biografia: "",
     ocupacion: "",
     sitioWeb: "",
@@ -57,7 +56,7 @@ export const SignUpPopup = () => {
       setLoading(false);
     } else {
     if (!username || !email || !contrasenia || !nickname ) return;
-      handleRegistrarUsuario(username, email, contrasenia, nickname, fechaNac, biografia, ocupacion, sitioWeb, fotoUrl);
+      handleRegistrarUsuario(username, email, contrasenia, nickname, fechaNac, biografia, ocupacion, sitioWeb, fotoUrl,null);
       setLoading(false);
     }
   };
@@ -65,9 +64,9 @@ export const SignUpPopup = () => {
   return (
     <>
       <Button
+        variant="contained"
         onClick={() => setOpen(true)}
         sx={{
-          backgroundColor: "#1565c0", 
           color: "white",
           fontWeight: 'medium', 
           letterSpacing: 1.2, 
@@ -78,18 +77,13 @@ export const SignUpPopup = () => {
           padding: '8px 24px', 
           boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
           transition: 'background-color .3s, color .3s, box-shadow .3s',
-          ":hover": {
-            backgroundColor: "white", 
-            color: "#1565c0",
-            borderColor: "#1565c0",
-            boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-          }
+          
         }}
         startIcon={<PersonAddAltIcon />}
       >
         Registrate
       </Button>
-      <Dialog onClose={() => setOpen(false)} open={open} PaperProps={{ sx: { backgroundColor: "#f7f7f7", borderRadius: '16px' } }}>
+      <Dialog onClose={() => setOpen(false)} open={open} PaperProps={{ borderRadius: '16px' }}>
         <DialogContent sx={{ padding: 4 }}>
           <form onSubmit={handleFormSubmit}>
             <Grid container spacing={2} direction="column" alignItems="center">
@@ -180,7 +174,6 @@ export const SignUpPopup = () => {
                       fullWidth
                       type="submit"
                       sx={{
-                        backgroundColor: "#1565c0", 
                         color: "white",
                         fontWeight: 'medium', 
                         letterSpacing: 1.2, 
@@ -191,12 +184,7 @@ export const SignUpPopup = () => {
                         padding: '8px 24px', 
                         boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
                         transition: 'background-color .3s, color .3s, box-shadow .3s',
-                        ":hover": {
-                          backgroundColor: "white", 
-                          color: "#1565c0",
-                          borderColor: "#1565c0",
-                          boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                        }
+                        
                       }}
                       startIcon={<NavigateNextIcon />}
                     >
@@ -300,11 +288,10 @@ export const SignUpPopup = () => {
                   <Grid item container xs={12} justifyContent="space-between" spacing={2}>
                     <Grid item xs={6}>
                         <Button
-                        variant="outlined"
+                        variant="contained"
                         fullWidth
                         onClick={() => setIsFirstStep(true)}
                         sx={{
-                            backgroundColor: "#1565c0", 
                             color: "white",
                             fontWeight: 'medium', 
                             letterSpacing: 1.2, 
@@ -315,12 +302,7 @@ export const SignUpPopup = () => {
                             padding: '8px 24px', 
                             boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
                             transition: 'background-color .3s, color .3s, box-shadow .3s',
-                            ":hover": {
-                              backgroundColor: "white", 
-                              color: "#1565c0",
-                              borderColor: "#1565c0",
-                              boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                            }
+                            
                           }}
                         startIcon={<ChevronLeftIcon />}
                         >
@@ -329,11 +311,10 @@ export const SignUpPopup = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <Button
-                        variant="outlined"
+                        variant="contained"
                         fullWidth
                         type="submit"
                         sx={{
-                            backgroundColor: "#1565c0", 
                             color: "white",
                             fontWeight: 'medium', 
                             letterSpacing: 1.2, 
@@ -344,12 +325,6 @@ export const SignUpPopup = () => {
                             padding: '8px 24px', 
                             boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
                             transition: 'background-color .3s, color .3s, box-shadow .3s',
-                            ":hover": {
-                              backgroundColor: "white", 
-                              color: "#1565c0",
-                              borderColor: "#1565c0",
-                              boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
-                            }
                           }}
                         startIcon={<CheckCircleIcon />} 
                         >

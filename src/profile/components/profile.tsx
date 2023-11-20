@@ -10,7 +10,7 @@ import CakeIcon from '@mui/icons-material/Cake';
 import WorkIcon from '@mui/icons-material/Work';
 import LinkIcon from '@mui/icons-material/Link';
 import BioIcon from '@mui/icons-material/Description';
-import { useAppSelector } from '../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import EditProfile from './editProfile';
@@ -30,6 +30,7 @@ import { useGetUsersPrivacityQuery } from "../../store/apis/microbApis";
 import { useBlockPrivateUser } from '../hooks/useBlockPrivateUser';
 import { useSilencePrivateUser } from '../hooks/useSilencePrivateUser';
 import { useChangePassword } from '../hooks/useChangePassword';
+import { skipValue } from '../../store/posts/postsSlice';
 
 
 const Profile = () => {
@@ -47,9 +48,10 @@ const Profile = () => {
     const {data : usuariosPrivacidad} = useGetUsersPrivacityQuery();
     const seguidores = useGetSeguidoresQuery(idNumber);
     const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
+    const dispatch = useAppDispatch();
     const handleOpenChangePasswordModal = () => setOpenChangePasswordModal(true);
     const handleCloseChangePasswordModal = () => setOpenChangePasswordModal(false);
-
+    
     const [openMuteModal, setOpenMuteModal] = useState(false);
     const [muteDuration, setMuteDuration] = useState('1');
     const handleOpenMuteModal = () => setOpenMuteModal(true);
@@ -117,6 +119,7 @@ const Profile = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
+        dispatch(skipValue({skip:0}))
         navigate(-1); 
     };
 

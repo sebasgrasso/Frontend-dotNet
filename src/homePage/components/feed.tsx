@@ -102,11 +102,9 @@ const Feed: React.FC = () => {
         sx={{
           flexGrow: 1,
           marginBottom: '4px', 
-          backgroundColor: global ? "white" : "transparent", 
-          color: global ? "#1565c0" : "#1565c0", 
-          '&:hover': {
-            backgroundColor: global ? "white" : "transparent",
-          },
+          backgroundColor: !global ? "transparent" : null, 
+          color: "white", 
+          
         }}
       >
         Global
@@ -117,12 +115,8 @@ const Feed: React.FC = () => {
         sx={{
           flexGrow: 1,
           marginBottom: '4px', 
-          backgroundColor: !global ? "white" : "transparent", 
-          color: !global ? "#1565c0" : "#1565c0", 
-          '&:hover': {
-            backgroundColor: !global ? "white" : "transparent",
-
-          },
+          backgroundColor: global ? "transparent" : null, 
+          color: "white",
         }}
       >
         Local

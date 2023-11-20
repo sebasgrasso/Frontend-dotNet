@@ -11,6 +11,7 @@ interface GetInstanceSliceState {
     isActiva: boolean;
     tipoRegistro: TipoRegistrostring; 
     tematicas: TematicaDTO[];
+    tema:string;
 }
 
 const initialState = (): GetInstanceSliceState => {
@@ -22,7 +23,8 @@ const initialState = (): GetInstanceSliceState => {
     isBanned: false,
     isActiva: false,
     tipoRegistro:"Cerrado",
-    tematicas:[]
+    tematicas:[],
+    tema:"azul"
 }
   return state;
 };
@@ -40,6 +42,7 @@ export const instanceSlice = createSlice({
       state.tematicas = action.payload.tematicas;
       state.isActiva = action.payload.isActiva;
       state.isBanned = action.payload.isBanned;
+      state.tema = action.payload.tema;
     },
   },
 }); 

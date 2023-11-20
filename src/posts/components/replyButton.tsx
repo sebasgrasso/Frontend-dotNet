@@ -137,7 +137,7 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
                     </Box>
 
                     <Box>
-                        <Button variant="contained" color="primary" onClick={handleCrearRespuesta} >Responder</Button>
+                        <Button variant="contained" sx={{color:"white"}} onClick={handleCrearRespuesta} >Responder</Button>
                     </Box>
                 </DialogContent>
                 <DialogActions>
