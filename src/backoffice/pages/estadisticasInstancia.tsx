@@ -65,6 +65,36 @@ export const EstadisticasInstancia = () => {
         <Card>
           <CardContent>
             <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="15px">
+              <Typography variant="h6">Trends</Typography>
+              <IconButton
+                onClick={handleOpenModal}
+                sx={{
+                  color: 'white', 
+                  backgroundColor: 'primary.main', 
+                  '&:hover': {
+                    backgroundColor: 'primary.main', 
+                  },
+                }}
+                >
+                <IconPlus />
+              </IconButton>
+            </Box>
+            <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={dataTrends}>
+                <XAxis dataKey='keyword' />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="cantidad" fill="#ff6723" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} lg={12}>
+        <Card>
+          <CardContent>
+            <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="15px">
               <Typography variant="h6">Cantidad de Posts (ultimos 30 dias)</Typography>
             </Box>
             <ResponsiveContainer width="100%" height={300}>
@@ -75,36 +105,6 @@ export const EstadisticasInstancia = () => {
                 <Legend />
                 <Line type="monotone" dataKey="cantidades" stroke="#82ca9d" />
               </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12} lg={12}>
-        <Card>
-          <CardContent>
-            <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="15px">
-              <Typography variant="h6">Trends</Typography>
-              <IconButton
-                onClick={handleOpenModal}
-                sx={{
-                  color: 'white', 
-                  backgroundColor: 'blue', 
-                  '&:hover': {
-                    backgroundColor: 'darkblue', 
-                  },
-                }}
-                >
-                <IconPlus />
-              </IconButton>
-            </Box>
-            <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={dataTrends}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="keyword" />
-                <YAxis />
-                <Tooltip />
-                <Area type="monotone" dataKey="cantidad" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
-              </AreaChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>

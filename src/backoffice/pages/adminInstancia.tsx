@@ -196,10 +196,16 @@ const AdminInstancia: React.FC = () => {
                               </Select>
                             </FormControl>
                           </CardContent>
+                          <ListItem>
+                            <ListItemText 
+                              primary="Tenga en cuenta que al cambiar el tema, deberá refrescar la página para visualizar los cambios." 
+                              primaryTypographyProps={{ textAlign: 'center', fontStyle: 'italic' }}
+                            />
+                          </ListItem>
                           <Button 
                             variant="contained" 
                             color="primary" 
-                            sx={{ margin: '8px', color:"white" }}
+                            sx={{ margin: '8px', color:"white", width: '98%' }}
                             onClick={() => handleChangeDataInstance({nombre, tipoRegistro, tema})}
                           >
                             Guardar
@@ -231,7 +237,7 @@ const AdminInstancia: React.FC = () => {
                                 <Button 
                                   variant="contained" 
                                   color="primary" 
-                                  sx={{ margin: '8px',color:"white" }}
+                                  sx={{ margin: '8px', color:"white", width: '98%' }}
                                   onClick={() => handleRequestConnection(idInstancia)}
                                 >
                                   Solicitar

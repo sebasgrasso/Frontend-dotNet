@@ -25,7 +25,7 @@ export const microbApis = createApi({
       return headers;
     },
   }),
-  tagTypes: ["listaPosts","obtenerPerfil","usuarios","denuncias","datosInstancia", "actualizarPerfil", "conexionesInstancia", "seguidores", "seguidos", "opcionesUsuario","obtenerTrends","instancias", "privacidad", "notificaciones"],
+  tagTypes: ["listaPosts","obtenerPerfil","usuarios","estadisticasTrends","denuncias","datosInstancia", "actualizarPerfil", "conexionesInstancia", "seguidores", "seguidos", "opcionesUsuario","obtenerTrends","instancias", "privacidad", "notificaciones"],
   endpoints: (builder) => ({
     login: builder.mutation<string, AuthLoginDTO>({
       query: (body) => ({
@@ -130,7 +130,7 @@ export const microbApis = createApi({
           MinutosDesde,
         },
       }),
-      invalidatesTags: ['obtenerTrends']
+      invalidatesTags: ['obtenerTrends', 'estadisticasTrends']
     }),
     suspendUser: builder.mutation<void, SuspenderUsuarioDTO>({
       query: ({ id, fecha }) => {
@@ -232,6 +232,7 @@ export const microbApis = createApi({
     }),
     getEstadisticasTrends: builder.query<TrendDTO,void>({
       query: () => (`/private/instancias/estadisticas/trend`),
+      providesTags: ["estadisticasTrends"],
     }),
     getEstadisticasPosts: builder.query<DtEstadisticaPost,void>({
       query: () => (`/private/instancias/estadisticas/post`),
