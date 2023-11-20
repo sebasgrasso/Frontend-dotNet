@@ -197,7 +197,7 @@ export const microbApis = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: [],
+      invalidatesTags: ["denuncias"],
     }),
     changeStatusReport: builder.mutation<void, ChangeStatusReport>({
       query: ({ post, s }) => ({
@@ -252,7 +252,7 @@ export const microbApis = createApi({
       query: (id) => (`/usuarios/${id}/seguidores`),
       providesTags: ["seguidores"],
     }),
-    getSeguidos: builder.query<UsuarioDTO, number>({
+    getSeguidos: builder.query<UsuarioDTO[], number>({
       query: (id) => (`/usuarios/${id}/seguidos`),
       providesTags: ["seguidos"],
     }),

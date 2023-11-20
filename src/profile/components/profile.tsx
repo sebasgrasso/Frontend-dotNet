@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
-import { Avatar, Button, Card, CardContent, Typography, Box, Grid, IconButton,TextField, Paper, Link,Select,MenuItem, Divider, ListItem, ListItemText, ListItemIcon, Checkbox } from '@mui/material';
+import { Avatar, Button, Card, CardContent, Typography, Box, Grid, IconButton,TextField, Paper, Link,Select,MenuItem, Divider, ListItem, ListItemText, ListItemIcon, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItemAvatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useGetOptionsUserQuery, useGetSeguidoresQuery, useGetUserQuery } from '../../store/apis/microbApis';
+import { useGetOptionsUserQuery, useGetSeguidoresQuery, useGetSeguidosQuery, useGetUserQuery } from '../../store/apis/microbApis';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
@@ -39,6 +39,7 @@ const Profile = () => {
     const idUsuario = atob(idUsuario64);
     const {data: usuario} = useGetUserQuery(idUsuario);
     const idUserLogueado = useAppSelector((state)=>state.auth.id);
+    const instanciaUserLogueado = useAppSelector((state)=>state.instance.alias);
     const [year, month, day] = usuario?.perfil.fechaNac?.split('-') ?? [0, 0, 0];
     const fechaNac = `${day}/${month}/${year}`;
     const idNumber = parseInt(idUsuario);
@@ -47,6 +48,7 @@ const Profile = () => {
     const [isMuted, setIsMuted] = useState(false);
     const {data : usuariosPrivacidad} = useGetUsersPrivacityQuery();
     const seguidores = useGetSeguidoresQuery(idNumber);
+    const seguidos = useGetSeguidosQuery(idNumber);
     const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
     const dispatch = useAppDispatch();
     const handleOpenChangePasswordModal = () => setOpenChangePasswordModal(true);
@@ -120,7 +122,7 @@ const Profile = () => {
 
     const handleBack = () => {
         dispatch(skipValue({skip:0}))
-        navigate(-1); 
+        navigate(`/${instanciaUserLogueado}`); 
     };
 
     const handleSubmitChangePassword = (e) => {
@@ -139,6 +141,47 @@ const Profile = () => {
     const handleCloseModal = () => {
         setOpenModal(false);
     };
+
+    const [openFollowersDialog, setOpenFollowersDialog] = useState(false);
+    const [openFollowingDialog, setOpenFollowingDialog] = useState(false);
+
+    const handleOpenFollowersDialog = () => setOpenFollowersDialog(true);
+    const handleCloseFollowersDialog = () => setOpenFollowersDialog(false);
+
+    const handleOpenFollowingDialog = () => setOpenFollowingDialog(true);
+    const handleCloseFollowingDialog = () => setOpenFollowingDialog(false);
+
+    const [hoverFollowers, setHoverFollowers] = useState(false);
+    const [hoverFollowing, setHoverFollowing] = useState(false);
+
+    const onHoverFollowers = () => setHoverFollowers(true);
+    const onLeaveFollowers = () => setHoverFollowers(false);
+
+    const onHoverFollowing = () => setHoverFollowing(true);
+    const onLeaveFollowing = () => setHoverFollowing(false);
+
+    const handleUserClick = (user) => {
+        const idUser = btoa(user.id);
+        handleCloseFollowersDialog();
+        handleCloseFollowingDialog();
+        navigate(`/${instanciaUserLogueado}/perfil/${idUser}`);
+    };
+
+
+    const UserListItem = ({ user, instanciaAliasLogueado, onUserClick }) => (
+        <ListItem button onClick={() => onUserClick(user)}>
+            <ListItemAvatar>
+                <Avatar src={user.perfil.fotoUrl} alt={`Avatar de ${user.perfil.nickname}`} />
+            </ListItemAvatar>
+            <ListItemText 
+                primary={user.perfil.nickname} 
+                secondary={
+                    `@${user.username}` + 
+                    (user.instanciaAlias !== instanciaAliasLogueado ? `@${user.instanciaAlias}` : '')
+                } 
+            />
+        </ListItem>
+    );
 
     return (
         <Grid container spacing={1} justifyContent="center" style={{ backgroundColor: '#191B22', minHeight: '101vh', overflowY: 'hidden'}}>
@@ -233,6 +276,85 @@ const Profile = () => {
                 </Paper>
             </Modal>
 
+            <Dialog open={openFollowersDialog} onClose={handleCloseFollowersDialog} style={{height: '500px', overflowY: 'auto'}}>
+                <DialogTitle>Seguidores</DialogTitle>
+                <DialogContent>
+                    <List>
+                        {seguidores.data && seguidores.data.map((seguidor) => (
+                            <UserListItem key={seguidor.id} user={seguidor} instanciaAliasLogueado={instanciaUserLogueado} onUserClick={handleUserClick}  />
+                        ))}
+                    </List>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleCloseFollowersDialog}
+                        sx={{
+                        backgroundColor: "#1565c0", 
+                        color: "white",
+                        width: '100%',
+                        fontWeight: 'medium', 
+                        letterSpacing: 1.2, 
+                        fontSize: '0.875rem', 
+                        textTransform: 'none', 
+                        borderRadius: '4px', 
+                        padding: '8px 24px', 
+                        boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                        transition: 'background-color .3s, color .3s, box-shadow .3s',
+                        ":hover": {
+                            backgroundColor: "white", 
+                            color: "#1565c0",
+                            borderColor: "#1565c0",
+                            boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                        }
+                        }}
+                        >
+                            Cerrar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openFollowingDialog} onClose={handleCloseFollowingDialog} style={{height: '500px', overflowY: 'auto'}}>
+                <DialogTitle>Seguidos</DialogTitle>
+                <DialogContent>
+                    <List>
+                        {seguidos.data && seguidos.data.map((seguido) => (
+                            <UserListItem key={seguido.id} user={seguido} instanciaAliasLogueado={instanciaUserLogueado} onUserClick={handleUserClick}  />
+                        ))}
+                    </List>
+                </DialogContent>
+                <DialogActions>
+                        <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleCloseFollowingDialog}
+                        sx={{
+                        backgroundColor: "#1565c0", 
+                        color: "white",
+                        width: '100%',
+                        fontWeight: 'medium', 
+                        letterSpacing: 1.2, 
+                        fontSize: '0.875rem', 
+                        textTransform: 'none', 
+                        borderRadius: '4px', 
+                        padding: '8px 24px', 
+                        boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                        transition: 'background-color .3s, color .3s, box-shadow .3s',
+                        ":hover": {
+                            backgroundColor: "white", 
+                            color: "#1565c0",
+                            borderColor: "#1565c0",
+                            boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                        }
+                        }}
+                        >
+                            Cerrar
+                    </Button>  
+                </DialogActions>
+            </Dialog>
+
+
             <Grid item xs={12} md={6} lg={4}>
                 <IconButton onClick={handleBack} style={{ color: 'white', position: 'absolute', top: '20px', left: '20px' }}>
                     <ArrowBackIcon fontSize="large" />
@@ -244,8 +366,35 @@ const Profile = () => {
                             <Avatar src={usuario?.perfil.fotoUrl} alt="Avatar del usuario" sx={{ width: 100, height: 100 }} />
                             <Typography variant="h5">{usuario?.perfil.nickname}</Typography>
                             <Typography variant="body1">@{usuario?.username}</Typography>
-                            <Typography variant="body2">{usuario?.cantSeguidores} Seguidores</Typography>
-                            <Typography variant="body2">{usuario?.cantSeguidos} Seguidos</Typography>
+                            <Typography 
+                            variant="body2" 
+                            style={{ 
+                                cursor: 'pointer', 
+                                transform: hoverFollowers ? 'scale(1.1)' : 'scale(1)', 
+                                transition: 'transform 0.3s ease',
+                                color: hoverFollowers ? '#1565c0' : 'black'
+                            }}
+                            onMouseEnter={onHoverFollowers}
+                            onMouseLeave={onLeaveFollowers}
+                            onClick={handleOpenFollowersDialog}>
+                                {usuario?.cantSeguidores} Seguidores
+                            </Typography>
+
+                            <Typography 
+                            variant="body2" 
+                            style={{ 
+                                cursor: 'pointer', 
+                                transform: hoverFollowing ? 'scale(1.1)' : 'scale(1)', 
+                                transition: 'transform 0.3s ease',
+                                color: hoverFollowing ? '#1565c0' : 'black' 
+                            }}
+                            onMouseEnter={onHoverFollowing}
+                            onMouseLeave={onLeaveFollowing}
+                            onClick={handleOpenFollowingDialog}>
+                                {usuario?.cantSeguidos} Seguidos
+                            </Typography>
+
+
                         </Box>
 
                         <Paper variant="outlined" sx={{ p: 2}}>
@@ -286,15 +435,65 @@ const Profile = () => {
                                 </Tooltip>
                             </Box> : null}
 
-                            {idUserLogueado === idUsuario ?                             
-                            <Button variant="contained" startIcon={<EditIcon />} onClick={handleOpenModal} sx={{ bgcolor: 'white', color: '#191B22' }}>
-                                Editar Perfil
-                            </Button>: null}
+                            {idUserLogueado === idUsuario ?   
+                                <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleOpenModal}
+                                sx={{
+                                backgroundColor: "#1565c0", 
+                                color: "white",
+                                width: '40%',
+                                fontWeight: 'medium', 
+                                letterSpacing: 1.2, 
+                                fontSize: '0.875rem', 
+                                textTransform: 'none', 
+                                borderRadius: '4px', 
+                                padding: '8px 24px', 
+                                boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                                transition: 'background-color .3s, color .3s, box-shadow .3s',
+                                ":hover": {
+                                    backgroundColor: "white", 
+                                    color: "#1565c0",
+                                    borderColor: "#1565c0",
+                                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                                }
+                                }}
+                                startIcon={<EditIcon />} 
+                                >
+                                    Editar Perfil
+                                </Button>                          
+                            : null}
 
                             {idUserLogueado === idUsuario ?                             
-                            <Button variant="contained" startIcon={<HttpsIcon />} onClick={handleOpenChangePasswordModal} sx={{ bgcolor: 'white', color: '#191B22' }}>
-                                Cambiar Contraseña
-                            </Button>: null}
+                                <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleOpenChangePasswordModal}
+                                sx={{
+                                backgroundColor: "#1565c0", 
+                                color: "white",
+                                width: '40%',
+                                fontWeight: 'medium', 
+                                letterSpacing: 1.2, 
+                                fontSize: '0.875rem', 
+                                textTransform: 'none', 
+                                borderRadius: '4px', 
+                                padding: '8px 24px', 
+                                boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                                transition: 'background-color .3s, color .3s, box-shadow .3s',
+                                ":hover": {
+                                    backgroundColor: "white", 
+                                    color: "#1565c0",
+                                    borderColor: "#1565c0",
+                                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                                }
+                                }}
+                                startIcon={<HttpsIcon />} 
+                                >
+                                    Cambiar Contraseña
+                                </Button> 
+                            : null}
                             
                             <Modal
                                 aria-labelledby="transition-modal-title"
@@ -363,9 +562,33 @@ const Profile = () => {
                                 </ListItemIcon>
                             </ListItem>
                             <ListItem >
-                                <Button variant="contained" onClick={handleSaveNotifications} startIcon={<SaveIcon />} sx={{ bgcolor: 'white', color: '#191B22' }}>
-                                    Guardar
-                                </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleSaveNotifications}
+                                sx={{
+                                backgroundColor: "#1565c0", 
+                                color: "white",
+                                width: '100%',
+                                fontWeight: 'medium', 
+                                letterSpacing: 1.2, 
+                                fontSize: '0.875rem', 
+                                textTransform: 'none', 
+                                borderRadius: '4px', 
+                                padding: '8px 24px', 
+                                boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                                transition: 'background-color .3s, color .3s, box-shadow .3s',
+                                ":hover": {
+                                    backgroundColor: "white", 
+                                    color: "#1565c0",
+                                    borderColor: "#1565c0",
+                                    boxShadow: '0 4px 6px 3px rgba(21, 101, 192, .2)', 
+                                }
+                                }}
+                                startIcon={<SaveIcon />} 
+                            >
+                                Guardar
+                            </Button>
                             </ListItem>
                         </CardContent>
                     </Card>

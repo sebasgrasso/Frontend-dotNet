@@ -149,6 +149,7 @@ const BotonAccion = ({ postId }) => {
 
     const handleChangeStatusDenuncia = () => {
         handleChangeStatusReport(postId, status);
+        handleClose();
     };
 
     return (
