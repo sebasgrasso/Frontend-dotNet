@@ -43,7 +43,6 @@ export const getToken = () => {
   
       if (!instancia) return;
   
-    
       return instancia;
     } catch (error) {
       return;

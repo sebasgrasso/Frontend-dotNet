@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Dialog, DialogContent, Grid, IconButton, LinearProgress, TextField, Typography } from "@mui/material";
+import { Alert, Button, Dialog, DialogContent, Grid, IconButton, LinearProgress, TextField, Typography } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../hooks/useAuth";
@@ -40,7 +40,7 @@ export const LoginPopup = () => {
 
   const handleGoogleLogin = async () => {
     const idBase64 = btoa(id);
-    const url = "http://localhost:5245/auth/login-google?cacheid=" + idBase64;
+    const url = "https://api-microbuy.up.railway.app/auth/login-google?cacheid=" + idBase64;
     window.location.href = url;
   };
 

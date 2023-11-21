@@ -1,5 +1,5 @@
 import { Alert, Button, Dialog, DialogContent, Grid, InputAdornment, TextField, Typography, LinearProgress  } from "@mui/material";
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useAuth } from "../hooks/useAuth";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -11,7 +11,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import PasswordIcon from '@mui/icons-material/Password';
 import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
-import { useLocation, useNavigate } from "react-router-dom";
 
 const initialStateForm = {
     username: "",
@@ -25,14 +24,16 @@ const initialStateForm = {
     fotoUrl: ""
 };
 
+type MyCustomErrorType = {
+  data: {
+    message: string;
+  };
+};
+
 export const SignUpPopup = () => {
   const [open, setOpen] = useState(false);  
   const [isFirstStep, setIsFirstStep] = useState(true);
   const [loading, setLoading] = useState(false);
-  const location = useLocation();
-  const pathParts = location.pathname.split('/');
-  const instancia = pathParts[1]; 
-  const navigate = useNavigate();
   const {
     handleRegistrarUsuario,
     isErrorSignup,
@@ -152,7 +153,6 @@ export const SignUpPopup = () => {
                       value={contrasenia}
                       onChange={handleInputChange}
                       sx={{ mt: 1 }}
-                      error={contrasenia && contrasenia.length < 8}
                       helperText={contrasenia && contrasenia.length < 8 ? "La contraseña debe tener al menos 8 caracteres" : ""}
                       InputProps={{
                         startAdornment: (
@@ -352,7 +352,7 @@ export const SignUpPopup = () => {
             </Grid>
             {isErrorSignup && (
                 <Alert variant="filled" severity="error" sx={{ mt: 2 }}>
-                  {errorSignup?.data?.message + '!'}
+                  {(errorSignup as MyCustomErrorType).data.message + '!'}
                 </Alert>
             )}
             {isSuccessSignup && (

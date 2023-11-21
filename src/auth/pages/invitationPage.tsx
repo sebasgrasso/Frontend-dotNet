@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import {
   Alert,
   Button,
@@ -39,7 +39,14 @@ const initialStateForm = {
   fotoUrl: ""
 };
 
+type MyCustomErrorType = {
+  data: {
+    message: string;
+  };
+};
+
 export const InvitationPage = () => {
+  
   const tema = useAppSelector(state => state.instance.tema);
   let logoPng = logoAzul;
   if (tema === 'rojo') {
@@ -173,7 +180,6 @@ export const InvitationPage = () => {
                   value={contrasenia}
                   onChange={handleInputChange}
                   sx={{ mt: 1 }}
-                  error={contrasenia && contrasenia.length < 8}
                   helperText={contrasenia && contrasenia.length < 8 ? "La contraseña debe tener al menos 8 caracteres" : ""}
                   InputProps={{
                     startAdornment: (
@@ -373,7 +379,7 @@ export const InvitationPage = () => {
         </Grid>
         {isErrorSignup && (
             <Alert variant="filled" severity="error" sx={{ mt: 2 }}>
-              {errorSignup?.data?.message + '!'}
+              {(errorSignup as MyCustomErrorType).data.message + '!'}
             </Alert>
         )}
         {isSuccessSignup && (

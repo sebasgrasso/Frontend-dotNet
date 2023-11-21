@@ -60,7 +60,7 @@ const App = () => {
   // Efecto para actualizar el tema
   useEffect(() => {
     const fetchData = async () => {
-      const instancia = await fetch(`http://localhost:5245/instancias/alias/${urlInstanceIdentifier}`);
+      const instancia = await fetch(`https://api-microbuy.up.railway.app/instancias/alias/${urlInstanceIdentifier}`);
       const data = await instancia.json();
 
       switch (data.tema) {

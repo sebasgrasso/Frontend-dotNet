@@ -11,7 +11,7 @@ import { getInstanciaStorage } from "../../utils/localstorage";
 export const microbApis = createApi({
   reducerPath: "microbApis",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5245",
+    baseUrl: "https://api-microbuy.up.railway.app",
     //agregar al header X-InstanciaId con el valor de la instancia
     prepareHeaders: (headers, { getState }) => {
       const instanciaStored = getInstanciaStorage();
