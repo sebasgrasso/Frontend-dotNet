@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { setInstance } from '../store/instance/instanceSlice';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { getInstanciaStorage, limpiarInstancia, limpiarStorage, setInstanciaStorage } from '../utils/localstorage';
+import { getInstanciaStorage, limpiarInstancia, setInstanciaStorage } from '../utils/localstorage';
 import { useAppSelector } from './hooks';
 import { useAuth } from '../auth/hooks/useAuth';
 
@@ -60,7 +60,6 @@ function useRouteChangeMiddleware() {
   }, [location, navigate]);
 
   async function fetchDatosInstancia(instanceIdentifier:string) {
-    log
     const response = await fetch(`https://api-microbuy.up.railway.app/instancias/alias/${instanceIdentifier}`);
     const data = await response.json();
     
