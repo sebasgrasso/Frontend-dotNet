@@ -58,7 +58,7 @@ function useRouteChangeMiddleware() {
   }, [location, navigate]);
 
   async function fetchDatosInstancia(instanceIdentifier:string) {
-    const response = await fetch(`http://localhost:5245/instancias/alias/${instanceIdentifier}`);
+    const response = await fetch(`https://api-microbuy.up.railway.app/instancias/alias/${instanceIdentifier}`);
     const data = await response.json();
     
     return data; // Make sure the API response has this structure or adjust as needed

@@ -93,7 +93,7 @@ export const useAuth = () => {
         guidToken
     })
       .unwrap()
-      .then((resp) => {
+      .then(() => {
       })
       .catch((error) => {
         console.error(error);
