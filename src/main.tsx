@@ -82,14 +82,12 @@ const App = () => {
   }, []); // Add tema to the dependency array
 
   return (
-    <React.StrictMode>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <CssBaseline />
           <RouterProvider router={router} />
         </Provider>
       </ThemeProvider>
-    </React.StrictMode>
   );
 };
 
