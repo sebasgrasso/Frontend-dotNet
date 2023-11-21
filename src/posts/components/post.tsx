@@ -34,6 +34,8 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
     const [openFavoritos, setOpenFavoritos] = useState(false);
     const instanciaUserLogueado = useAppSelector((state)=>state.instance.alias);
 
+    //QUE HICISTE NESTOR
+
     const handleOpenFavoritos = () => {
       if(cantFav>0)setOpenFavoritos(true);
     }
