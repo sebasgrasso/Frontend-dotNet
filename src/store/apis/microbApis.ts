@@ -184,6 +184,10 @@ export const microbApis = createApi({
       query: ({ postID,skip, limit }) => (`/posts?postId=${postID}&skip=${skip}&limit=${limit}`),
       providesTags: [],
     }),
+    getPplFavoritos: builder.query<UsuarioDTO[], getPostsFavoritosProps>({
+      query: ({ postID,skip, limit }) => (`/posts/favoritos?postId=${postID}&skip=${skip}&limit=${limit}`),
+      providesTags: [],
+    }),
     addPostFavoritos: builder.mutation<void, string>({
       query: (id ) => ({
         url: `/posts/favoritos?postId=${id}`, 
@@ -198,6 +202,13 @@ export const microbApis = createApi({
         body,
       }),
       invalidatesTags: ["denuncias"],
+    }),
+    deletePost: builder.mutation<void, {id:string}>({
+      query: (body) => ({
+        url: `/usuarios/post/eliminar?id=${body.id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["listaPosts"],
     }),
     changeStatusReport: builder.mutation<void, ChangeStatusReport>({
       query: ({ post, s }) => ({
@@ -352,5 +363,7 @@ export const {
   useReportPostMutation,
   useGetReportRazonesQuery,
   useInvitationSignUpMutation,
+  useDeletePostMutation,
+  useGetPplFavoritosQuery
   //useLoginGoogleMutation,
 } = microbApis;

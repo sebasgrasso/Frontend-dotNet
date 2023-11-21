@@ -60,7 +60,7 @@ const DenunciarPostButton= ({post}:{post:PostDTO}) => {
                     <br></br>
                     <Select
                         value={razon}
-                        onChange={(e) => {setRazon(e.target.value); console.log(e.target.value);
+                        onChange={(e) => {setRazon(e.target.value); 
                         }}
                         fullWidth
                     >

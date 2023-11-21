@@ -1,21 +1,27 @@
-import { Box, Button, Card, CardActions, CardContent, CardHeader, Grid, Link, Tooltip, Typography } from "@mui/material"
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Link, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from "@mui/material"
 import { PostDTO } from "../../interfaces/interfaces" 
 import Avatar from '@mui/material/Avatar';
 import { useNavigate } from "react-router-dom";
 import RepostButton from "./repostButton";
 import ReplyButton from "./replyButton";
-import { IconStar, IconStarFilled } from "@tabler/icons-react";
+import { IconStar, IconStarFilled, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { useAddFavorito } from "../hooks/useAddFavoritos";
 import { useAppSelector } from "../../hooks/hooks";
 import DenunciarPostButton from "./denunciarPost";
+import { useDeletePost } from "../hooks/useDeletePost";
+import { useDispatch } from "react-redux";
+import { changeNewPost, skipValue } from "../../store/posts/postsSlice";
+import { useGetPplFavoritosQuery } from "../../store/apis/microbApis";
 //import { IconArrowBigUpLine, IconArrowBigUpLineFilled  } from "@tabler/icons-react";
 //import { useState } from "react";
 // ... (import statements)
 
 export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const {status,id} = useAppSelector((state)=>state.auth)
+    const {newPost} = useAppSelector((state)=>state.postsSkip)
     const instancia = post.instanciaAlias;
     const pathParts = location.pathname.split('/');
     const urlPost = pathParts[2];
@@ -23,8 +29,17 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
     const {handleAddFavorito} = useAddFavorito();
     const [liked,setLiked] = useState(post.isUsuarioInFavoritos);
     const [cantFav,setCantFav] = useState(post.cantFavoritos);
-    
+    const {handleDeletePost} = useDeletePost();
+    const pplFav = useGetPplFavoritosQuery({postID:post.id,limit:"200",skip:"0"});
+    const [openFavoritos, setOpenFavoritos] = useState(false);
+    const instanciaUserLogueado = useAppSelector((state)=>state.instance.alias);
 
+    const handleOpenFavoritos = () => {
+      if(cantFav>0)setOpenFavoritos(true);
+    }
+    
+    const handleCloseFavoritos = () => setOpenFavoritos(false);
+  
     const handlePostClick = (e: { stopPropagation: () => void; }) => {
       if (!clickeable) return;
       e.stopPropagation(); // Stop propagation here
@@ -42,7 +57,12 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
           navigate(`/${urlInstancia}/post/${post.postCitado?.id}`, { state: post });
 
       }
-    
+
+    const handleDeleteClick = ()=>{
+      handleDeletePost({id:post.id})
+      dispatch(skipValue({skip:0}))
+      dispatch(changeNewPost(newPost))
+    }
 
     const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if(status=="authenticated"){
@@ -54,10 +74,8 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
     };
 
     const handleLikeCitadoClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-      console.log("entre 1");
       
       if(status=="authenticated" && post.postCitado){
-        console.log("entre 2");
         
         handleAddFavorito(post.postCitado.id)
         {liked ? setCantFav(cantFav-1) : setCantFav(cantFav+1)}
@@ -65,9 +83,62 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
       }
       event.stopPropagation();
   };
+  
+  const handleUserClick = (user) => {
+    const idUser = btoa(user.id);
+    handleCloseFavoritos();
+    navigate(`/${instanciaUserLogueado}/perfil/${idUser}`);
+};
+
+  const UserListItem = ({ user, instanciaAliasLogueado, onUserClick }) => (
+    <ListItem button onClick={() => onUserClick(user)}>
+        <ListItemAvatar>
+            <Avatar src={user.perfil.fotoUrl} alt={`Avatar de ${user.perfil.nickname}`} />
+        </ListItemAvatar>
+        <ListItemText 
+            primary={user.perfil.nickname} 
+            secondary={
+                `@${user.username}` + 
+                (user.instanciaAlias !== instanciaAliasLogueado ? `@${user.instanciaAlias}` : '')
+            } 
+        />
+    </ListItem>
+);
 
   return (
     <>
+    <Dialog open={openFavoritos} onClose={handleCloseFavoritos} style={{height: '500px', overflowY: 'auto'}}>
+                <DialogTitle>Favoritos</DialogTitle>
+                <DialogContent>
+                    <List>
+                        {pplFav.data && pplFav.data.map((liker) => (
+                            <UserListItem key={liker.id} user={liker} instanciaAliasLogueado={instanciaUserLogueado} onUserClick={handleUserClick}  />
+                        ))}
+                    </List>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleCloseFavoritos}
+                        sx={{
+                        color: "white",
+                        width: '100%',
+                        fontWeight: 'medium', 
+                        letterSpacing: 1.2, 
+                        fontSize: '0.875rem', 
+                        textTransform: 'none', 
+                        borderRadius: '4px', 
+                        padding: '8px 24px', 
+                        boxShadow: '0 3px 5px 2px rgba(21, 101, 192, .3)',
+                        transition: 'background-color .3s, color .3s, box-shadow .3s',
+                        
+                        }}
+                        >
+                            Cerrar
+                    </Button>
+                </DialogActions>
+            </Dialog>
     {post.contenido == null ? 
     
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
@@ -102,15 +173,15 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
 
                 <CardActions>
                   <Grid container justifyContent={"center"} alignItems={"center"}>
-                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
                           <ReplyButton post={post} />
                         </Grid>
                         
-                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
                           {post.postCitado ? <RepostButton post={post} /> : null}
                         </Grid>
 
-                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
                         <Tooltip title="Favorito">
                           <Button sx={{ minWidth:40}} aria-label="settings" onClick={(e)=>handleLikeCitadoClick(e)}>
                             {liked 
@@ -121,15 +192,24 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                             }
                           </Button>
                           </Tooltip>
-                           <Typography>{cantFav}</Typography>
+                           <Typography sx={{color:"primary.main"}} onClick={handleOpenFavoritos} >{cantFav}</Typography>
                         </Grid>
 
                         
                           { (id==(post.usuarioId).toString() || post.instanciaAlias!=urlInstancia) ? 
                             null 
                             : 
-                            <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                            <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
                               <DenunciarPostButton post={post}/>
+                            </Grid>
+                          }
+                          {id!==(post.usuarioId).toString()  ? 
+                            null 
+                          : 
+                            <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
+                              <Button onClick={handleDeleteClick}>
+                                <IconTrash/>
+                              </Button>
                             </Grid>
                           }
                         
@@ -208,15 +288,15 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
             
             <CardActions>
               <Grid container justifyContent={"center"} alignItems={"center"}>
-                    <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                    <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
                       <ReplyButton post={post} />
                     </Grid>
                     
-                    <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                    <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
                       <RepostButton post={post} />
                     </Grid>
 
-                    <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                    <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
                     <Tooltip title="Favorito">
                       <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleLikeClick}>
                         {liked 
@@ -227,17 +307,28 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                         }
                       </Button>
                       </Tooltip>
-                      <Typography >{cantFav}</Typography>
+                      <Typography sx={{color:"primary.main"}} onClick={handleOpenFavoritos} >{cantFav}</Typography>
                     </Grid>
 
-                    
+                    {id!==(post.usuarioId).toString()  ? 
+                        null 
+                      : 
+                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
+                          <Button onClick={handleDeleteClick}>
+                            <IconTrash/>
+                          </Button>
+                        </Grid>
+                        
+                      }
                       { (id==(post.usuarioId).toString() || post.instanciaAlias!=urlInstancia) ? 
                         null 
                         : 
-                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={3}>
+                        <Grid container justifyContent={"center"} alignItems={"center"} item xs={2}>
                           <DenunciarPostButton post={post}/>
                         </Grid>
                       }
+                      
+                      
                     
               </Grid>
 

@@ -17,7 +17,6 @@ export const useInviteUser = () => {
             }).unwrap()
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .then(() => {
-                console.log("Invitacion enviada exitosamente!");
                 toast.success("Invitacion enviada exitosamente!", {
                     position: toast.POSITION.TOP_RIGHT
                 });
