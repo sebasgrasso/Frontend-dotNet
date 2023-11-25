@@ -4,6 +4,8 @@ import { useCreatePost } from '../hooks/useCreatePost';
 import { PostDTO } from '../../interfaces/interfaces';
 import { Post } from './post';
 import { useAppSelector } from '../../hooks/hooks';
+import AlertDialog from "./alertDialog";
+
 
 
 const CitarPost = ({post}:{post:PostDTO}) => {

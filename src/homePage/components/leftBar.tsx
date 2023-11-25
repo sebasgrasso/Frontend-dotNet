@@ -34,7 +34,11 @@ const LeftBar: React.FC = () => {
         marginTop: '20px',
         borderRadius: '8px',
         bgcolor: 'background.default',
-        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)'
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)',
+        '@media (max-width:600px)': {
+          padding: '10px', // Smaller padding for small screens
+          marginTop: '10px', // Smaller margin top for small screens
+        },
       }}>
         <Box
           component="img"
@@ -58,12 +62,18 @@ const LeftBar: React.FC = () => {
         marginTop: '20px', 
         borderRadius: '8px', 
         bgcolor: 'background.default', 
-        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)'
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.05)',
+        '@media (max-width:600px)': {
+          padding: '10px', // Smaller padding for small screens
+          marginTop: '10px', // Smaller margin top for small screens
+        },
       }}>
-        <Typography variant="h6" fontWeight="bold" >
+        <Typography variant="h6" fontWeight="bold"  sx={{ fontSize: { xs: '1rem', sm: '1.25rem', noWrap: false, // Allow wrapping
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis', } }}>
           Últimas tendencias
         </Typography>
-        <List sx={{ width: '100%' }}>
+        <List sx={{ width: '100%',  boxSizing: 'border-box'  }}>
           {trends?.map((trend, index) => (
             <ListItem 
               key={trend.keyword} 
@@ -85,11 +95,15 @@ const LeftBar: React.FC = () => {
                   borderBottom: '1.2px solid',
                   borderColor: 'divider',
                 }
+                
               }}
             >
               <ListItemText 
                 primary={trend.keyword} 
                 primaryTypographyProps={{ 
+                  noWrap: false, // Allow wrapping
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
                   fontWeight: 'bold',
                   color: 'text.primary',
                   lineHeight: '0.8', 

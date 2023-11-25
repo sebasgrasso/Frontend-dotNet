@@ -6,6 +6,8 @@ import { PostDTO } from '../../interfaces/interfaces';
 import { useAppSelector } from '../../hooks/hooks';
 import { useReportPost } from '../hooks/useReportPost';
 import { useGetReportRazonesQuery } from '../../store/apis/microbApis';
+import AlertDialog from "./alertDialog";
+
 
 
 
@@ -21,6 +23,8 @@ const DenunciarPostButton= ({post}:{post:PostDTO}) => {
         event.stopPropagation();
         if(status=="authenticated"){
             setOpenRepost(true);
+        }else{
+            openAlertDialog();
         }
     };
 
@@ -39,9 +43,24 @@ const DenunciarPostButton= ({post}:{post:PostDTO}) => {
         setOpenRepost(false);
     } 
 
+    const [isAlertDialogOpen, setAlertDialogOpen] = useState(false);
+    const openAlertDialog = () => {
+        setAlertDialogOpen(true);
+    };
+    const closeAlertDialog = () => {
+        setAlertDialogOpen(false);
+    };
+
+
 
     return (
         <>
+        <AlertDialog
+            open={isAlertDialogOpen}
+            handleClose={closeAlertDialog}
+            title="Error"
+            message="Debes iniciar sesión"
+        />
             <Tooltip title="Denunciar" >
                 <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleClick}>
                     <IconFlag3 />

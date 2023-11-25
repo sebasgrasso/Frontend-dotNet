@@ -6,6 +6,8 @@ import { PostDTO } from '../../interfaces/interfaces';
 import { useCreatePost } from '../hooks/useCreatePost';
 import CitarPost from './citarPost';
 import { useAppSelector } from '../../hooks/hooks';
+import AlertDialog from "./alertDialog";
+
 
 
 
@@ -18,6 +20,8 @@ const RepostButton= ({post}:{post:PostDTO}) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if(status=="authenticated"){
       setAnchorEl(event.currentTarget);
+    }else{
+      openAlertDialog();
     }
     event.stopPropagation();
   };
@@ -36,6 +40,14 @@ const RepostButton= ({post}:{post:PostDTO}) => {
       setOpenRepost(false);
   };
 
+  const [isAlertDialogOpen, setAlertDialogOpen] = useState(false);
+  const openAlertDialog = () => {
+      setAlertDialogOpen(true);
+  };
+  const closeAlertDialog = () => {
+      setAlertDialogOpen(false);
+  };
+
   
 
   const handleRepost = () => {
@@ -50,6 +62,12 @@ const RepostButton= ({post}:{post:PostDTO}) => {
 
   return (
     <>
+    <AlertDialog
+        open={isAlertDialogOpen}
+        handleClose={closeAlertDialog}
+        title="Error"
+        message="Debes iniciar sesión"
+    />
       <Tooltip title="Repost">
         <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleClick}>
           <IconRepeat />

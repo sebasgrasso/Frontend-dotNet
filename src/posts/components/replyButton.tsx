@@ -5,7 +5,7 @@ import { IconMessage2Plus, IconX } from '@tabler/icons-react';
 import { PostDTO } from '../../interfaces/interfaces';
 import { useCreatePost } from '../hooks/useCreatePost';
 import { useAppSelector } from '../../hooks/hooks';
-
+import AlertDialog from "./alertDialog";
 
 
 const ReplyButton= ({post}:{post:PostDTO}) => {
@@ -17,6 +17,8 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if(status=="authenticated"){
             setOpenRepost(true);
+        }else{
+            openAlertDialog();
         }
         event.stopPropagation();
     };
@@ -24,6 +26,15 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
     const handleReplyClose = () => {
         setOpenRepost(false);
     };
+
+    const [isAlertDialogOpen, setAlertDialogOpen] = useState(false);
+    const openAlertDialog = () => {
+        setAlertDialogOpen(true);
+    };
+    const closeAlertDialog = () => {
+        setAlertDialogOpen(false);
+    };
+
 
     
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +58,12 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
     
     return (
         <>
+        <AlertDialog
+            open={isAlertDialogOpen}
+            handleClose={closeAlertDialog}
+            title="Error"
+            message="Debes iniciar sesión"
+        />
             <Tooltip title="Respuestas">
                 <Button sx={{ minWidth:40}} aria-label="settings" onClick={handleClick}>
                     <IconMessage2Plus />

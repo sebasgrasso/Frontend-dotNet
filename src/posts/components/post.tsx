@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, CardHeader, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Link, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from "@mui/material"
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Link, List, ListItem, ListItemAvatar, ListItemText, Tooltip, Typography } from "@mui/material"
 import { PostDTO } from "../../interfaces/interfaces" 
 import Avatar from '@mui/material/Avatar';
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import { useDeletePost } from "../hooks/useDeletePost";
 import { useDispatch } from "react-redux";
 import { changeNewPost, skipValue } from "../../store/posts/postsSlice";
 import { useGetPplFavoritosQuery } from "../../store/apis/microbApis";
+import AlertDialog from "./alertDialog";
 //import { IconArrowBigUpLine, IconArrowBigUpLineFilled  } from "@tabler/icons-react";
 //import { useState } from "react";
 // ... (import statements)
@@ -34,7 +35,15 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
     const [openFavoritos, setOpenFavoritos] = useState(false);
     const instanciaUserLogueado = useAppSelector((state)=>state.instance.alias);
 
-    //QUE HICISTE NESTOR
+    const [isAlertDialogOpen, setAlertDialogOpen] = useState(false);
+    const openAlertDialog = () => {
+        setAlertDialogOpen(true);
+    };
+    const closeAlertDialog = () => {
+        setAlertDialogOpen(false);
+    };
+
+    
 
     const handleOpenFavoritos = () => {
       if(cantFav>0)setOpenFavoritos(true);
@@ -71,6 +80,8 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
           handleAddFavorito(post.id)
           {liked ? setCantFav(cantFav-1) : setCantFav(cantFav+1)}
           setLiked(!liked)
+        }else{
+          openAlertDialog();
         }
         event.stopPropagation();
     };
@@ -82,6 +93,8 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
         handleAddFavorito(post.postCitado.id)
         {liked ? setCantFav(cantFav-1) : setCantFav(cantFav+1)}
         setLiked(!liked)
+      }else{
+        openAlertDialog();
       }
       event.stopPropagation();
   };
@@ -109,6 +122,12 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
 
   return (
     <>
+    <AlertDialog
+        open={isAlertDialogOpen}
+        handleClose={closeAlertDialog}
+        title="Error"
+        message="Debes iniciar sesión"
+    />
     <Dialog open={openFavoritos} onClose={handleCloseFavoritos} style={{height: '500px', overflowY: 'auto'}}>
                 <DialogTitle>Favoritos</DialogTitle>
                 <DialogContent>
