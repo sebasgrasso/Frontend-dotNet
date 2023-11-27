@@ -286,7 +286,7 @@ const AdminInstancia: React.FC = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: '#191b22', height: '100vh', color: 'white' }}>
+    <Box sx={{ display: 'flex', backgroundColor: '#191b22', minHeight: '100vh', color: 'white' }}>
       <ToastContainer />
       <Box sx={{ width: '250px', borderRight: '1px solid #333333' }}>
         <Card sx={{ backgroundColor: '#333', color: 'white' }}>
@@ -323,7 +323,7 @@ const AdminInstancia: React.FC = () => {
         </List>
       </Box>
 
-      <Box flex={1}>
+      <Box flex={1} sx={{ display: 'flex', flexDirection: 'column' }}>
         {renderContent()}
       </Box>
     </Box>
