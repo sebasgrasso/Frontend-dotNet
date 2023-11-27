@@ -168,7 +168,7 @@ const Feed: React.FC = () => {
         }}
         >
         <CardContent>
-          <Typography> NO HAY POSTS</Typography>
+          <Typography> Cargando posts...</Typography>
         </CardContent>
         </Card>
         
@@ -208,7 +208,7 @@ const Feed: React.FC = () => {
           }}
           >
           <CardContent>
-            <Typography> NO HAY POSTS</Typography>
+            <Typography> Cargando posts...</Typography>
           </CardContent>
           </Card>
           
