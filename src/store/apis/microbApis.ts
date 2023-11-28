@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarContraseniaDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, ChangeStatusReport, DenunciaCreateDTO, DenunciaDTO, DenunciaRazonDTO, DenunciaSalidaDTO, DtEstadisticaPost, DtEstadisticaUsuario, GenericDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, NotificacionDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsFavoritosProps, getPostsProps, getReportsDetailsProps} from "../../interfaces/interfaces";
+import { AprobarUsuarioDTO, AuthLoginDTO, AuthLoginResponseDTO, BanearUsuarioDTO, CambiarContraseniaDTO, CambiarDataInstanciaDTO, CambiarRolUsuarioDTO, ChangeStatusReport, DenunciaCreateDTO, DenunciaDTO, DenunciaRazonDTO, DenunciaSalidaDTO, DtEstadisticaPost, DtEstadisticaUsuario, GenericDTO, GetInstanciaProps, InstanciaConectadaDTO, InstanciaDTO, InvitacionDTO, NewTrendDTO, NotificacionDTO, PostCreateDTO, PostDTO, PrivacidadWriteUnicoDTO, SeguirUsuarioDTO, SuspenderUsuarioDTO, TrendDTO, UsuarioCreateDTO, UsuarioDTO, UsuarioNotificacionesDTO, UsuarioPerfilUpdateDTO, getPostsBusquedaProps, getPostsFavoritosProps, getPostsProps, getReportsDetailsProps, getUsersBusquedaProps} from "../../interfaces/interfaces";
 import { getInstanciaStorage } from "../../utils/localstorage";
 
 //http://backend.servehttp.com/
@@ -227,6 +227,10 @@ export const microbApis = createApi({
       query: ({ skip, limit, q }) => (`/posts?q=${q}&skip=${skip}&limit=${limit}`),
       providesTags: [],
     }),
+    getUsuariosBusqueda: builder.query<UsuarioDTO[], getUsersBusquedaProps>({
+      query: ({ skip, limit, text }) => (`/usuarios?text=${text}&skip=${skip}&limit=${limit}`),
+      providesTags: [],
+    }),
     getNotifications: builder.query<NotificacionDTO,void>({
       query: () => ("/notificaciones/usuarios"),
       providesTags: ["notificaciones"],
@@ -364,6 +368,7 @@ export const {
   useGetReportRazonesQuery,
   useInvitationSignUpMutation,
   useDeletePostMutation,
-  useGetPplFavoritosQuery
+  useGetPplFavoritosQuery,
+  useLazyGetUsuariosBusquedaQuery
   //useLoginGoogleMutation,
 } = microbApis;

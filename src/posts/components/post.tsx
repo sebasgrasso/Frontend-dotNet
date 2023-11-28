@@ -168,10 +168,10 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
               <Card sx={{ width: 500, maxWidth: "100%" }}>
                 <Typography sx={{mt:"5px",ml:"5px",mb:"5px"}}>{`Reposteado por @${post.usuarioUsername}`}</Typography>
                 <CardHeader
-                  avatar={<Avatar sx={{cursor:"pointer"}} onClick={()=>navigate(`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`)} src={post.postCitado?.fotoUrl} />}
+                  avatar={<Avatar src={post.postCitado?.fotoUrl} />}
                   title={
                     <Link
-                      href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
+                      href={`/${urlInstancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
                       underline="none"
                     >
                       {post.postCitado?.usuarioNickname}
@@ -179,7 +179,7 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
                   }
                   subheader={
                     <Link
-                      href={`/${instancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
+                      href={`/${urlInstancia}/perfil/${btoa(String(post.postCitado?.usuarioId))}`}
                       underline="none"
                     >
                       {urlInstancia == post.postCitado?.instanciaAlias ? `@${post.postCitado?.usuarioUsername}` : `@${post.postCitado?.usuarioUsername}@${post.postCitado?.instanciaAlias}` }
@@ -261,12 +261,12 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
               //onClick={(e) => e.stopPropagation()}
               avatar={<Avatar src={post.fotoUrl} />}
               title={
-                <Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none">
+                <Link href={`/${urlInstancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none">
                   {post.usuarioNickname}
                 </Link>
               }
               subheader={
-                <Link href={`/${instancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none">
+                <Link href={`/${urlInstancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none">
                   {urlInstancia == post.instanciaAlias ? `@${post.usuarioUsername}` : `@${post.usuarioUsername}@${post.instanciaAlias}` }
                 </Link>
               }

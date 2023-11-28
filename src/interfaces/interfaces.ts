@@ -313,6 +313,12 @@ export interface getPostsBusquedaProps{
   limit:number;
 }
 
+export interface getUsersBusquedaProps{
+  text:string;
+  skip:number;
+  limit:number;
+}
+
 export interface getReportsDetailsProps{
   post:string;
   skip:number;

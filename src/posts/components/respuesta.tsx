@@ -11,7 +11,9 @@ interface PostProp{
 
 
 export const Respuesta = ({post,padre}:PostProp) =>{
-
+  const pathParts = location.pathname.split('/');
+  const urlInstancia = pathParts[1];
+  
   return (
         <>
         <Box sx={{justifyContent: 'center', marginLeft: '26px' }}>
@@ -20,8 +22,8 @@ export const Respuesta = ({post,padre}:PostProp) =>{
               avatar={<Avatar src={post.fotoUrl} />}
               title={
                 <>
-                    <Link sx={{padding:"6px"}} href={`/${post.usuarioNickname}`} underline="none" >{`${post.usuarioNickname}`}</Link>
-                    <Link href={`/${post.usuarioUsername}`} underline="none" >@{post.usuarioUsername}</Link>
+                    <Link sx={{padding:"6px"}} href={`/${urlInstancia}/perfil/${btoa(String(post.usuarioId))}`} underline="none" >{`${post.usuarioNickname}`}</Link>
+                    <Link href={`/${urlInstancia}/perfil/${btoa(String(post.usuarioId))}`} underline="none" >@{post.usuarioUsername}</Link>
                 </>}
               subheader={
                 <Typography fontSize={12}>
@@ -33,24 +35,6 @@ export const Respuesta = ({post,padre}:PostProp) =>{
               <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
                 {post.contenido}
               </Typography>
-              {/* aca va el tuit citado en caso de haberlo*/}
-              {post.tieneCita ? 
-                <Card sx={{ minWidth: 600 }}>
-                <CardHeader 
-                //EDITAR AVATAR POR POST.USUARIOPICTURE CUANDO SE IMPLEMENTE
-                  avatar={<Avatar src={post.postCitado?.fotoUrl} />}
-                  title={<Link href={`/${post.postCitado?.usuarioNickname}`} underline="hover" color="neutral">{post.postCitado?.usuarioNickname}</Link>}
-                  subheader={<Link href={`/${post.postCitado?.usuarioUsername}`} underline="none" >{post.postCitado?.usuarioUsername}</Link>}
-                />
-                <CardContent>
-                  <Typography sx={{ fontSize: 14 }} color="black" gutterBottom>
-                    {post.postCitado?.contenido}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                </CardActions>
-              </Card> : null           
-              }
             </CardContent>
             
           </Card>
