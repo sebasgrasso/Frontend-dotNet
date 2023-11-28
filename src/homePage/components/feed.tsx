@@ -103,7 +103,7 @@ const Feed: React.FC = () => {
           flexGrow: 1,
           marginBottom: '4px', 
           backgroundColor: !global ? "transparent" : null, 
-          color: "white", 
+          color: !global ? "primary" : "white", 
           
         }}
       >
@@ -116,7 +116,7 @@ const Feed: React.FC = () => {
           flexGrow: 1,
           marginBottom: '4px', 
           backgroundColor: global ? "transparent" : null, 
-          color: "white",
+          color: global ? "primary" : "white",
         }}
       >
         Local
@@ -125,7 +125,7 @@ const Feed: React.FC = () => {
   );
   
   return (
-    <Paper sx={{ padding: '20px', backgroundColor: "rgb(25, 27, 34)" }}>
+    <Paper sx={{ padding: '20px', backgroundColor: "white", marginTop: '20px' }}>
       {status === 'authenticated' && (
         <Box width={500} mx="auto">
           {globalLocalButtons}
@@ -168,7 +168,7 @@ const Feed: React.FC = () => {
         }}
         >
         <CardContent>
-          <Typography> NO HAY POSTS</Typography>
+          <Typography> Cargando posts...</Typography>
         </CardContent>
         </Card>
         
@@ -208,7 +208,7 @@ const Feed: React.FC = () => {
           }}
           >
           <CardContent>
-            <Typography> NO HAY POSTS</Typography>
+            <Typography> Cargando posts...</Typography>
           </CardContent>
           </Card>
           

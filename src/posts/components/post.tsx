@@ -43,6 +43,37 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
         setAlertDialogOpen(false);
     };
 
+
+    const cardStyle = {
+      width: 500,
+      maxWidth: "100%",
+      backgroundColor: '#FFFFFF', // Fondo oscuro
+      color: '#FFFFFF', // Texto claro
+      boxShadow: '0 2px 4px rgba(0,0,0,0.5)', // Sombra más oscura
+      borderRadius: '8px', // Bordes redondeados
+      transition: 'box-shadow 0.3s, background-color 0.3s',
+      '&:hover': {
+        boxShadow: '0 4px 8px rgba(0,0,0,0.75)', // Sombra más pronunciada en hover
+        backgroundColor: '#f0f0f0', // Cambio de color de fondo al hacer hover
+        cursor: 'pointer',
+      },
+    };
+    
+    const textStyle = {
+      fontSize: 15, 
+      color: '#010101', 
+      fontWeight: '400', 
+      lineHeight: '1.5', 
+    };
+    
+    const avatarStyle = {
+      cursor: 'pointer',
+      width: '48px', // Tamaño específico para el avatar
+      height: '48px',
+      borderRadius: '50%', // Completamente redondeado para forma circular
+      border: '2px solid #f0f0f0', // Borde con el color distintivo de Twitter
+    };
+    
     
 
     const handleOpenFavoritos = () => {
@@ -244,22 +275,11 @@ export const Post = ({ post, clickeable }: { post: PostDTO; clickeable: boolean 
     : 
     
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-          <Card
-            sx={{
-              width: 500,
-              maxWidth: "100%",
-              cursor: "pointer",
-              '&:hover': {
-                boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-                backgroundColor: '#f9f9f9',
-                transition: 'box-shadow 0.3s, background-color 0.3s',
-              },
-            }}
-          >
+          <Card sx={cardStyle}>
             <CardHeader
               // Modify the onClick event for CardHeader to prevent propagation
               //onClick={(e) => e.stopPropagation()}
-              avatar={<Avatar src={post.fotoUrl} />}
+              avatar={<Avatar src={post.fotoUrl} sx={avatarStyle}/>}
               title={
                 <Link href={`/${urlInstancia}/perfil/${btoa(post.usuarioId.toString())}`} underline="none">
                   {post.usuarioNickname}

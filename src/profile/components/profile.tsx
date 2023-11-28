@@ -186,7 +186,7 @@ const Profile = () => {
     );
 
     return (
-        <Grid container spacing={1} justifyContent="center" style={{ backgroundColor: '#191B22', minHeight: '101vh', overflowY: 'hidden'}}>
+        <Grid container spacing={0} justifyContent="center" sx={{ backgroundColor: '#191B22', minHeight: '100vh', overflowY: 'hidden'}}>
             <ToastContainer />
             <Modal
                 open={openChangePasswordModal}
@@ -345,7 +345,7 @@ const Profile = () => {
             </Dialog>
 
 
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={12} sm={12} md={6} lg={4}>
                 <IconButton onClick={handleBack} style={{ color: 'white', position: 'absolute', top: '20px', left: '20px' }}>
                     <ArrowBackIcon fontSize="large" />
                 </IconButton>
@@ -353,7 +353,8 @@ const Profile = () => {
                 <Card sx={{ my: 5, bgcolor: 'white', color: 'black', padding: theme.spacing(3),
                         marginTop: theme.spacing(4),
                         boxShadow: theme.shadows[5],
-                        borderRadius: theme.shape.borderRadius}}>
+                        borderRadius: theme.shape.borderRadius,
+                        }}>
                     <CardContent>
                         <Box display="flex" flexDirection="column" alignItems="center" gap={2} mb={3}>
                             <Avatar src={usuario?.perfil.fotoUrl} alt="Avatar del usuario" sx={{ width: 100, height: 100 }} />
@@ -501,10 +502,11 @@ const Profile = () => {
             </Grid>
 
             {idUserLogueado === idUsuario ?             
-                <Grid item xs={12} md={6} lg={3}>
+                    <Grid item xs={12} sm={12} md={6} lg={3}>
                     <Card sx={{ my: 5, bgcolor: 'white', color: 'black', maxHeight: '600px', marginTop: theme.spacing(4),
                         boxShadow: theme.shadows[5],
-                        borderRadius: theme.shape.borderRadius}}>
+                        borderRadius: theme.shape.borderRadius,
+                        marginLeft: '20px'}}>
                         <CardContent>
                             <Typography variant="h6" gutterBottom>Notificaciones</Typography>
                             <Divider />
@@ -569,10 +571,11 @@ const Profile = () => {
                             </ListItem>
                         </CardContent>
                     </Card>
-                    <Grid item >
+                    <Grid item xs={12} sm={12} md={6} lg={12}>
                             <Card sx={{bgcolor: 'white', color: 'black',height: '405px', marginTop: theme.spacing(4),
                         boxShadow: theme.shadows[5],
-                        borderRadius: theme.shape.borderRadius}}>
+                        borderRadius: theme.shape.borderRadius,
+                        marginLeft: '20px'}}>
                                 <CardContent>
                                     <Typography variant="h6" gutterBottom>Mis Bloqueados</Typography>
                                     <Divider/>

@@ -26,7 +26,7 @@ const RightBar = () => {
     <>
       <Paper sx={{
         padding: theme.spacing(3),
-        marginTop: theme.spacing(3),
+        marginTop: '20px',
         boxShadow: theme.shadows[5],
         borderRadius: theme.shape.borderRadius,
 

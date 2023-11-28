@@ -44,7 +44,7 @@ export const HomePage = () =>{
         </Container>
         {showScroll && 
             <Fab color="primary" size="medium" onClick={scrollTop} style={{position: 'fixed', bottom: '20px', left: '20px'}}>
-                <KeyboardArrowUpIcon />
+                <KeyboardArrowUpIcon sx={{color: 'white'}} />
             </Fab>
         }
         </div>
