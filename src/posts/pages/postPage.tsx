@@ -66,7 +66,7 @@ const volverAlInicio = ()=>{
           :
             <Grid item xs={6} sx={{marginTop:7}}>
               <Container style={{ backgroundColor: "#191b22", minHeight: "100vh" }}>
-                <Typography sx={{color:"white" }}>POST NO ENCONTRADO</Typography>
+                <Typography sx={{color:"white" }}>Cargando post y respuestas...</Typography>
               </Container>
             </Grid>
         
