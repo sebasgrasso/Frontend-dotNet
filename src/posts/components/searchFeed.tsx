@@ -214,7 +214,7 @@ const SearchFeed: React.FC<searchPostsProps> = ({q}) => {
                       }
                       subheader={
                         <Link href={`/${urlInstancia}/perfil/${btoa(user.id.toString())}`} underline="none">
-                          {urlInstancia == user.instanciaAlias ? `@${user.perfil.nickname}` : `@${user.perfil.nickname}@${user.instanciaAlias}` }
+                          {urlInstancia == user.instanciaAlias ? `@${user.username}` : `@${user.username}@${user.instanciaAlias}` }
                         </Link>
                       }
                       />
