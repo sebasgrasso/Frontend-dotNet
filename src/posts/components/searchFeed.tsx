@@ -91,7 +91,6 @@ const SearchFeed: React.FC<searchPostsProps> = ({q}) => {
         });
       }
     }
-    console.log("usuarios",allUsers);
     
   }, [users, skip]);
 
@@ -191,7 +190,7 @@ const SearchFeed: React.FC<searchPostsProps> = ({q}) => {
               </p>
               }
           >
-              <Grid container direction="column" spacing={2}>
+              <Grid container direction="column" alignItems="center" spacing={2}>
               {allUsers?.map((user) => (
                   <Grid key={user.id} item xs={12}>
                     <Card sx={{ width: 500, 

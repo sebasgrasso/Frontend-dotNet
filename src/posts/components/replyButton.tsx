@@ -53,8 +53,12 @@ const ReplyButton= ({post}:{post:PostDTO}) => {
             setContenido("");
             setOpenRepost(false);
         }
+        else if (!post.tieneCita && post.contenido != null){
+            handleCreatePost({contenido,postIdCita:null,postIdPadre:post.id})
+            setContenido("");
+            setOpenRepost(false);            
+        }
     } 
-    
     
     return (
         <>

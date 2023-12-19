@@ -61,7 +61,6 @@ const columns: GridColDef[] = [
         width: 120,
         type: "string",
         valueGetter: (params: GridValueGetterParams) => {
-          console.log(params.row);
             if (params.row.isBanned) {
               return 'Baneado';
             }

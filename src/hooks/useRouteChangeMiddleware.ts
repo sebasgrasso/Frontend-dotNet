@@ -22,7 +22,6 @@ function useRouteChangeMiddleware() {
     const pathParts = location.pathname.split('/');
     // Assuming 'instance1' is at the second segment of the URL ('/')
     const urlInstanceIdentifier = pathParts[1]; // This gets 'instance1' from the URL
-    console.log(pathParts[1]);
     
     // Obtain current instance from the local storage
     const currentLocalInstance = getInstanciaStorage();
